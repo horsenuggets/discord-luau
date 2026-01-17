@@ -67,7 +67,7 @@ return function()
 
         beforeAll(function()
             -- Create client with required intents for voice
-            local success, err = pcall(function()
+            local success, _err = pcall(function()
                 client = Client.new({
                     intents = {
                         GatewayIntent.Guilds,

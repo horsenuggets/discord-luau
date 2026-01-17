@@ -6,7 +6,6 @@ Tests for the Connection class.
 
 --]]
 
-local Connection = require("@discordluau/Utils/Connection")
 local Signal = require("@discordluau/Utils/Signal")
 
 return function()
