@@ -20,6 +20,7 @@ local Rest = require("@discordluau/Rest")
 local Signal = require("@discordluau/Utils/Signal")
 local Types = require("@discordluau/Structures/Types")
 local User = require("@discordluau/Structures/User")
+local VoiceState = require("@discordluau/Structures/VoiceState")
 
 local Client = {}
 Client.__index = Client
@@ -309,7 +310,36 @@ function Client._handleDispatchEvent(self: Client, eventName: string, data: any)
             userId = data.user_id,
         })
     elseif eventName == "VOICE_STATE_UPDATE" then
-        self:_emit("voiceStateUpdate", data)
+        local guild = data.guild_id and self.Guilds[data.guild_id]
+        local oldState = nil
+        local newState = nil
+
+        if guild then
+            -- Get old state before updating
+            local oldData = guild.VoiceStates[data.user_id]
+            if oldData then
+                oldState = VoiceState.new(self, oldData, guild)
+            end
+
+            -- Update or remove voice state
+            if data.channel_id then
+                -- User joined or moved to a channel
+                guild.VoiceStates[data.user_id] = data
+                newState = VoiceState.new(self, data, guild)
+            else
+                -- User left voice
+                guild.VoiceStates[data.user_id] = nil
+                newState = VoiceState.new(self, data, guild)
+            end
+        else
+            -- No guild context (shouldn't happen for guild voice)
+            newState = VoiceState.new(self, data, nil)
+        end
+
+        self:_emit("voiceStateUpdate", oldState, newState)
+    elseif eventName == "VOICE_SERVER_UPDATE" then
+        -- Emitted when voice server info is received (needed for Lavalink)
+        self:_emit("voiceServerUpdate", data)
     elseif eventName == "PRESENCE_UPDATE" then
         self:_emit("presenceUpdate", data)
     else
