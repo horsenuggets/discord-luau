@@ -80,6 +80,9 @@ return function()
                 premium_tier = 0,
                 preferred_locale = "en-US",
                 nsfw_level = 0,
+                roles = {},
+                emojis = {},
+                premium_progress_bar_enabled = false,
             }
             local guild = Guild.new(client, minimalGuild)
 

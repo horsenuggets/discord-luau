@@ -46,7 +46,11 @@ export type Lavalink = typeof(setmetatable(
         OnNodeDisconnect: Signal.Signal<LavalinkNode.LavalinkNode, number?, string?>,
         OnTrackStart: Signal.Signal<Player.Player, Track.Track>,
         OnTrackEnd: Signal.Signal<Player.Player, Track.Track, string>,
-        OnTrackException: Signal.Signal<Player.Player, Track.Track, { message: string?, severity: string, cause: string }>,
+        OnTrackException: Signal.Signal<
+            Player.Player,
+            Track.Track,
+            { message: string?, severity: string, cause: string }
+        >,
         OnTrackStuck: Signal.Signal<Player.Player, Track.Track, number>,
 
         _voiceStates: { [string]: { sessionId: string?, channelId: string? } },
