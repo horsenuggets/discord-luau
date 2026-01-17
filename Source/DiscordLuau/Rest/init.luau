@@ -15,7 +15,7 @@ local Types = require("@discordluau/Structures/Types")
 
 local API_VERSION = 10
 local API_BASE_URL = `https://discord.com/api/v{API_VERSION}`
-local CDN_BASE_URL = "https://cdn.discordapp.com"
+local _CDN_BASE_URL = "https://cdn.discordapp.com"
 
 local Rest = {}
 Rest.__index = Rest

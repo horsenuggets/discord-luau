@@ -127,13 +127,15 @@ function Embed.AddField(self: Embed, name: string, value: string, inline: boolea
     assert(#name <= 256, "Field name must be 256 characters or less")
     assert(#value <= 1024, "Field value must be 1024 characters or less")
 
-    if not self._data.fields then
-        self._data.fields = {}
+    local embedFields = self._data.fields
+    if not embedFields then
+        embedFields = {}
+        self._data.fields = embedFields
     end
 
-    assert(#self._data.fields < 25, "Embeds can have at most 25 fields")
+    assert(#embedFields < 25, "Embeds can have at most 25 fields")
 
-    table.insert(self._data.fields, {
+    table.insert(embedFields, {
         name = name,
         value = value,
         inline = inline or false,
@@ -146,14 +148,15 @@ function Embed.SetFields(self: Embed, fields: { { name: string, value: string, i
     assert(type(fields) == "table", "Expected fields to be a table")
     assert(#fields <= 25, "Embeds can have at most 25 fields")
 
-    self._data.fields = {}
+    local embedFields: { Types.APIEmbedField } = {}
+    self._data.fields = embedFields
     for _, field in fields do
         assert(type(field.name) == "string", "Expected field.name to be a string")
         assert(type(field.value) == "string", "Expected field.value to be a string")
         assert(#field.name <= 256, "Field name must be 256 characters or less")
         assert(#field.value <= 1024, "Field value must be 1024 characters or less")
 
-        table.insert(self._data.fields, {
+        table.insert(embedFields, {
             name = field.name,
             value = field.value,
             inline = field.inline or false,

@@ -45,7 +45,9 @@ function Connection.Disconnect(self: Connection)
         end
     end
 
-    table.clear(self)
+    self._signal = nil
+    self._func = nil :: any
+    self._once = nil
 end
 
 function Connection.Fire(self: Connection, ...: any)

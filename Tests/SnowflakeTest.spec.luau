@@ -28,7 +28,7 @@ return function()
 
         it("should require string input", function()
             expect(function()
-                Snowflake.getTimestamp(12345)
+                Snowflake.getTimestamp(12345 :: any)
             end).to.throw()
         end)
     end)

@@ -7,10 +7,18 @@ methods for replying, reacting, and editing.
 
 --]]
 
-local Channel = require("@self/Channel")
 local Member = require("@self/Member")
 local Types = require("@self/Types")
 local User = require("@self/User")
+
+-- Deferred require to avoid circular dependency with Channel
+local Channel: any = nil
+local function getChannel()
+    if not Channel then
+        Channel = require("@self/Channel")
+    end
+    return Channel
+end
 
 local Message = {}
 Message.__index = Message
@@ -21,7 +29,7 @@ export type Message = typeof(setmetatable(
         ApplicationId: Types.Snowflake?,
         Attachments: { Types.APIAttachment },
         Author: User.User,
-        Channel: Channel.Channel?,
+        Channel: any?,
         ChannelId: Types.Snowflake,
         Client: Types.Client,
         Components: { Types.APIComponent }?,
@@ -46,7 +54,7 @@ export type Message = typeof(setmetatable(
         Reactions: { Types.APIReaction }?,
         ReferencedMessage: Message?,
         StickerItems: { Types.APIStickerItem }?,
-        Thread: Channel.Channel?,
+        Thread: any?,
         Timestamp: string,
         Tts: boolean,
         Type: number,
@@ -112,7 +120,7 @@ function Message._patch(self: Message, data: Types.APIMessage)
 
     -- Parse thread if present
     if data.thread then
-        self.Thread = Channel.new(self.Client, data.thread, self.Guild)
+        self.Thread = getChannel().new(self.Client, data.thread, self.Guild)
     end
 
     -- Parse referenced message if present
@@ -179,7 +187,7 @@ function Message.Unpin(self: Message)
     self.Client.Rest:UnpinMessage(self.ChannelId, self.Id)
 end
 
-function Message.StartThread(self: Message, name: string, options: { auto_archive_duration: number? }?): Channel.Channel
+function Message.StartThread(self: Message, name: string, options: { auto_archive_duration: number? }?): any
     return self.Client.Rest:StartThreadFromMessage(self.ChannelId, self.Id, name, options)
 end
 

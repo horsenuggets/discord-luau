@@ -92,10 +92,8 @@ function Snowflake.getTimestamp(snowflake: string): number
     return extractTimestamp(snowflake)
 end
 
-function Snowflake.getDate(snowflake: string): DateTime
-    local timestamp = Snowflake.getTimestamp(snowflake)
-    return DateTime.fromUnixTimestampMillis(timestamp)
-end
+-- Note: getDate is not available in standard Luau/Lune. Use getTimestamp and convert manually.
+-- For Roblox, you can use: DateTime.fromUnixTimestampMillis(Snowflake.getTimestamp(snowflake))
 
 function Snowflake.getWorkerId(snowflake: string): number
     return extractBits(snowflake, 17, 5)

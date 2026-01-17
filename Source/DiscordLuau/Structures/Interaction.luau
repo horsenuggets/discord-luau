@@ -75,7 +75,11 @@ function Interaction.new(client: any, data: Types.APIInteraction): Interaction
 
     -- Parse user/member
     if data.member then
-        self.Member = Member.new(client, data.member, data.guild_id)
+        -- Get guild from cache if available
+        local guild = data.guild_id and client:GetGuild(data.guild_id) or nil
+        if guild then
+            self.Member = Member.new(client, guild, data.member)
+        end
         if data.member.user then
             self.User = User.new(client, data.member.user)
         end

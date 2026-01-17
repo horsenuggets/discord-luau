@@ -39,7 +39,7 @@ function Signal.Fire<T...>(self: Signal<T...>, ...: T...)
     end
 end
 
-function Signal.Connect<T...>(self: Signal<T...>, func: (T...) -> ()): Connection.Connection
+function Signal.Connect<T...>(self: Signal<T...>, func: (...any) -> ()): Connection.Connection
     assert(type(func) == "function", "Expected func to be a function")
 
     local connection = Connection.new(self, func)
@@ -53,7 +53,7 @@ function Signal.Connect<T...>(self: Signal<T...>, func: (T...) -> ()): Connectio
     return connection
 end
 
-function Signal.Once<T...>(self: Signal<T...>, func: (T...) -> ()): Connection.Connection
+function Signal.Once<T...>(self: Signal<T...>, func: (...any) -> ()): Connection.Connection
     assert(type(func) == "function", "Expected func to be a function")
 
     local connection = Connection.new(self, func)

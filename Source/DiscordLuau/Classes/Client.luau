@@ -77,12 +77,13 @@ function Client._setupGatewayHandlers(self: Client)
 
     -- Handle ready event
     self.Gateway.OnReady:Connect(function(data: Types.GatewayReadyData)
-        self.User = User.new(self, data.user)
+        local user = User.new(self, data.user)
+        self.User = user
         self.Application = data.application
         self.ReadyAt = os.time()
 
         -- Cache bot user
-        self.Users[self.User.Id] = self.User
+        self.Users[user.Id] = user
 
         -- Mark guilds as unavailable until we receive GUILD_CREATE
         for _, guildData in data.guilds do
@@ -360,7 +361,7 @@ function Client.Once(self: Client, eventName: string, handler: (any) -> ()): () 
         handler(...)
     end)
 
-    return disconnect
+    return disconnect :: () -> ()
 end
 
 function Client.Login(self: Client, token: string)
@@ -368,10 +369,12 @@ function Client.Login(self: Client, token: string)
 
     self._token = token
     self.Rest = Rest.new(self, token)
-    self.Gateway = Gateway.new(self, token, self._intents)
+
+    local gateway = Gateway.new(self, token, self._intents)
+    self.Gateway = gateway
 
     self:_setupGatewayHandlers()
-    self.Gateway:Connect()
+    gateway:Connect()
 end
 
 function Client.Destroy(self: Client)
