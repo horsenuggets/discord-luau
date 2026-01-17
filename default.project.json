@@ -1,0 +1,6 @@
+{
+    "name": "discord-luau",
+    "tree": {
+        "$path": "Source/DiscordLuau"
+    }
+}

@@ -1,0 +1,24 @@
+[package]
+name = "horsenuggets/discord-luau"
+description = "A comprehensive Discord API library for Luau, inspired by discord.js."
+version = "0.0.0"
+license = "MIT"
+realm = "shared"
+registry = "https://github.com/UpliftGames/wally-index"
+repository = "https://github.com/horsenuggets/discord-luau"
+include = [
+    "default.project.json",
+    "init.luau",
+    "LICENSE",
+    "README.md",
+    "Source",
+    "Source/**",
+    "wally.toml",
+]
+exclude = ["**"]
+
+[dependencies]
+t = "horsenuggets/t@3.1.1-horse.0.3"
+
+[dev-dependencies]
+Testable = "horsenuggets/testable@0.1.0"
