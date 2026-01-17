@@ -101,7 +101,7 @@ jobs:
         run: lune setup --no-update-luaurc
 
       - name: Run static analysis
-        run: luau-lsp analyze --ignore "Submodules/**" --platform standard .
+        run: lune run ./Submodules/luau-cicd/Scripts/RunStaticAnalysis.luau
 
   version:
     name: Validate version
