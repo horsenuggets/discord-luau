@@ -16,6 +16,7 @@ local Message = require("@self/Message")
 local Role = require("@self/Role")
 local SlashCommandBuilder = require("@self/SlashCommandBuilder")
 local User = require("@self/User")
+local VoiceState = require("@self/VoiceState")
 
 local Structures = {
     Channel = Channel,
@@ -27,6 +28,7 @@ local Structures = {
     Role = Role,
     SlashCommandBuilder = SlashCommandBuilder,
     User = User,
+    VoiceState = VoiceState,
 }
 
 return table.freeze(Structures)

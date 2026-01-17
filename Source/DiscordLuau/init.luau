@@ -11,6 +11,7 @@ and WebSocket gateway support.
 local Classes = require("@self/Classes")
 local Enums = require("@self/Enums")
 local Gateway = require("@self/Gateway")
+local Lavalink = require("@self/Lavalink")
 local Rest = require("@self/Rest")
 local Structures = require("@self/Structures")
 local Types = require("@self/Structures/Types")
@@ -57,6 +58,9 @@ local DiscordLuau = {
     InteractionType = InteractionType,
     MessageType = MessageType,
     Permission = Permission,
+
+    -- Audio (Lavalink integration)
+    Lavalink = Lavalink,
 
     -- Internal modules (for advanced usage)
     Classes = Classes,

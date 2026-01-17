@@ -1,0 +1,622 @@
+--[[
+
+MockData
+
+Provides realistic mock data for Discord API structures used in testing. All IDs are valid
+snowflakes and data structures match the Discord API specification.
+
+--]]
+
+local MockData = {}
+
+-- Valid snowflake IDs for testing
+MockData.Snowflakes = {
+    UserId = "123456789012345678",
+    BotUserId = "987654321098765432",
+    GuildId = "111222333444555666",
+    ChannelId = "222333444555666777",
+    MessageId = "333444555666777888",
+    RoleId = "444555666777888999",
+    ApplicationId = "555666777888999000",
+    InteractionId = "666777888999000111",
+    WebhookId = "777888999000111222",
+}
+
+-- Mock user data
+MockData.User = {
+    id = MockData.Snowflakes.UserId,
+    username = "testuser",
+    discriminator = "1234",
+    global_name = "Test User",
+    avatar = "a_1234567890abcdef",
+    bot = false,
+    system = false,
+    mfa_enabled = true,
+    banner = nil,
+    accent_color = 0x5865F2,
+    locale = "en-US",
+    verified = true,
+    email = "test@example.com",
+    flags = 0,
+    premium_type = 2,
+    public_flags = 64,
+}
+
+MockData.BotUser = {
+    id = MockData.Snowflakes.BotUserId,
+    username = "testbot",
+    discriminator = "0",
+    global_name = nil,
+    avatar = "b_abcdef1234567890",
+    bot = true,
+    system = false,
+    mfa_enabled = false,
+    banner = nil,
+    accent_color = nil,
+    locale = "en-US",
+    verified = true,
+    email = nil,
+    flags = 0,
+    premium_type = 0,
+    public_flags = 0,
+}
+
+-- Mock guild data
+MockData.Guild = {
+    id = MockData.Snowflakes.GuildId,
+    name = "Test Server",
+    icon = "guild_icon_hash",
+    icon_hash = nil,
+    splash = nil,
+    discovery_splash = nil,
+    owner = false,
+    owner_id = MockData.Snowflakes.UserId,
+    permissions = "140737488355327",
+    region = nil,
+    afk_channel_id = nil,
+    afk_timeout = 300,
+    widget_enabled = true,
+    widget_channel_id = nil,
+    verification_level = 2,
+    default_message_notifications = 1,
+    explicit_content_filter = 2,
+    roles = {},
+    emojis = {},
+    features = { "COMMUNITY", "NEWS" },
+    mfa_level = 1,
+    application_id = nil,
+    system_channel_id = MockData.Snowflakes.ChannelId,
+    system_channel_flags = 0,
+    rules_channel_id = nil,
+    max_presences = nil,
+    max_members = 500000,
+    vanity_url_code = nil,
+    description = "A test server for discord-luau",
+    banner = nil,
+    premium_tier = 2,
+    premium_subscription_count = 15,
+    preferred_locale = "en-US",
+    public_updates_channel_id = nil,
+    max_video_channel_users = 25,
+    max_stage_video_channel_users = 50,
+    approximate_member_count = 100,
+    approximate_presence_count = 50,
+    welcome_screen = nil,
+    nsfw_level = 0,
+    stickers = {},
+    premium_progress_bar_enabled = true,
+    safety_alerts_channel_id = nil,
+}
+
+-- Mock channel data
+MockData.TextChannel = {
+    id = MockData.Snowflakes.ChannelId,
+    type = 0, -- GuildText
+    guild_id = MockData.Snowflakes.GuildId,
+    position = 1,
+    permission_overwrites = {},
+    name = "general",
+    topic = "General discussion",
+    nsfw = false,
+    last_message_id = MockData.Snowflakes.MessageId,
+    bitrate = nil,
+    user_limit = nil,
+    rate_limit_per_user = 0,
+    recipients = nil,
+    icon = nil,
+    owner_id = nil,
+    application_id = nil,
+    managed = nil,
+    parent_id = nil,
+    last_pin_timestamp = "2024-01-01T00:00:00.000Z",
+    rtc_region = nil,
+    video_quality_mode = nil,
+    message_count = nil,
+    member_count = nil,
+    thread_metadata = nil,
+    member = nil,
+    default_auto_archive_duration = 1440,
+    permissions = nil,
+    flags = 0,
+    total_message_sent = nil,
+    available_tags = nil,
+    applied_tags = nil,
+    default_reaction_emoji = nil,
+    default_thread_rate_limit_per_user = 0,
+    default_sort_order = nil,
+    default_forum_layout = nil,
+}
+
+MockData.VoiceChannel = {
+    id = "888999000111222333",
+    type = 2, -- GuildVoice
+    guild_id = MockData.Snowflakes.GuildId,
+    position = 2,
+    permission_overwrites = {},
+    name = "Voice Chat",
+    topic = nil,
+    nsfw = false,
+    last_message_id = nil,
+    bitrate = 64000,
+    user_limit = 10,
+    rate_limit_per_user = nil,
+    recipients = nil,
+    icon = nil,
+    owner_id = nil,
+    application_id = nil,
+    managed = nil,
+    parent_id = nil,
+    last_pin_timestamp = nil,
+    rtc_region = "us-west",
+    video_quality_mode = 1,
+    message_count = nil,
+    member_count = nil,
+    thread_metadata = nil,
+    member = nil,
+    default_auto_archive_duration = nil,
+    permissions = nil,
+    flags = 0,
+    total_message_sent = nil,
+    available_tags = nil,
+    applied_tags = nil,
+    default_reaction_emoji = nil,
+    default_thread_rate_limit_per_user = nil,
+    default_sort_order = nil,
+    default_forum_layout = nil,
+}
+
+MockData.DMChannel = {
+    id = "999000111222333444",
+    type = 1, -- DM
+    guild_id = nil,
+    position = nil,
+    permission_overwrites = nil,
+    name = nil,
+    topic = nil,
+    nsfw = false,
+    last_message_id = nil,
+    bitrate = nil,
+    user_limit = nil,
+    rate_limit_per_user = nil,
+    recipients = { MockData.User },
+    icon = nil,
+    owner_id = nil,
+    application_id = nil,
+    managed = nil,
+    parent_id = nil,
+    last_pin_timestamp = nil,
+    rtc_region = nil,
+    video_quality_mode = nil,
+    message_count = nil,
+    member_count = nil,
+    thread_metadata = nil,
+    member = nil,
+    default_auto_archive_duration = nil,
+    permissions = nil,
+    flags = 0,
+    total_message_sent = nil,
+    available_tags = nil,
+    applied_tags = nil,
+    default_reaction_emoji = nil,
+    default_thread_rate_limit_per_user = nil,
+    default_sort_order = nil,
+    default_forum_layout = nil,
+}
+
+-- Mock message data
+MockData.Message = {
+    id = MockData.Snowflakes.MessageId,
+    channel_id = MockData.Snowflakes.ChannelId,
+    author = MockData.User,
+    content = "Hello, world!",
+    timestamp = "2024-01-15T12:00:00.000Z",
+    edited_timestamp = nil,
+    tts = false,
+    mention_everyone = false,
+    mentions = {},
+    mention_roles = {},
+    mention_channels = nil,
+    attachments = {},
+    embeds = {},
+    reactions = nil,
+    nonce = nil,
+    pinned = false,
+    webhook_id = nil,
+    type = 0,
+    activity = nil,
+    application = nil,
+    application_id = nil,
+    message_reference = nil,
+    flags = 0,
+    referenced_message = nil,
+    interaction = nil,
+    thread = nil,
+    components = nil,
+    sticker_items = nil,
+    stickers = nil,
+    position = nil,
+    role_subscription_data = nil,
+    resolved = nil,
+    poll = nil,
+}
+
+MockData.MessageWithEmbed = {
+    id = "444555666777888999",
+    channel_id = MockData.Snowflakes.ChannelId,
+    author = MockData.BotUser,
+    content = "",
+    timestamp = "2024-01-15T12:30:00.000Z",
+    edited_timestamp = nil,
+    tts = false,
+    mention_everyone = false,
+    mentions = {},
+    mention_roles = {},
+    mention_channels = nil,
+    attachments = {},
+    embeds = {
+        {
+            title = "Test Embed",
+            description = "This is a test embed",
+            color = 0x5865F2,
+            fields = {
+                { name = "Field 1", value = "Value 1", inline = true },
+                { name = "Field 2", value = "Value 2", inline = true },
+            },
+            footer = { text = "Footer text" },
+            timestamp = "2024-01-15T12:30:00.000Z",
+        },
+    },
+    reactions = nil,
+    nonce = nil,
+    pinned = false,
+    webhook_id = nil,
+    type = 0,
+    activity = nil,
+    application = nil,
+    application_id = nil,
+    message_reference = nil,
+    flags = 0,
+    referenced_message = nil,
+    interaction = nil,
+    thread = nil,
+    components = nil,
+    sticker_items = nil,
+    stickers = nil,
+    position = nil,
+    role_subscription_data = nil,
+    resolved = nil,
+    poll = nil,
+}
+
+MockData.ReplyMessage = {
+    id = "555666777888999000",
+    channel_id = MockData.Snowflakes.ChannelId,
+    author = MockData.User,
+    content = "This is a reply",
+    timestamp = "2024-01-15T12:35:00.000Z",
+    edited_timestamp = nil,
+    tts = false,
+    mention_everyone = false,
+    mentions = {},
+    mention_roles = {},
+    mention_channels = nil,
+    attachments = {},
+    embeds = {},
+    reactions = nil,
+    nonce = nil,
+    pinned = false,
+    webhook_id = nil,
+    type = 19, -- Reply
+    activity = nil,
+    application = nil,
+    application_id = nil,
+    message_reference = {
+        message_id = MockData.Snowflakes.MessageId,
+        channel_id = MockData.Snowflakes.ChannelId,
+        guild_id = MockData.Snowflakes.GuildId,
+    },
+    flags = 0,
+    referenced_message = MockData.Message,
+    interaction = nil,
+    thread = nil,
+    components = nil,
+    sticker_items = nil,
+    stickers = nil,
+    position = nil,
+    role_subscription_data = nil,
+    resolved = nil,
+    poll = nil,
+}
+
+-- Mock role data
+MockData.Role = {
+    id = MockData.Snowflakes.RoleId,
+    name = "Moderator",
+    color = 0x3498DB,
+    hoist = true,
+    icon = nil,
+    unicode_emoji = nil,
+    position = 5,
+    permissions = "1099511627775",
+    managed = false,
+    mentionable = true,
+    tags = nil,
+    flags = 0,
+}
+
+MockData.EveryoneRole = {
+    id = MockData.Snowflakes.GuildId, -- @everyone role ID matches guild ID
+    name = "@everyone",
+    color = 0,
+    hoist = false,
+    icon = nil,
+    unicode_emoji = nil,
+    position = 0,
+    permissions = "104324673",
+    managed = false,
+    mentionable = false,
+    tags = nil,
+    flags = 0,
+}
+
+-- Mock member data
+MockData.Member = {
+    user = MockData.User,
+    nick = "TestNick",
+    avatar = nil,
+    roles = { MockData.Snowflakes.RoleId },
+    joined_at = "2023-01-01T00:00:00.000Z",
+    premium_since = "2023-06-01T00:00:00.000Z",
+    deaf = false,
+    mute = false,
+    flags = 0,
+    pending = false,
+    permissions = "140737488355327",
+    communication_disabled_until = nil,
+}
+
+-- Mock interaction data
+MockData.SlashCommandInteraction = {
+    id = MockData.Snowflakes.InteractionId,
+    application_id = MockData.Snowflakes.ApplicationId,
+    type = 2, -- ApplicationCommand
+    data = {
+        id = "111222333444555666",
+        name = "ping",
+        type = 1, -- ChatInput
+        resolved = nil,
+        options = nil,
+        guild_id = MockData.Snowflakes.GuildId,
+        target_id = nil,
+    },
+    guild_id = MockData.Snowflakes.GuildId,
+    channel_id = MockData.Snowflakes.ChannelId,
+    member = MockData.Member,
+    user = nil,
+    token = "mock_interaction_token_abc123",
+    version = 1,
+    message = nil,
+    app_permissions = "140737488355327",
+    locale = "en-US",
+    guild_locale = "en-US",
+}
+
+MockData.SlashCommandWithOptionsInteraction = {
+    id = "777888999000111222",
+    application_id = MockData.Snowflakes.ApplicationId,
+    type = 2, -- ApplicationCommand
+    data = {
+        id = "222333444555666777",
+        name = "echo",
+        type = 1, -- ChatInput
+        resolved = nil,
+        options = {
+            {
+                name = "message",
+                type = 3, -- String
+                value = "Hello from options!",
+            },
+            {
+                name = "ephemeral",
+                type = 5, -- Boolean
+                value = true,
+            },
+        },
+        guild_id = MockData.Snowflakes.GuildId,
+        target_id = nil,
+    },
+    guild_id = MockData.Snowflakes.GuildId,
+    channel_id = MockData.Snowflakes.ChannelId,
+    member = MockData.Member,
+    user = nil,
+    token = "mock_interaction_token_def456",
+    version = 1,
+    message = nil,
+    app_permissions = "140737488355327",
+    locale = "en-US",
+    guild_locale = "en-US",
+}
+
+MockData.ButtonInteraction = {
+    id = "888999000111222333",
+    application_id = MockData.Snowflakes.ApplicationId,
+    type = 3, -- MessageComponent
+    data = {
+        custom_id = "button_confirm",
+        component_type = 2, -- Button
+    },
+    guild_id = MockData.Snowflakes.GuildId,
+    channel_id = MockData.Snowflakes.ChannelId,
+    member = MockData.Member,
+    user = nil,
+    token = "mock_interaction_token_ghi789",
+    version = 1,
+    message = MockData.Message,
+    app_permissions = "140737488355327",
+    locale = "en-US",
+    guild_locale = "en-US",
+}
+
+-- Mock application data
+MockData.Application = {
+    id = MockData.Snowflakes.ApplicationId,
+    flags = 0,
+}
+
+-- Mock voice state data
+MockData.VoiceState = {
+    guild_id = MockData.Snowflakes.GuildId,
+    channel_id = "888999000111222333", -- Voice channel ID
+    user_id = MockData.Snowflakes.UserId,
+    member = MockData.Member,
+    session_id = "mock_voice_session_id_12345",
+    deaf = false,
+    mute = false,
+    self_deaf = false,
+    self_mute = false,
+    self_stream = false,
+    self_video = false,
+    suppress = false,
+    request_to_speak_timestamp = nil,
+}
+
+MockData.VoiceStateDisconnected = {
+    guild_id = MockData.Snowflakes.GuildId,
+    channel_id = nil, -- Disconnected
+    user_id = MockData.Snowflakes.UserId,
+    member = MockData.Member,
+    session_id = "mock_voice_session_id_12345",
+    deaf = false,
+    mute = false,
+    self_deaf = false,
+    self_mute = false,
+    self_stream = false,
+    self_video = false,
+    suppress = false,
+    request_to_speak_timestamp = nil,
+}
+
+MockData.VoiceStateMuted = {
+    guild_id = MockData.Snowflakes.GuildId,
+    channel_id = "888999000111222333",
+    user_id = MockData.Snowflakes.UserId,
+    member = MockData.Member,
+    session_id = "mock_voice_session_id_67890",
+    deaf = true,
+    mute = true,
+    self_deaf = false,
+    self_mute = true,
+    self_stream = false,
+    self_video = false,
+    suppress = false,
+    request_to_speak_timestamp = nil,
+}
+
+-- Mock Lavalink data
+MockData.LavalinkTrack = {
+    encoded = "QAAAjQIAJVJpY2sgQXN0bGV5IC0gTmV2ZXIgR29ubmEgR2l2ZSBZb3UgVXAADlJpY2tBc3RsZXlWRVZPAAAAAAADPCAAC2RRdzR3OVdnWGNRAAABAAdZb3V0dWJlAAAAAAAAAAA=",
+    info = {
+        identifier = "dQw4w9WgXcQ",
+        isSeekable = true,
+        author = "RickAstleyVEVO",
+        length = 212000,
+        isStream = false,
+        position = 0,
+        title = "Rick Astley - Never Gonna Give You Up",
+        uri = "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        artworkUrl = "https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
+        isrc = nil,
+        sourceName = "youtube",
+    },
+    pluginInfo = {},
+    userData = nil,
+}
+
+MockData.LavalinkLoadResultTrack = {
+    loadType = "track",
+    data = MockData.LavalinkTrack,
+}
+
+MockData.LavalinkLoadResultSearch = {
+    loadType = "search",
+    data = { MockData.LavalinkTrack },
+}
+
+MockData.LavalinkLoadResultEmpty = {
+    loadType = "empty",
+    data = {},
+}
+
+MockData.LavalinkLoadResultError = {
+    loadType = "error",
+    data = {
+        message = "Track not found",
+        severity = "common",
+        cause = "No results found",
+    },
+}
+
+-- Gateway payloads
+MockData.GatewayReady = {
+    v = 10,
+    user = MockData.BotUser,
+    guilds = {
+        { id = MockData.Snowflakes.GuildId, unavailable = true },
+    },
+    session_id = "mock_session_id_12345",
+    resume_gateway_url = "wss://gateway.discord.gg/?v=10&encoding=json",
+    shard = nil,
+    application = MockData.Application,
+}
+
+MockData.GatewayGuildCreate = {
+    id = MockData.Snowflakes.GuildId,
+    name = "Test Server",
+    icon = "guild_icon_hash",
+    owner_id = MockData.Snowflakes.UserId,
+    permissions = "140737488355327",
+    afk_timeout = 300,
+    verification_level = 2,
+    default_message_notifications = 1,
+    explicit_content_filter = 2,
+    roles = { MockData.EveryoneRole, MockData.Role },
+    emojis = {},
+    features = { "COMMUNITY", "NEWS" },
+    mfa_level = 1,
+    system_channel_id = MockData.Snowflakes.ChannelId,
+    system_channel_flags = 0,
+    premium_tier = 2,
+    premium_subscription_count = 15,
+    preferred_locale = "en-US",
+    nsfw_level = 0,
+    stickers = {},
+    premium_progress_bar_enabled = true,
+    channels = { MockData.TextChannel, MockData.VoiceChannel },
+    members = { MockData.Member },
+    member_count = 100,
+    joined_at = "2024-01-01T00:00:00.000Z",
+    large = false,
+    unavailable = false,
+}
+
+return MockData

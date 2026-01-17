@@ -57,6 +57,7 @@ export type Guild = typeof(setmetatable(
         Unavailable: boolean,
         VanityUrlCode: string?,
         VerificationLevel: number,
+        VoiceStates: { [Types.Snowflake]: Types.APIVoiceState },
         WidgetChannelId: Types.Snowflake?,
         WidgetEnabled: boolean?,
         _data: Types.APIGuild,
@@ -74,6 +75,7 @@ function Guild.new(client: Types.Client, data: Types.APIGuild): Guild
     self.Channels = {}
     self.Members = {}
     self.Roles = {}
+    self.VoiceStates = {}
     self._data = data
 
     self:_patch(data)
@@ -147,6 +149,15 @@ function Guild._patch(self: Guild, data: Types.APIGuild)
             end
         end
     end
+
+    -- Process voice states
+    if data.voice_states then
+        for _, voiceStateData in data.voice_states do
+            if voiceStateData.user_id then
+                self.VoiceStates[voiceStateData.user_id] = voiceStateData
+            end
+        end
+    end
 end
 
 function Guild.GetIconUrl(self: Guild, options: { format: string?, size: number? }?): string?
@@ -211,6 +222,67 @@ end
 
 function Guild.GetEveryoneRole(self: Guild): Role.Role?
     return self.Roles[self.Id]
+end
+
+-- Voice state methods
+function Guild.GetVoiceState(self: Guild, userId: Types.Snowflake): Types.APIVoiceState?
+    return self.VoiceStates[userId]
+end
+
+function Guild.GetVoiceChannelMembers(self: Guild, channelId: Types.Snowflake): { Types.APIVoiceState }
+    local members = {}
+    for _, voiceState in self.VoiceStates do
+        if voiceState.channel_id == channelId then
+            table.insert(members, voiceState)
+        end
+    end
+    return members
+end
+
+-- Moderation methods
+function Guild.BanMember(
+    self: Guild,
+    userId: Types.Snowflake,
+    options: { deleteMessageSeconds: number?, reason: string? }?
+)
+    assert(self.Client.Rest, "Client is not logged in")
+
+    local apiOptions = nil
+    if options and options.deleteMessageSeconds then
+        apiOptions = { delete_message_seconds = options.deleteMessageSeconds }
+    end
+
+    self.Client.Rest:CreateGuildBan(self.Id, userId, apiOptions, options and options.reason)
+end
+
+function Guild.UnbanMember(self: Guild, userId: Types.Snowflake, reason: string?)
+    assert(self.Client.Rest, "Client is not logged in")
+
+    self.Client.Rest:RemoveGuildBan(self.Id, userId, reason)
+end
+
+function Guild.KickMember(self: Guild, userId: Types.Snowflake, reason: string?)
+    assert(self.Client.Rest, "Client is not logged in")
+
+    self.Client.Rest:RemoveGuildMember(self.Id, userId, reason)
+end
+
+function Guild.FetchMember(self: Guild, userId: Types.Snowflake): Member.Member
+    assert(self.Client.Rest, "Client is not logged in")
+
+    local data = self.Client.Rest:GetGuildMember(self.Id, userId)
+    local member = Member.new(self.Client, self, data)
+    if member.User then
+        self.Members[member.User.Id] = member
+    end
+
+    return member
+end
+
+function Guild.FetchBans(self: Guild): { { reason: string?, user: Types.APIUser } }
+    assert(self.Client.Rest, "Client is not logged in")
+
+    return self.Client.Rest:GetGuildBans(self.Id)
 end
 
 function Guild.__tostring(self: Guild): string
