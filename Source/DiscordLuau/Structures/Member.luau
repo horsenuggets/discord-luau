@@ -7,6 +7,8 @@ information like nickname, roles, and join date.
 
 --]]
 
+local DateTime = require("@lune/datetime")
+
 local Types = require("@self/Types")
 local User = require("@self/User")
 
@@ -126,9 +128,80 @@ function Member.IsTimedOut(self: Member): boolean
         return false
     end
 
-    -- Parse ISO timestamp and compare with current time
-    -- For now, just check if the field exists
-    return true
+    -- Parse ISO 8601 timestamp and compare with current time
+    local success, timeoutEnd = pcall(function()
+        return DateTime.fromIsoDate(self.CommunicationDisabledUntil)
+    end)
+
+    if not success or not timeoutEnd then
+        return false
+    end
+
+    local now = DateTime.now()
+    return timeoutEnd.unixTimestamp > now.unixTimestamp
+end
+
+function Member.Kick(self: Member, reason: string?)
+    assert(self.Client.Rest, "Client is not logged in")
+    assert(self.User, "Member has no user")
+
+    self.Client.Rest:RemoveGuildMember(self.GuildId, self.User.Id, reason)
+end
+
+function Member.Ban(self: Member, options: { deleteMessageSeconds: number?, reason: string? }?)
+    assert(self.Client.Rest, "Client is not logged in")
+    assert(self.User, "Member has no user")
+
+    local apiOptions = nil
+    if options and options.deleteMessageSeconds then
+        apiOptions = { delete_message_seconds = options.deleteMessageSeconds }
+    end
+
+    self.Client.Rest:CreateGuildBan(self.GuildId, self.User.Id, apiOptions, options and options.reason)
+end
+
+function Member.Timeout(self: Member, durationSeconds: number?, reason: string?)
+    assert(self.Client.Rest, "Client is not logged in")
+    assert(self.User, "Member has no user")
+
+    local untilTimestamp = nil
+    if durationSeconds and durationSeconds > 0 then
+        local futureTime = DateTime.now().unixTimestamp + durationSeconds
+        local futureDate = DateTime.fromUnixTimestamp(futureTime)
+        untilTimestamp = futureDate:toIsoDate()
+    end
+
+    self.Client.Rest:ModifyGuildMember(
+        self.GuildId,
+        self.User.Id,
+        { communication_disabled_until = untilTimestamp },
+        reason
+    )
+end
+
+function Member.RemoveTimeout(self: Member, reason: string?)
+    self:Timeout(nil, reason)
+end
+
+function Member.SetNickname(self: Member, nickname: string?, reason: string?)
+    assert(self.Client.Rest, "Client is not logged in")
+    assert(self.User, "Member has no user")
+
+    self.Client.Rest:ModifyGuildMember(self.GuildId, self.User.Id, { nick = nickname }, reason)
+end
+
+function Member.AddRole(self: Member, roleId: Types.Snowflake, reason: string?)
+    assert(self.Client.Rest, "Client is not logged in")
+    assert(self.User, "Member has no user")
+
+    self.Client.Rest:AddGuildMemberRole(self.GuildId, self.User.Id, roleId, reason)
+end
+
+function Member.RemoveRole(self: Member, roleId: Types.Snowflake, reason: string?)
+    assert(self.Client.Rest, "Client is not logged in")
+    assert(self.User, "Member has no user")
+
+    self.Client.Rest:RemoveGuildMemberRole(self.GuildId, self.User.Id, roleId, reason)
 end
 
 function Member.ToString(self: Member): string
