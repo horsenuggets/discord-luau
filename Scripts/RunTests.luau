@@ -30,6 +30,7 @@ local TESTS = {
     { Name = "GuildTest", Func = require("@tests/GuildTest.spec") },
     { Name = "IntegrationTest", Func = require("@tests/IntegrationTest.spec") },
     { Name = "InteractionTest", Func = require("@tests/InteractionTest.spec") },
+    { Name = "LavalinkTest", Func = require("@tests/LavalinkTest.spec") },
     { Name = "MemberTest", Func = require("@tests/MemberTest.spec") },
     { Name = "MessageTest", Func = require("@tests/MessageTest.spec") },
     { Name = "RoleTest", Func = require("@tests/RoleTest.spec") },
@@ -37,6 +38,8 @@ local TESTS = {
     { Name = "SlashCommandBuilderTest", Func = require("@tests/SlashCommandBuilderTest.spec") },
     { Name = "SnowflakeTest", Func = require("@tests/SnowflakeTest.spec") },
     { Name = "UserTest", Func = require("@tests/UserTest.spec") },
+    { Name = "VoiceIntegrationTest", Func = require("@tests/VoiceIntegrationTest.spec") },
+    { Name = "VoiceStateTest", Func = require("@tests/VoiceStateTest.spec") },
 }
 
 local function runTests()

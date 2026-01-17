@@ -483,6 +483,99 @@ MockData.Application = {
     flags = 0,
 }
 
+-- Mock voice state data
+MockData.VoiceState = {
+    guild_id = MockData.Snowflakes.GuildId,
+    channel_id = "888999000111222333", -- Voice channel ID
+    user_id = MockData.Snowflakes.UserId,
+    member = MockData.Member,
+    session_id = "mock_voice_session_id_12345",
+    deaf = false,
+    mute = false,
+    self_deaf = false,
+    self_mute = false,
+    self_stream = false,
+    self_video = false,
+    suppress = false,
+    request_to_speak_timestamp = nil,
+}
+
+MockData.VoiceStateDisconnected = {
+    guild_id = MockData.Snowflakes.GuildId,
+    channel_id = nil, -- Disconnected
+    user_id = MockData.Snowflakes.UserId,
+    member = MockData.Member,
+    session_id = "mock_voice_session_id_12345",
+    deaf = false,
+    mute = false,
+    self_deaf = false,
+    self_mute = false,
+    self_stream = false,
+    self_video = false,
+    suppress = false,
+    request_to_speak_timestamp = nil,
+}
+
+MockData.VoiceStateMuted = {
+    guild_id = MockData.Snowflakes.GuildId,
+    channel_id = "888999000111222333",
+    user_id = MockData.Snowflakes.UserId,
+    member = MockData.Member,
+    session_id = "mock_voice_session_id_67890",
+    deaf = true,
+    mute = true,
+    self_deaf = false,
+    self_mute = true,
+    self_stream = false,
+    self_video = false,
+    suppress = false,
+    request_to_speak_timestamp = nil,
+}
+
+-- Mock Lavalink data
+MockData.LavalinkTrack = {
+    encoded = "QAAAjQIAJVJpY2sgQXN0bGV5IC0gTmV2ZXIgR29ubmEgR2l2ZSBZb3UgVXAADlJpY2tBc3RsZXlWRVZPAAAAAAADPCAAC2RRdzR3OVdnWGNRAAABAAdZb3V0dWJlAAAAAAAAAAA=",
+    info = {
+        identifier = "dQw4w9WgXcQ",
+        isSeekable = true,
+        author = "RickAstleyVEVO",
+        length = 212000,
+        isStream = false,
+        position = 0,
+        title = "Rick Astley - Never Gonna Give You Up",
+        uri = "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        artworkUrl = "https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
+        isrc = nil,
+        sourceName = "youtube",
+    },
+    pluginInfo = {},
+    userData = nil,
+}
+
+MockData.LavalinkLoadResultTrack = {
+    loadType = "track",
+    data = MockData.LavalinkTrack,
+}
+
+MockData.LavalinkLoadResultSearch = {
+    loadType = "search",
+    data = { MockData.LavalinkTrack },
+}
+
+MockData.LavalinkLoadResultEmpty = {
+    loadType = "empty",
+    data = {},
+}
+
+MockData.LavalinkLoadResultError = {
+    loadType = "error",
+    data = {
+        message = "Track not found",
+        severity = "common",
+        cause = "No results found",
+    },
+}
+
 -- Gateway payloads
 MockData.GatewayReady = {
     v = 10,
