@@ -141,7 +141,3 @@ The client emits the following events:
 - `typingStart` - User started typing
 - `voiceStateUpdate` - Voice state changed
 - `presenceUpdate` - Presence changed
-
-## License
-
-MIT
