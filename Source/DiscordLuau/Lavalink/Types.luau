@@ -90,7 +90,16 @@ export type Filters = {
     tremolo: { frequency: number?, depth: number? }?,
     vibrato: { frequency: number?, depth: number? }?,
     rotation: { rotationHz: number? }?,
-    distortion: { sinOffset: number?, sinScale: number?, cosOffset: number?, cosScale: number?, tanOffset: number?, tanScale: number?, offset: number?, scale: number? }?,
+    distortion: {
+        sinOffset: number?,
+        sinScale: number?,
+        cosOffset: number?,
+        cosScale: number?,
+        tanOffset: number?,
+        tanScale: number?,
+        offset: number?,
+        scale: number?,
+    }?,
     channelMix: { leftToLeft: number?, leftToRight: number?, rightToLeft: number?, rightToRight: number? }?,
     lowPass: { smoothing: number? }?,
 }

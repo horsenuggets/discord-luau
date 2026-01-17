@@ -6,8 +6,8 @@ Tests for the Lavalink module including Track class and type handling.
 
 --]]
 
-local Track = require("@discordluau/Lavalink/Track")
 local MockData = require("./Helpers/MockData")
+local Track = require("@discordluau/Lavalink/Track")
 
 return function()
     describe("Track.new", function()

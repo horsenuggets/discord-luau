@@ -7,9 +7,9 @@ Tests for the VoiceState structure class.
 --]]
 
 local Guild = require("@discordluau/Structures/Guild")
-local VoiceState = require("@discordluau/Structures/VoiceState")
 local MockClient = require("./Helpers/MockClient")
 local MockData = require("./Helpers/MockData")
+local VoiceState = require("@discordluau/Structures/VoiceState")
 
 return function()
     local client

@@ -75,7 +75,9 @@ function LavalinkRest._request(
     if not response.ok then
         local errorMessage = `HTTP {response.statusCode}`
         if response.body and #response.body > 0 then
-            local decodeSuccess, errorData = pcall(serde.decode, "json", response.body)
+            local decodeSuccess, errorData = pcall(function()
+                return serde.decode("json" :: "json", response.body)
+            end)
             if decodeSuccess and type(errorData) == "table" and errorData.message then
                 errorMessage = `{errorMessage}: {errorData.message}`
             else
@@ -86,7 +88,9 @@ function LavalinkRest._request(
     end
 
     if response.body and #response.body > 0 then
-        local decodeSuccess, data = pcall(serde.decode, "json", response.body)
+        local decodeSuccess, data = pcall(function()
+            return serde.decode("json" :: "json", response.body)
+        end)
         if decodeSuccess then
             return { success = true, data = data }
         else

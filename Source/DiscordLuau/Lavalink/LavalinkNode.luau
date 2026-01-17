@@ -36,7 +36,11 @@ export type LavalinkNode = typeof(setmetatable(
         OnPlayerUpdate: Signal.Signal<string, Types.PlayerState>,
         OnTrackStart: Signal.Signal<string, Types.LavalinkTrack>,
         OnTrackEnd: Signal.Signal<string, Types.LavalinkTrack, string>,
-        OnTrackException: Signal.Signal<string, Types.LavalinkTrack, { message: string?, severity: string, cause: string }>,
+        OnTrackException: Signal.Signal<
+            string,
+            Types.LavalinkTrack,
+            { message: string?, severity: string, cause: string }
+        >,
         OnTrackStuck: Signal.Signal<string, Types.LavalinkTrack, number>,
         OnWebSocketClosed: Signal.Signal<string, number, string, boolean>,
         OnStatsUpdate: Signal.Signal<Types.StatsEvent>,
@@ -117,9 +121,13 @@ function LavalinkNode.Connect(self: LavalinkNode): boolean
         headers["Session-Id"] = self.SessionId
     end
 
-    local success, socket = pcall(net.socket, url, {
-        headers = headers,
-    })
+    -- NOTE: Lune's net.socket doesn't currently support headers in its type definition.
+    -- This requires a custom Lune build with WebSocket headers support for Lavalink auth.
+    -- Using type cast to suppress static analysis error.
+    local socketWithHeaders = net.socket :: (string, { headers: { [string]: string } }?) -> net.WebSocket
+    local success, socket = pcall(function()
+        return socketWithHeaders(url, { headers = headers })
+    end)
 
     if not success then
         self:_handleReconnect()
@@ -187,7 +195,9 @@ function LavalinkNode._listen(self: LavalinkNode)
 end
 
 function LavalinkNode._handleMessage(self: LavalinkNode, data: string)
-    local success, payload = pcall(serde.decode, "json", data)
+    local success, payload = pcall(function()
+        return serde.decode("json" :: "json", data)
+    end)
 
     if not success then
         return
