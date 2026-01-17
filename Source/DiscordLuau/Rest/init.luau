@@ -133,6 +133,33 @@ function Rest.DeleteChannel(self: Rest, channelId: Types.Snowflake, reason: stri
     self:_request("DELETE", `/channels/{channelId}`, nil, reason)
 end
 
+-- Permission overwrite endpoints
+function Rest.EditChannelPermissions(
+    self: Rest,
+    channelId: Types.Snowflake,
+    overwriteId: Types.Snowflake,
+    data: { allow: string?, deny: string?, type: number },
+    reason: string?
+)
+    assert(type(channelId) == "string", "Expected channelId to be a string")
+    assert(type(overwriteId) == "string", "Expected overwriteId to be a string")
+    assert(type(data) == "table", "Expected data to be a table")
+
+    self:_request("PUT", `/channels/{channelId}/permissions/{overwriteId}`, data, reason)
+end
+
+function Rest.DeleteChannelPermission(
+    self: Rest,
+    channelId: Types.Snowflake,
+    overwriteId: Types.Snowflake,
+    reason: string?
+)
+    assert(type(channelId) == "string", "Expected channelId to be a string")
+    assert(type(overwriteId) == "string", "Expected overwriteId to be a string")
+
+    self:_request("DELETE", `/channels/{channelId}/permissions/{overwriteId}`, nil, reason)
+end
+
 -- Message endpoints
 function Rest.GetChannelMessages(
     self: Rest,

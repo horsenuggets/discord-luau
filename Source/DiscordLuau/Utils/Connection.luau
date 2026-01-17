@@ -13,6 +13,7 @@ Connection.__index = Connection
 
 export type Connection = typeof(setmetatable(
     {} :: {
+        Connected: boolean,
         _func: (...any) -> (),
         _once: boolean?,
         _signal: any,
@@ -26,6 +27,7 @@ function Connection.new<T>(signal: any, func: (...T) -> ()): Connection
 
     local self = setmetatable({}, Connection)
 
+    self.Connected = true
     self._func = func
     self._signal = signal
 
@@ -45,6 +47,7 @@ function Connection.Disconnect(self: Connection)
         end
     end
 
+    self.Connected = false
     self._signal = nil
     self._func = nil :: any
     self._once = nil
