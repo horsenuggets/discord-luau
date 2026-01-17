@@ -121,8 +121,12 @@ function LavalinkNode.Connect(self: LavalinkNode): boolean
         headers["Session-Id"] = self.SessionId
     end
 
+    -- NOTE: Lune's net.socket doesn't currently support headers in its type definition.
+    -- This requires a custom Lune build with WebSocket headers support for Lavalink auth.
+    -- Using type cast to suppress static analysis error.
+    local socketWithHeaders = net.socket :: (string, { headers: { [string]: string } }?) -> net.WebSocket
     local success, socket = pcall(function()
-        return net.socket(url, { headers = headers })
+        return socketWithHeaders(url, { headers = headers })
     end)
 
     if not success then
