@@ -9,15 +9,6 @@ channels, each with different capabilities.
 
 local Types = require("@self/Types")
 
--- Deferred require to avoid circular dependency
-local Message: any = nil
-local function getMessage()
-    if not Message then
-        Message = require("@self/Message")
-    end
-    return Message
-end
-
 local Channel = {}
 Channel.__index = Channel
 
@@ -154,7 +145,14 @@ function Channel.Send(self: Channel, options: string | Types.MessageSendOptions)
     end
 
     local data = self.Client.Rest:CreateMessage(self.Id, body)
-    return getMessage().new(self.Client, data, self)
+
+    -- Use the Client's message factory to avoid cyclic dependency
+    if self.Client._createMessage then
+        return self.Client._createMessage(data, self)
+    end
+
+    -- Fallback: return raw data if factory not available
+    return data
 end
 
 function Channel.GetIconUrl(self: Channel, options: { format: string?, size: number? }?): string?

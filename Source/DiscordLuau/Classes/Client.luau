@@ -34,6 +34,7 @@ export type Client = typeof(setmetatable(
         Rest: Rest.Rest?,
         User: User.User?,
         Users: { [Types.Snowflake]: User.User },
+        _createMessage: ((data: Types.APIMessage, channel: Channel.Channel?) -> Message.Message)?,
         _eventHandlers: { [string]: { (any) -> () } },
         _intents: number,
         _token: string?,
@@ -48,6 +49,11 @@ function Client.new(options: Types.ClientOptions?): Client
     self.Guilds = {}
     self.Users = {}
     self._eventHandlers = {}
+
+    -- Message factory to avoid cyclic dependency between Channel and Message
+    self._createMessage = function(data: Types.APIMessage, channel: Channel.Channel?): Message.Message
+        return Message.new(self, data)
+    end
 
     -- Parse intents
     if options and options.intents then
