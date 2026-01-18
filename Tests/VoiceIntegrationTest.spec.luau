@@ -12,6 +12,7 @@ Environment variables:
 > LAVALINK_HOST - Lavalink server host (optional)
 > LAVALINK_PORT - Lavalink server port (optional)
 > LAVALINK_PASSWORD - Lavalink server password (optional)
+> TEST_AUDIO_URL - Direct URL to a test audio file (optional, defaults to GitHub hosted file)
 
 --]]
 
@@ -29,6 +30,10 @@ local VOICE_CHANNEL_ID = process.env.DISCORD_TEST_VOICE_CHANNEL_ID
 local LAVALINK_HOST = process.env.LAVALINK_HOST
 local LAVALINK_PORT = process.env.LAVALINK_PORT
 local LAVALINK_PASSWORD = process.env.LAVALINK_PASSWORD
+
+-- Test audio URL - defaults to the GitHub-hosted test file
+local TEST_AUDIO_URL = process.env.TEST_AUDIO_URL
+    or "https://github.com/horsenuggets/discord-luau/raw/main/Tests/Fixtures/QuickTest.mp3"
 
 -- Check if voice tests should run
 local function shouldRunVoiceTests(): boolean
@@ -81,7 +86,7 @@ return function()
                 end)
 
                 -- Track voice state updates
-                client:On("voiceStateUpdate", function(oldState: any, newState: any)
+                client:On("voiceStateUpdate", function(_oldState: any, newState: any)
                     if newState and newState.UserId == client.User.Id then
                         voiceStateReceived = true
                         receivedVoiceState = newState
@@ -354,7 +359,25 @@ return function()
                 expect(info.version.semver).to.be.a("string")
             end)
 
-            it("should search for tracks", function()
+            it("should load track from URL", function()
+                if not nodeReady then
+                    return
+                end
+
+                -- Load the test audio file directly by URL
+                local result = lavalink:Search(TEST_AUDIO_URL)
+
+                expect(result).to.be.ok()
+                expect(result.loadType).to.be.a("string")
+
+                -- Should load successfully as a track
+                if result.loadType == "track" then
+                    expect(result.data).to.be.ok()
+                    expect(result.data.encoded).to.be.a("string")
+                end
+            end)
+
+            it("should search for tracks via YouTube", function()
                 if not nodeReady then
                     return
                 end
@@ -400,7 +423,7 @@ return function()
                 expect(player.ChannelId).to.equal(VOICE_CHANNEL_ID)
             end)
 
-            it("should play a track", function()
+            it("should play test audio file", function()
                 if not nodeReady then
                     return
                 end
@@ -410,15 +433,18 @@ return function()
                     return
                 end
 
-                -- Search for a short test track
-                local result = lavalink:Search("test audio 10 seconds", "ytsearch")
+                -- Load the test audio file
+                local result = lavalink:Search(TEST_AUDIO_URL)
 
-                if result.loadType ~= "search" or #result.data == 0 then
-                    -- Skip if no results
-                    return
+                if result.loadType ~= "track" or not result.data then
+                    -- Fall back to YouTube search if direct URL fails
+                    result = lavalink:Search("test audio 10 seconds", "ytsearch")
+                    if result.loadType ~= "search" or #result.data == 0 then
+                        return
+                    end
                 end
 
-                local track = result.data[1]
+                local track = if result.loadType == "track" then result.data else result.data[1]
 
                 -- Set up track start listener
                 local trackStarted = false
@@ -438,6 +464,9 @@ return function()
                 expect(trackStarted).to.equal(true)
                 expect(player.Playing).to.equal(true)
                 expect(player.CurrentTrack).to.be.ok()
+
+                -- Let it play for a moment so audio is actually heard
+                task.wait(2)
             end)
 
             it("should pause and resume", function()
@@ -459,6 +488,9 @@ return function()
                 player:Resume()
                 task.wait(0.5)
                 expect(player.Paused).to.equal(false)
+
+                -- Let it play a bit more
+                task.wait(1)
             end)
 
             it("should adjust volume", function()
