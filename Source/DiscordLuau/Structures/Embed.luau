@@ -7,7 +7,7 @@ fields, images, author, footer, and more.
 
 --]]
 
-local Types = require("@self/Types")
+local Types = require("./Types")
 
 --[=[
     @class Embed

@@ -6,7 +6,7 @@ Represents a guild role with permissions, color, and position settings.
 
 --]]
 
-local Types = require("@self/Types")
+local Types = require("./Types")
 
 local Role = {}
 Role.__index = Role

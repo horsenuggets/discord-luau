@@ -7,10 +7,10 @@ and track management for a single guild.
 
 --]]
 
-local Signal = require("@discordluau/Utils/Signal")
+local Signal = require("../Utils/Signal")
 
-local Track = require("@self/Track")
-local Types = require("@self/Types")
+local Track = require("./Track")
+local Types = require("./Types")
 
 local Player = {}
 Player.__index = Player

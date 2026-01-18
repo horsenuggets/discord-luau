@@ -9,8 +9,8 @@ information like nickname, roles, and join date.
 
 local DateTime = require("@lune/datetime")
 
-local Types = require("@self/Types")
-local User = require("@self/User")
+local Types = require("./Types")
+local User = require("./User")
 
 local Member = {}
 Member.__index = Member
