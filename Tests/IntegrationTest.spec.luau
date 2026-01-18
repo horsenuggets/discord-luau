@@ -29,7 +29,7 @@ local GUILD_ID = process.env.DISCORD_TEST_GUILD_ID
 local TEXT_CHANNEL_ID = process.env.DISCORD_TEST_TEXT_CHANNEL_ID
 local VOICE_CHANNEL_ID = process.env.DISCORD_TEST_VOICE_CHANNEL_ID
 local CATEGORY_ID = process.env.DISCORD_TEST_CATEGORY_ID
-local _FORUM_CHANNEL_ID = process.env.DISCORD_TEST_FORUM_CHANNEL_ID
+local FORUM_CHANNEL_ID = process.env.DISCORD_TEST_FORUM_CHANNEL_ID
 
 -- Channel types
 local CHANNEL_TYPE_TEXT = 0
@@ -766,6 +766,92 @@ return function()
 
                 local commands = rest:GetGuildApplicationCommands(applicationId, GUILD_ID)
                 expect(commands).to.be.a("table")
+            end)
+        end)
+
+        describe("Forum channel endpoints", function()
+            local createdThreadId: string?
+
+            it("should create a forum post", function()
+                if not FORUM_CHANNEL_ID then
+                    return
+                end
+
+                task.wait(1)
+                local timestamp = os.date("%H%M%S")
+                local thread = rest:StartForumThread(FORUM_CHANNEL_ID, `Test Forum Post {timestamp}`, {
+                    content = "[Integration Test] This is a test forum post created by the integration test suite.",
+                    embeds = {
+                        {
+                            title = "Test Forum Post",
+                            description = "This post was created automatically by the discord-luau integration tests.",
+                            color = 0x5865F2,
+                            footer = { text = "Integration Test" },
+                        },
+                    },
+                }, {
+                    auto_archive_duration = 60,
+                })
+
+                expect(thread).to.be.ok()
+                expect(thread.id).to.be.a("string")
+                expect(thread.parent_id).to.equal(FORUM_CHANNEL_ID)
+                expect(TestUtils.contains(thread.name, "Test Forum Post")).to.equal(true)
+
+                createdThreadId = thread.id
+            end)
+
+            it("should send a reply to the forum post", function()
+                if not createdThreadId then
+                    return
+                end
+
+                task.wait(1)
+                local message = rest:CreateMessage(createdThreadId, {
+                    content = "[Integration Test] This is a reply to the forum post.",
+                })
+
+                expect(message).to.be.ok()
+                expect(message.channel_id).to.equal(createdThreadId)
+            end)
+
+            it("should get forum channel info", function()
+                if not FORUM_CHANNEL_ID then
+                    return
+                end
+
+                local channel = rest:GetChannel(FORUM_CHANNEL_ID)
+
+                expect(channel).to.be.ok()
+                expect(channel.id).to.equal(FORUM_CHANNEL_ID)
+                -- Forum channels have type 15 (GuildForum)
+                expect(channel.type).to.equal(15)
+            end)
+
+            it("should delete the forum post", function()
+                if not createdThreadId then
+                    return
+                end
+
+                task.wait(1)
+                rest:DeleteChannel(createdThreadId, "Integration test cleanup")
+
+                -- Verify it's deleted
+                local success = pcall(function()
+                    rest:GetChannel(createdThreadId :: string)
+                end)
+
+                expect(success).to.equal(false)
+                createdThreadId = nil
+            end)
+
+            afterAll(function()
+                -- Clean up if test failed before deletion
+                if createdThreadId then
+                    pcall(function()
+                        rest:DeleteChannel(createdThreadId :: string, "Integration test cleanup")
+                    end)
+                end
             end)
         end)
     end)
