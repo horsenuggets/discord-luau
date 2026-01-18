@@ -385,6 +385,41 @@ function Rest.StartThreadWithoutMessage(
     return self:_request("POST", `/channels/{channelId}/threads`, data)
 end
 
+function Rest.StartForumThread(
+    self: Rest,
+    channelId: Types.Snowflake,
+    name: string,
+    message: { content: string?, embeds: { any }?, components: { any }? },
+    options: {
+        auto_archive_duration: number?,
+        rate_limit_per_user: number?,
+        applied_tags: { Types.Snowflake }?,
+    }?
+): Types.APIChannel
+    assert(type(channelId) == "string", "Expected channelId to be a string")
+    assert(type(name) == "string", "Expected name to be a string")
+    assert(type(message) == "table", "Expected message to be a table")
+
+    local data: { [string]: any } = {
+        name = name,
+        message = message,
+    }
+
+    if options then
+        if options.auto_archive_duration then
+            data.auto_archive_duration = options.auto_archive_duration
+        end
+        if options.rate_limit_per_user then
+            data.rate_limit_per_user = options.rate_limit_per_user
+        end
+        if options.applied_tags then
+            data.applied_tags = options.applied_tags
+        end
+    end
+
+    return self:_request("POST", `/channels/{channelId}/threads`, data)
+end
+
 -- Guild endpoints
 function Rest.GetGuild(self: Rest, guildId: Types.Snowflake, withCounts: boolean?): Types.APIGuild
     assert(type(guildId) == "string", "Expected guildId to be a string")
