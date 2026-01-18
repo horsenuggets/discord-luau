@@ -7,9 +7,29 @@ subcommands, and permission requirements.
 
 --]]
 
-local ApplicationCommandOptionType = require("@discordluau/Enums/ApplicationCommandOptionType")
-local ApplicationCommandType = require("@discordluau/Enums/ApplicationCommandType")
+local ApplicationCommandOptionType = require("../Enums/ApplicationCommandOptionType")
+local ApplicationCommandType = require("../Enums/ApplicationCommandType")
 
+--[=[
+    @class SlashCommandBuilder
+    @tag structure
+
+    A builder class for creating Discord slash commands with a fluent API.
+    Supports options, subcommands, and permission requirements.
+
+    ```lua
+    local pingCommand = Discord.SlashCommandBuilder.new()
+        :SetName("ping")
+        :SetDescription("Check bot latency")
+
+    local echoCommand = Discord.SlashCommandBuilder.new()
+        :SetName("echo")
+        :SetDescription("Echo a message")
+        :AddStringOption("message", "The message to echo", { required = true })
+
+    client:SetGlobalCommands({ pingCommand, echoCommand })
+    ```
+]=]
 local SlashCommandBuilder = {}
 SlashCommandBuilder.__index = SlashCommandBuilder
 

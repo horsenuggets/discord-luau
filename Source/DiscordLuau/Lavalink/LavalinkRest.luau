@@ -10,7 +10,7 @@ and server info requests.
 local net = require("@lune/net")
 local serde = require("@lune/serde")
 
-local Types = require("@self/Types")
+local Types = require("./Types")
 
 local LavalinkRest = {}
 LavalinkRest.__index = LavalinkRest

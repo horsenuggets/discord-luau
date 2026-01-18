@@ -7,7 +7,7 @@ channels, each with different capabilities.
 
 --]]
 
-local Types = require("@self/Types")
+local Types = require("./Types")
 
 local Channel = {}
 Channel.__index = Channel

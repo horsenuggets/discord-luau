@@ -26,12 +26,12 @@ Usage:
 
 --]]
 
-local Signal = require("@discordluau/Utils/Signal")
+local Signal = require("../Utils/Signal")
 
-local LavalinkNode = require("@self/LavalinkNode")
-local Player = require("@self/Player")
-local Track = require("@self/Track")
-local Types = require("@self/Types")
+local LavalinkNode = require("../LavalinkNode")
+local Player = require("../Player")
+local Track = require("../Track")
+local Types = require("../Types")
 
 local Lavalink = {}
 Lavalink.__index = Lavalink

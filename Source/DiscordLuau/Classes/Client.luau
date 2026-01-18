@@ -9,18 +9,43 @@ access to guilds, channels, users, and other Discord resources.
 
 local task = require("@lune/task")
 
-local Channel = require("@discordluau/Structures/Channel")
-local Gateway = require("@discordluau/Gateway")
-local GatewayIntent = require("@discordluau/Enums/GatewayIntent")
-local Guild = require("@discordluau/Structures/Guild")
-local Interaction = require("@discordluau/Structures/Interaction")
-local Member = require("@discordluau/Structures/Member")
-local Message = require("@discordluau/Structures/Message")
-local Rest = require("@discordluau/Rest")
-local Types = require("@discordluau/Structures/Types")
-local User = require("@discordluau/Structures/User")
-local VoiceState = require("@discordluau/Structures/VoiceState")
+local Channel = require("../Structures/Channel")
+local Gateway = require("../Gateway")
+local GatewayIntent = require("../Enums/GatewayIntent")
+local Guild = require("../Structures/Guild")
+local Interaction = require("../Structures/Interaction")
+local Member = require("../Structures/Member")
+local Message = require("../Structures/Message")
+local Rest = require("../Rest")
+local Types = require("../Structures/Types")
+local User = require("../Structures/User")
+local VoiceState = require("../Structures/VoiceState")
 
+--[=[
+    @class Client
+    @tag class
+
+    The main Discord client class that handles connection to Discord, event management,
+    and provides access to guilds, channels, users, and other Discord resources.
+
+    ```lua
+    local Discord = require("@packages/Discord")
+
+    local client = Discord.Client.new({
+        intents = {
+            Discord.Intents.Guilds,
+            Discord.Intents.GuildMessages,
+            Discord.Intents.MessageContent,
+        },
+    })
+
+    client:On("ready", function()
+        print("Logged in as " .. client.User:GetTag())
+    end)
+
+    client:Login(process.env.DISCORD_BOT_TOKEN)
+    ```
+]=]
 local Client = {}
 Client.__index = Client
 
@@ -42,6 +67,12 @@ export type Client = typeof(setmetatable(
     Client
 ))
 
+--[=[
+    Creates a new Discord client instance.
+
+    @param options ClientOptions? -- Optional configuration options including intents
+    @return Client -- A new Client instance
+]=]
 function Client.new(options: Types.ClientOptions?): Client
     local self = setmetatable({}, Client)
 
@@ -359,6 +390,22 @@ function Client._emit(self: Client, eventName: string, ...: any)
     end
 end
 
+--[=[
+    Registers an event handler for the specified event.
+
+    @param eventName string -- The name of the event to listen for
+    @param handler function -- The callback function to invoke when the event fires
+    @return function -- A disconnect function that removes the handler when called
+
+    ```lua
+    local disconnect = client:On("messageCreate", function(message)
+        print("Received message:", message.Content)
+    end)
+
+    -- Later, to stop listening:
+    disconnect()
+    ```
+]=]
 function Client.On(self: Client, eventName: string, handler: (any) -> ()): () -> ()
     assert(type(eventName) == "string", "Expected eventName to be a string")
     assert(type(handler) == "function", "Expected handler to be a function")
@@ -383,6 +430,13 @@ function Client.On(self: Client, eventName: string, handler: (any) -> ()): () ->
     end
 end
 
+--[=[
+    Registers a one-time event handler that automatically disconnects after firing once.
+
+    @param eventName string -- The name of the event to listen for
+    @param handler function -- The callback function to invoke when the event fires
+    @return function -- A disconnect function that removes the handler when called
+]=]
 function Client.Once(self: Client, eventName: string, handler: (any) -> ()): () -> ()
     assert(type(eventName) == "string", "Expected eventName to be a string")
     assert(type(handler) == "function", "Expected handler to be a function")
@@ -399,6 +453,15 @@ function Client.Once(self: Client, eventName: string, handler: (any) -> ()): () 
     return disconnect :: () -> ()
 end
 
+--[=[
+    Connects the client to Discord using the provided bot token.
+
+    This method establishes a WebSocket connection to the Discord Gateway and
+    authenticates with the provided token. The `ready` event will fire once
+    the connection is established and the client is ready to use.
+
+    @param token string -- Your Discord bot token
+]=]
 function Client.Login(self: Client, token: string)
     assert(type(token) == "string", "Expected token to be a string")
 
@@ -412,6 +475,12 @@ function Client.Login(self: Client, token: string)
     gateway:Connect()
 end
 
+--[=[
+    Disconnects the client from Discord and cleans up all resources.
+
+    After calling this method, the client can no longer be used. Create a new
+    Client instance if you need to reconnect.
+]=]
 function Client.Destroy(self: Client)
     if self.Gateway then
         self.Gateway:Disconnect()

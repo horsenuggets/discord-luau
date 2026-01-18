@@ -7,8 +7,30 @@ fields, images, author, footer, and more.
 
 --]]
 
-local Types = require("@self/Types")
+local Types = require("./Types")
 
+--[=[
+    @class Embed
+    @tag structure
+
+    Builder class for creating rich embed content for Discord messages.
+    Supports title, description, fields, images, author, footer, and more.
+
+    All setter methods return the Embed instance for method chaining.
+
+    ```lua
+    local embed = Discord.Embed.new()
+        :SetTitle("Hello World")
+        :SetDescription("This is an embed!")
+        :SetColor(0x5865F2)
+        :AddField("Field 1", "Value 1", true)
+        :AddField("Field 2", "Value 2", true)
+        :SetFooter("Footer text")
+        :SetTimestamp()
+
+    message:Reply({ embeds = { embed:ToJSON() } })
+    ```
+]=]
 local Embed = {}
 Embed.__index = Embed
 

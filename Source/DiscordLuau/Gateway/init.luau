@@ -11,10 +11,10 @@ local net = require("@lune/net")
 local serde = require("@lune/serde")
 local task = require("@lune/task")
 
-local GatewayCloseCode = require("@discordluau/Enums/GatewayCloseCode")
-local GatewayOpcode = require("@discordluau/Enums/GatewayOpcode")
-local Signal = require("@discordluau/Utils/Signal")
-local Types = require("@discordluau/Structures/Types")
+local GatewayCloseCode = require("../Enums/GatewayCloseCode")
+local GatewayOpcode = require("../Enums/GatewayOpcode")
+local Signal = require("../Utils/Signal")
+local Types = require("../Structures/Types")
 
 local GATEWAY_VERSION = 10
 local DEFAULT_GATEWAY_URL = `wss://gateway.discord.gg/?v={GATEWAY_VERSION}&encoding=json`

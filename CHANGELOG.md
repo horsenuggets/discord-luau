@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.4
+- Fixed internal requires to use relative paths for wally compatibility
+- Package now works correctly when installed as a wally dependency
+
 ## 0.1.3
 - Updated wally to 0.3.2-horse.4.1 with dev dependency isolation
 - Removed unnecessary [place] config from wally.toml

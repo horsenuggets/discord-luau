@@ -11,7 +11,7 @@ local net = require("@lune/net")
 local serde = require("@lune/serde")
 local task = require("@lune/task")
 
-local Types = require("@discordluau/Structures/Types")
+local Types = require("../Structures/Types")
 
 local API_VERSION = 10
 local API_BASE_URL = `https://discord.com/api/v{API_VERSION}`

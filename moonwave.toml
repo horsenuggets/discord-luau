@@ -1,0 +1,61 @@
+title = "discord-luau"
+gitRepoUrl = "https://github.com/horsenuggets/discord-luau"
+gitSourceBranch = "main"
+changelog = true
+
+classOrder = [
+    "Client",
+    "Guild",
+    "Channel",
+    "Message",
+    "Member",
+    "User",
+    "Role",
+    "Embed",
+    "Interaction",
+    "SlashCommandBuilder",
+    "VoiceState",
+]
+
+[docusaurus]
+onBrokenLinks = "warn"
+onBrokenMarkdownLinks = "warn"
+organizationName = "horsenuggets"
+projectName = "discord-luau"
+url = "https://horsenuggets.github.io"
+baseUrl = "/discord-luau/"
+tagline = "A comprehensive Discord API library for Luau"
+
+[footer]
+style = "dark"
+copyright = "Copyright © 2024 HorseNuggets. Built with Moonwave."
+
+[[navbar.items]]
+href = "https://github.com/horsenuggets/discord-luau"
+label = "GitHub"
+position = "right"
+
+[[home.features]]
+title = "Easy to Use"
+description = "Simple, intuitive API inspired by discord.js. Get your bot running in minutes."
+
+[[home.features]]
+title = "Full Discord API Support"
+description = "Complete Discord Gateway v10 and REST API support with comprehensive type definitions."
+
+[[home.features]]
+title = "Event-Driven"
+description = "Familiar event-driven architecture with support for all Discord gateway events."
+
+[apiCategories]
+[[apiCategories]]
+label = "Classes"
+tags = ["class"]
+
+[[apiCategories]]
+label = "Structures"
+tags = ["structure"]
+
+[[apiCategories]]
+label = "Enums"
+tags = ["enum"]

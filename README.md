@@ -57,12 +57,12 @@ client:On("ready", function()
     -- Create a slash command using the builder
     local pingCommand = Discord.SlashCommandBuilder.new()
         :SetName("ping")
-        :SetDescription("Check bot latency")
+        :SetDescription("Check bot latency.")
 
     local echoCommand = Discord.SlashCommandBuilder.new()
         :SetName("echo")
-        :SetDescription("Echo a message")
-        :AddStringOption("message", "The message to echo", { required = true })
+        :SetDescription("Echo a message.")
+        :AddStringOption("message", "The message to echo.", { required = true })
 
     -- Register commands globally
     client:SetGlobalCommands({ pingCommand, echoCommand })

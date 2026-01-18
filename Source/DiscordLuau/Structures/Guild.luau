@@ -6,10 +6,10 @@ Represents a Discord guild (server). Contains channels, members, roles, and guil
 
 --]]
 
-local Channel = require("@self/Channel")
-local Member = require("@self/Member")
-local Role = require("@self/Role")
-local Types = require("@self/Types")
+local Channel = require("./Channel")
+local Member = require("./Member")
+local Role = require("./Role")
+local Types = require("./Types")
 
 local Guild = {}
 Guild.__index = Guild
