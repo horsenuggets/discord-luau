@@ -372,6 +372,32 @@ function Lavalink.LoadTracks(self: Lavalink, identifier: string): Types.LoadResu
 end
 
 --[[
+    Loads a local audio file.
+
+    @param filePath - The absolute path to the audio file
+    @return Load result with track
+]]
+function Lavalink.LoadFile(self: Lavalink, filePath: string): Types.LoadResult
+    assert(type(filePath) == "string", "Expected filePath to be a string")
+
+    -- Ensure absolute path and normalize
+    local absolutePath = filePath
+    if not string.match(absolutePath, "^/") then
+        -- Relative path - this won't work for Lavalink, warn the user
+        return {
+            loadType = "error",
+            data = {
+                message = "File path must be absolute",
+                severity = "common",
+                cause = "Lavalink requires absolute file paths",
+            },
+        }
+    end
+
+    return self:LoadTracks(absolutePath)
+end
+
+--[[
     Sends a voice state update to Discord gateway.
 
     @param guildId - The guild ID
