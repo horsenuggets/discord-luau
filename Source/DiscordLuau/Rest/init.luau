@@ -75,7 +75,7 @@ function Rest._request(self: Rest, method: string, endpoint: string, body: { [st
     -- Handle rate limiting
     if response.statusCode == 429 then
         local retryAfter = tonumber(response.headers["retry-after"]) or 1
-        warn(`Rate limited. Retrying after {retryAfter} seconds.`)
+        warn(`Rate limited. Retrying after {retryAfter} {if retryAfter == 1 then "second" else "seconds"}.`)
         task.wait(retryAfter)
         return self:_request(method, endpoint, body, reason)
     end
