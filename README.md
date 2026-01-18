@@ -8,13 +8,13 @@ Add to your `wally.toml`:
 
 ```toml
 [dependencies]
-DiscordLuau = "horsenuggets/discord-luau@0.1.0"
+Discord = "horsenuggets/discord-luau@0.1.0"
 ```
 
 ## Quick Start
 
 ```luau
-local Discord = require("@packages/discord-luau")
+local Discord = require("@packages/Discord")
 local process = require("@lune/process")
 
 -- Create a client with intents
@@ -45,7 +45,7 @@ client:Login(process.env.DISCORD_BOT_TOKEN)
 ## Slash Commands
 
 ```luau
-local Discord = require("@packages/discord-luau")
+local Discord = require("@packages/Discord")
 local process = require("@lune/process")
 
 local client = Discord.Client.new({
@@ -89,7 +89,7 @@ client:Login(process.env.DISCORD_BOT_TOKEN)
 ## Embeds
 
 ```luau
-local Discord = require("@packages/discord-luau")
+local Discord = require("@packages/Discord")
 
 local embed = Discord.Embed.new()
     :SetTitle("Hello World")
