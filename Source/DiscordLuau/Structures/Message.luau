@@ -7,15 +7,15 @@ methods for replying, reacting, and editing.
 
 --]]
 
-local Member = require("@self/Member")
-local Types = require("@self/Types")
-local User = require("@self/User")
+local Member = require("./Member")
+local Types = require("./Types")
+local User = require("./User")
 
 -- Deferred require to avoid circular dependency with Channel
 local Channel: any = nil
 local function getChannel()
     if not Channel then
-        Channel = require("@self/Channel")
+        Channel = require("./Channel")
     end
     return Channel
 end

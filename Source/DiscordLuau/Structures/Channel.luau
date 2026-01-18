@@ -7,7 +7,7 @@ channels, each with different capabilities.
 
 --]]
 
-local Types = require("@self/Types")
+local Types = require("./Types")
 
 --[=[
     @class Channel

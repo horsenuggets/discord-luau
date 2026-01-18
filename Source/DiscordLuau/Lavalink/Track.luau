@@ -6,7 +6,7 @@ Represents an audio track from Lavalink with metadata like title, author, durati
 
 --]]
 
-local Types = require("@self/Types")
+local Types = require("./Types")
 
 local Track = {}
 Track.__index = Track

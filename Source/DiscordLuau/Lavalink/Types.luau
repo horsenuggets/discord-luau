@@ -6,7 +6,7 @@ Type definitions for Lavalink API structures and responses.
 
 --]]
 
-local DiscordTypes = require("@discordluau/Structures/Types")
+local DiscordTypes = require("../Structures/Types")
 
 export type TrackInfo = {
     identifier: string,

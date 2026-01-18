@@ -6,7 +6,7 @@ Represents a Discord user. Contains user information like username, avatar, and 
 
 --]]
 
-local Types = require("@self/Types")
+local Types = require("./Types")
 
 --[=[
     @class User

@@ -9,17 +9,17 @@ access to guilds, channels, users, and other Discord resources.
 
 local task = require("@lune/task")
 
-local Channel = require("@discordluau/Structures/Channel")
-local Gateway = require("@discordluau/Gateway")
-local GatewayIntent = require("@discordluau/Enums/GatewayIntent")
-local Guild = require("@discordluau/Structures/Guild")
-local Interaction = require("@discordluau/Structures/Interaction")
-local Member = require("@discordluau/Structures/Member")
-local Message = require("@discordluau/Structures/Message")
-local Rest = require("@discordluau/Rest")
-local Types = require("@discordluau/Structures/Types")
-local User = require("@discordluau/Structures/User")
-local VoiceState = require("@discordluau/Structures/VoiceState")
+local Channel = require("../Structures/Channel")
+local Gateway = require("../Gateway")
+local GatewayIntent = require("../Enums/GatewayIntent")
+local Guild = require("../Structures/Guild")
+local Interaction = require("../Structures/Interaction")
+local Member = require("../Structures/Member")
+local Message = require("../Structures/Message")
+local Rest = require("../Rest")
+local Types = require("../Structures/Types")
+local User = require("../Structures/User")
+local VoiceState = require("../Structures/VoiceState")
 
 --[=[
     @class Client

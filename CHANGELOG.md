@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.6
+- Fixed wally package requiring by restructuring init.luau files
+- Moved implementation from init.luau to regular .luau files for correct path resolution
+- Package now works correctly when installed as a wally dependency
+
 ## 0.1.5
 - Fixed docs workflow by using correct build command
 
