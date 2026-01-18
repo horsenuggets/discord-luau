@@ -7,7 +7,7 @@ and immediate fire callbacks.
 
 --]]
 
-local Connection = require("@self/Connection")
+local Connection = require("./Connection")
 local task = require("@lune/task")
 
 local Signal = {}

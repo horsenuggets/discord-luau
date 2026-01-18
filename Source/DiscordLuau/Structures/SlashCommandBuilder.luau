@@ -7,8 +7,8 @@ subcommands, and permission requirements.
 
 --]]
 
-local ApplicationCommandOptionType = require("@discordluau/Enums/ApplicationCommandOptionType")
-local ApplicationCommandType = require("@discordluau/Enums/ApplicationCommandType")
+local ApplicationCommandOptionType = require("../Enums/ApplicationCommandOptionType")
+local ApplicationCommandType = require("../Enums/ApplicationCommandType")
 
 --[=[
     @class SlashCommandBuilder

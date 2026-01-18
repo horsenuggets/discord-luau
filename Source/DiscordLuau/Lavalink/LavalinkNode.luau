@@ -11,10 +11,10 @@ local net = require("@lune/net")
 local serde = require("@lune/serde")
 local task = require("@lune/task")
 
-local Signal = require("@discordluau/Utils/Signal")
+local Signal = require("../Utils/Signal")
 
-local LavalinkRest = require("@self/LavalinkRest")
-local Types = require("@self/Types")
+local LavalinkRest = require("./LavalinkRest")
+local Types = require("./Types")
 
 local LavalinkNode = {}
 LavalinkNode.__index = LavalinkNode

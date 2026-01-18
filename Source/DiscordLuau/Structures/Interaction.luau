@@ -7,11 +7,11 @@ for responding to it.
 
 --]]
 
-local InteractionResponseType = require("@discordluau/Enums/InteractionResponseType")
-local InteractionType = require("@discordluau/Enums/InteractionType")
-local Member = require("@self/Member")
-local Types = require("@self/Types")
-local User = require("@self/User")
+local InteractionResponseType = require("../Enums/InteractionResponseType")
+local InteractionType = require("../Enums/InteractionType")
+local Member = require("./Member")
+local Types = require("./Types")
+local User = require("./User")
 
 --[=[
     @class Interaction

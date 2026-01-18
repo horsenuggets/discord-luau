@@ -7,7 +7,7 @@ voice channel they are in, their mute/deaf status, and streaming state.
 
 --]]
 
-local Types = require("@self/Types")
+local Types = require("./Types")
 
 local VoiceState = {}
 VoiceState.__index = VoiceState
