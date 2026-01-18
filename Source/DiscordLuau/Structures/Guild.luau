@@ -11,6 +11,13 @@ local Member = require("@self/Member")
 local Role = require("@self/Role")
 local Types = require("@self/Types")
 
+--[=[
+    @class Guild
+    @tag structure
+
+    Represents a Discord guild (server). Contains channels, members, roles,
+    and guild settings. Provides methods for managing the guild.
+]=]
 local Guild = {}
 Guild.__index = Guild
 
