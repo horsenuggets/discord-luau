@@ -13,6 +13,21 @@ local Member = require("@self/Member")
 local Types = require("@self/Types")
 local User = require("@self/User")
 
+--[=[
+    @class Interaction
+    @tag structure
+
+    Represents a Discord interaction such as a slash command, button click, select menu,
+    or modal submission. Provides methods for replying, deferring, and editing responses.
+
+    ```lua
+    client:On("interactionCreate", function(interaction)
+        if interaction:IsCommand() and interaction.CommandName == "ping" then
+            interaction:Reply("Pong!")
+        end
+    end)
+    ```
+]=]
 local Interaction = {}
 Interaction.__index = Interaction
 

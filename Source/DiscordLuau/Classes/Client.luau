@@ -21,6 +21,31 @@ local Types = require("@discordluau/Structures/Types")
 local User = require("@discordluau/Structures/User")
 local VoiceState = require("@discordluau/Structures/VoiceState")
 
+--[=[
+    @class Client
+    @tag class
+
+    The main Discord client class that handles connection to Discord, event management,
+    and provides access to guilds, channels, users, and other Discord resources.
+
+    ```lua
+    local Discord = require("@packages/Discord")
+
+    local client = Discord.Client.new({
+        intents = {
+            Discord.Intents.Guilds,
+            Discord.Intents.GuildMessages,
+            Discord.Intents.MessageContent,
+        },
+    })
+
+    client:On("ready", function()
+        print("Logged in as " .. client.User:GetTag())
+    end)
+
+    client:Login(process.env.DISCORD_BOT_TOKEN)
+    ```
+]=]
 local Client = {}
 Client.__index = Client
 

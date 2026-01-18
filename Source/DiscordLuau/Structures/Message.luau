@@ -20,6 +20,21 @@ local function getChannel()
     return Channel
 end
 
+--[=[
+    @class Message
+    @tag structure
+
+    Represents a Discord message with content, author, attachments, and embeds.
+    Provides methods for replying, reacting, editing, and deleting.
+
+    ```lua
+    client:On("messageCreate", function(message)
+        if message.Content == "!ping" then
+            message:Reply("Pong!")
+        end
+    end)
+    ```
+]=]
 local Message = {}
 Message.__index = Message
 

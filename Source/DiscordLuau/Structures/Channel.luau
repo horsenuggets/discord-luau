@@ -9,6 +9,13 @@ channels, each with different capabilities.
 
 local Types = require("@self/Types")
 
+--[=[
+    @class Channel
+    @tag structure
+
+    Represents a Discord channel. Channels can be text, voice, category, thread,
+    forum, or DM channels. Provides methods for sending messages and managing permissions.
+]=]
 local Channel = {}
 Channel.__index = Channel
 
