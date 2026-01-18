@@ -1,3 +1,6 @@
+[place]
+shared-packages = "game.ReplicatedStorage.Packages"
+
 [package]
 name = "horsenuggets/discord-luau"
 description = "A comprehensive Discord API library for Luau, inspired by discord.js."
