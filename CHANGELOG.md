@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.4
+- Added Moonwave documentation configuration
+- Added GitHub Actions workflow for deploying docs to GitHub Pages
+- Added doc comments to core structures for API documentation
+
 ## 0.1.3
 - Updated wally to 0.3.2-horse.4.1 with dev dependency isolation
 - Removed unnecessary [place] config from wally.toml
