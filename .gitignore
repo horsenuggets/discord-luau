@@ -10,6 +10,7 @@
 *.rbxm
 *.rbxmx
 Build
+build
 Dependencies
 DevPackages
 Packages

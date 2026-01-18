@@ -8,6 +8,21 @@ Represents a Discord user. Contains user information like username, avatar, and 
 
 local Types = require("@self/Types")
 
+--[=[
+    @class User
+    @tag structure
+
+    Represents a Discord user with their profile information including username,
+    avatar, banner, and flags. Provides methods for getting avatar URLs and display names.
+
+    ```lua
+    client:On("messageCreate", function(message)
+        local user = message.Author
+        print(user:GetTag()) -- "Username#0000" or "username"
+        print(user:GetDisplayAvatarUrl()) -- Avatar URL
+    end)
+    ```
+]=]
 local User = {}
 User.__index = User
 
