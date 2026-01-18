@@ -1,1 +1,1 @@
-return require("./Rest")
+return require("@self/Rest")

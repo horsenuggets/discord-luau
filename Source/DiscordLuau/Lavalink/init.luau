@@ -1,1 +1,1 @@
-return require("./Lavalink")
+return require("@self/Lavalink")

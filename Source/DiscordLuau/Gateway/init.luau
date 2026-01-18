@@ -1,1 +1,1 @@
-return require("./Gateway")
+return require("@self/Gateway")
