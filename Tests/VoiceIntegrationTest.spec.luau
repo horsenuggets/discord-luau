@@ -30,6 +30,9 @@ local LAVALINK_HOST = process.env.LAVALINK_HOST
 local LAVALINK_PORT = process.env.LAVALINK_PORT
 local LAVALINK_PASSWORD = process.env.LAVALINK_PASSWORD
 
+-- Test audio file path - use local file for testing
+local TEST_AUDIO_PATH = `{string.gsub(process.cwd, "/$", "")}/Tests/Fixtures/QuickTest.mp3`
+
 -- Check if voice tests should run
 local function shouldRunVoiceTests(): boolean
     return BOT_TOKEN ~= nil
@@ -410,15 +413,15 @@ return function()
                     return
                 end
 
-                -- Search for a short test track
-                local result = lavalink:Search("test audio 10 seconds", "ytsearch")
+                -- Load the test audio file from local path
+                local result = lavalink:LoadTracks(TEST_AUDIO_PATH)
 
-                if result.loadType ~= "search" or #result.data == 0 then
-                    -- Skip if no results
+                if result.loadType ~= "track" or not result.data then
                     return
                 end
 
-                local track = result.data[1]
+                -- result.data has lowercase keys (API response), use encoded directly
+                local trackEncoded = result.data.encoded
 
                 -- Set up track start listener
                 local trackStarted = false
@@ -427,7 +430,7 @@ return function()
                 end)
 
                 -- Play the track
-                player:Play(track)
+                player:Play(trackEncoded)
 
                 -- Wait for track to start (max 5 seconds)
                 local startTime = os.clock()
@@ -438,6 +441,9 @@ return function()
                 expect(trackStarted).to.equal(true)
                 expect(player.Playing).to.equal(true)
                 expect(player.CurrentTrack).to.be.ok()
+
+                -- Let it play for 3 seconds so audio is actually heard
+                task.wait(3)
             end)
 
             it("should pause and resume", function()
