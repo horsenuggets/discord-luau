@@ -6,6 +6,11 @@ RunTests
 
 Executes all test suites and exits with appropriate status code.
 
+Usage:
+    lune run Scripts/RunTests              -- Run all tests
+    lune run Scripts/RunTests Voice        -- Run tests matching "Voice"
+    lune run Scripts/RunTests Voice Lava   -- Run tests matching "Voice" or "Lava"
+
 --]]
 
 local Testable = require("@devpackages/Testable")
@@ -21,7 +26,7 @@ Testable.configure({
     Parallel = false,
 })
 
-local TESTS = {
+local ALL_TESTS = {
     { Name = "ChannelTest", Func = require("@tests/ChannelTest.spec") },
     { Name = "ClientTest", Func = require("@tests/ClientTest.spec") },
     { Name = "ConnectionTest", Func = require("@tests/ConnectionTest.spec") },
@@ -42,8 +47,40 @@ local TESTS = {
     { Name = "VoiceStateTest", Func = require("@tests/VoiceStateTest.spec") },
 }
 
+local function filterTests(filters: { string }): { { Name: string, Func: () -> () } }
+    if #filters == 0 then
+        return ALL_TESTS
+    end
+
+    local filtered = {}
+    for _, test in ALL_TESTS do
+        for _, filter in filters do
+            if string.find(string.lower(test.Name), string.lower(filter)) then
+                table.insert(filtered, test)
+                break
+            end
+        end
+    end
+    return filtered
+end
+
 local function runTests()
-    local _, passed = Testable.run(TESTS)
+    local tests = filterTests(process.args)
+
+    if #tests == 0 then
+        print("No tests matched the provided filters.")
+        process.exit(1)
+    end
+
+    if #process.args > 0 then
+        local names = {}
+        for _, test in tests do
+            table.insert(names, test.Name)
+        end
+        print(`Running {#tests} test suite(s): {table.concat(names, ", ")}`)
+    end
+
+    local _, passed = Testable.run(tests)
     process.exit(if passed then 0 else 1)
 end
 

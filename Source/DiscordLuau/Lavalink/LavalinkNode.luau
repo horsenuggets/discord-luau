@@ -176,20 +176,17 @@ function LavalinkNode._listen(self: LavalinkNode)
         end
 
         if message == nil then
-            -- Connection closed
+            -- Connection closed - check close code
+            local closeCode = self._socket.closeCode
             self.Connected = false
-            self.OnDisconnect:Fire(nil, "Connection closed")
+            self.OnDisconnect:Fire(closeCode, "Connection closed")
             self:_handleReconnect()
             break
         end
 
-        if message.type == "text" then
-            self:_handleMessage(message.data)
-        elseif message.type == "close" then
-            self.Connected = false
-            self.OnDisconnect:Fire(message.code, message.reason)
-            self:_handleReconnect()
-            break
+        -- Lune WebSocket returns messages as strings directly
+        if type(message) == "string" then
+            self:_handleMessage(message)
         end
     end
 end
