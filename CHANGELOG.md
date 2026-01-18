@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.3
+- Updated wally to 0.3.2-horse.4.1 with dev dependency isolation
+- Removed unnecessary [place] config from wally.toml
+- Added workflow_dispatch trigger to release-checks workflow
+
 ## 0.1.2
 - Replaced built-in LoadEnv with dotenv-luau package
 
