@@ -183,13 +183,18 @@ function LavalinkNode._listen(self: LavalinkNode)
             break
         end
 
-        if message.type == "text" then
-            self:_handleMessage(message.data)
-        elseif message.type == "close" then
-            self.Connected = false
-            self.OnDisconnect:Fire(message.code, message.reason)
-            self:_handleReconnect()
-            break
+        -- Lune WebSocket returns messages as strings or tables with type field
+        if type(message) == "string" then
+            self:_handleMessage(message)
+        elseif type(message) == "table" then
+            if message.type == "text" then
+                self:_handleMessage(message.data)
+            elseif message.type == "close" then
+                self.Connected = false
+                self.OnDisconnect:Fire(message.code, message.reason)
+                self:_handleReconnect()
+                break
+            end
         end
     end
 end
