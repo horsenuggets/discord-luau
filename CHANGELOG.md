@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.2
+- Replaced built-in LoadEnv with dotenv-luau package
+
 ## 0.1.1
 - Added Lavalink setup script for easy local development
 - Added LoadFile method for loading local audio files
