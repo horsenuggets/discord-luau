@@ -15,9 +15,9 @@ local Testable = require("@devpackages/Testable")
 local process = require("@lune/process")
 local stdio = require("@lune/stdio")
 
--- Load environment variables from .env file
-local loadEnv = require("@self/LoadEnv")
-loadEnv()
+-- Load environment variables from .env file (optional)
+local Dotenv = require("@devpackages/Dotenv")
+pcall(Dotenv.load)
 
 -- Disable parallel execution for integration tests that make API calls
 -- This prevents rate limiting issues with the Discord API
