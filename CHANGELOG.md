@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.5
+- Fixed docs workflow by using correct build command
+
 ## 0.1.4
 - Added Moonwave documentation configuration
 - Added GitHub Actions workflow for deploying docs to GitHub Pages
