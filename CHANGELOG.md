@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.1
+- Added Lavalink setup script for easy local development
+- Added LoadFile method for loading local audio files
+- Added separate tests for mp3 and wav audio playback
+- Fixed WebSocket message handling for Lune compatibility
+- Removed TestBot script (now covered by unit tests)
+
 ## 0.1.0
 - Added VoiceState structure for tracking voice channel connections
 - Added Lavalink audio integration module for music playback
