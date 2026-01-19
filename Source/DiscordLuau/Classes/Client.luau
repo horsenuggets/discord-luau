@@ -67,6 +67,12 @@ export type Client = typeof(setmetatable(
     Client
 ))
 
+--[=[
+    Creates a new Discord client instance.
+
+    @param options ClientOptions? -- Optional configuration including intents
+    @return Client -- The new client instance
+]=]
 function Client.new(options: Types.ClientOptions?): Client
     local self = setmetatable({}, Client)
 
@@ -384,6 +390,13 @@ function Client._emit(self: Client, eventName: string, ...: any)
     end
 end
 
+--[=[
+    Registers an event handler for the specified event.
+
+    @param eventName string -- The name of the event to listen for
+    @param handler function -- The callback function to execute when the event fires
+    @return function -- A function that disconnects the event handler when called
+]=]
 function Client.On(self: Client, eventName: string, handler: (any) -> ()): () -> ()
     assert(type(eventName) == "string", "Expected eventName to be a string")
     assert(type(handler) == "function", "Expected handler to be a function")
@@ -408,6 +421,13 @@ function Client.On(self: Client, eventName: string, handler: (any) -> ()): () ->
     end
 end
 
+--[=[
+    Registers a one-time event handler that automatically disconnects after firing once.
+
+    @param eventName string -- The name of the event to listen for
+    @param handler function -- The callback function to execute when the event fires
+    @return function -- A function that disconnects the event handler when called
+]=]
 function Client.Once(self: Client, eventName: string, handler: (any) -> ()): () -> ()
     assert(type(eventName) == "string", "Expected eventName to be a string")
     assert(type(handler) == "function", "Expected handler to be a function")
@@ -424,6 +444,11 @@ function Client.Once(self: Client, eventName: string, handler: (any) -> ()): () 
     return disconnect :: () -> ()
 end
 
+--[=[
+    Logs in to Discord with the provided bot token.
+
+    @param token string -- The bot token from Discord Developer Portal
+]=]
 function Client.Login(self: Client, token: string)
     assert(type(token) == "string", "Expected token to be a string")
 
@@ -437,6 +462,9 @@ function Client.Login(self: Client, token: string)
     gateway:Connect()
 end
 
+--[=[
+    Disconnects from Discord and cleans up all resources.
+]=]
 function Client.Destroy(self: Client)
     if self.Gateway then
         self.Gateway:Disconnect()
@@ -455,24 +483,48 @@ function Client.Destroy(self: Client)
     table.clear(self._eventHandlers)
 end
 
+--[=[
+    Gets a cached guild by ID.
+
+    @param guildId string -- The guild's snowflake ID
+    @return Guild? -- The guild if cached, nil otherwise
+]=]
 function Client.GetGuild(self: Client, guildId: Types.Snowflake): Guild.Guild?
     assert(type(guildId) == "string", "Expected guildId to be a string")
 
     return self.Guilds[guildId]
 end
 
+--[=[
+    Gets a cached channel by ID.
+
+    @param channelId string -- The channel's snowflake ID
+    @return Channel? -- The channel if cached, nil otherwise
+]=]
 function Client.GetChannel(self: Client, channelId: Types.Snowflake): Channel.Channel?
     assert(type(channelId) == "string", "Expected channelId to be a string")
 
     return self.Channels[channelId]
 end
 
+--[=[
+    Gets a cached user by ID.
+
+    @param userId string -- The user's snowflake ID
+    @return User? -- The user if cached, nil otherwise
+]=]
 function Client.GetUser(self: Client, userId: Types.Snowflake): User.User?
     assert(type(userId) == "string", "Expected userId to be a string")
 
     return self.Users[userId]
 end
 
+--[=[
+    Fetches a guild from the Discord API and caches it.
+
+    @param guildId string -- The guild's snowflake ID
+    @return Guild -- The fetched guild
+]=]
 function Client.FetchGuild(self: Client, guildId: Types.Snowflake): Guild.Guild
     assert(type(guildId) == "string", "Expected guildId to be a string")
     assert(self.Rest, "Client is not logged in")
@@ -562,6 +614,12 @@ function Client.RegisterGuildCommand(
     return self.Rest:CreateGuildApplicationCommand(self.Application.id, guildId, data)
 end
 
+--[=[
+    Bulk overwrites all global slash commands for the application.
+
+    @param commands {SlashCommandBuilder} -- Array of slash command builders or command data
+    @return {APIApplicationCommand} -- The registered commands
+]=]
 function Client.SetGlobalCommands(
     self: Client,
     commands: { { [string]: any } | { ToJSON: (any) -> { [string]: any } } }
