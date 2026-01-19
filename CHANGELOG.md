@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.8
+- Added version-match CI check to ensure README version stays in sync
+- Fixed README version to match VERSION file
+
 ## 0.1.7
 - Added Moonwave function documentation to Client class methods
 - Fixed API documentation extraction by specifying source directory
