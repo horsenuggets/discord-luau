@@ -1,7 +1,7 @@
 [package]
 name = "horsenuggets/discord-luau"
 description = "A comprehensive Discord API library for Luau, inspired by discord.js."
-version = "0.1.7"
+version = "0.1.8"
 license = "MIT"
 realm = "shared"
 registry = "https://github.com/UpliftGames/wally-index"
