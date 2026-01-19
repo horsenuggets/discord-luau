@@ -31,12 +31,7 @@ tagline = "A comprehensive Discord API library for Luau"
 
 [footer]
 style = "dark"
-copyright = "Copyright © 2024 HorseNuggets. Built with Moonwave."
-
-[[navbar.items]]
-href = "https://github.com/horsenuggets/discord-luau"
-label = "GitHub"
-position = "right"
+copyright = "Copyright © 2026 HorseNuggets. Built with Moonwave."
 
 [[home.features]]
 title = "Easy to Use"
