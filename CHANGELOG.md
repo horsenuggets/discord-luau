@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.7
+- Added Moonwave function documentation to Client class methods
+- Fixed API documentation extraction by specifying source directory
+
 ## 0.1.6
 - Fixed wally package requiring by restructuring init.luau files
 - Moved implementation from init.luau to regular .luau files for correct path resolution
