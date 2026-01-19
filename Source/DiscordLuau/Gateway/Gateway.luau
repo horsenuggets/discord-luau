@@ -326,7 +326,21 @@ end
 function Gateway.UpdatePresence(self: Gateway, presence: Types.GatewayPresenceUpdateData)
     assert(type(presence) == "table", "Expected presence to be a table")
 
-    self:_sendPayload(GatewayOpcode.PresenceUpdate, presence)
+    -- Discord requires the `since` field to be present (as null when not idle).
+    -- Luau's serde omits nil values, so we manually construct the JSON to include "since":null.
+    if not self._webSocket then
+        return
+    end
+
+    local activitiesJson = serde.encode("json", presence.activities or {})
+    local statusJson = serde.encode("json", presence.status or "online")
+    local afkJson = presence.afk and "true" or "false"
+    local sinceJson = if presence.since then tostring(presence.since) else "null"
+
+    local dataJson = `\{"since":{sinceJson},"activities":{activitiesJson},"status":{statusJson},"afk":{afkJson}\}`
+    local payload = `\{"op":{GatewayOpcode.PresenceUpdate},"d":{dataJson}\}`
+
+    self._webSocket:send(payload)
 end
 
 function Gateway.RequestGuildMembers(

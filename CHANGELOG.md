@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.9
+- Fixed presence update payload missing required `since` field causing repeated reconnections
+
 ## 0.1.8
 - Added version-match CI check to ensure README version stays in sync
 - Fixed README version to match VERSION file
