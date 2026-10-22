@@ -16,3 +16,10 @@ DevPackages
 Packages
 sourcemap.json
 Tools
+
+# Project
+/CONTEXT.md
+
+# Worktrees
+/.worktrees/
+/.wt/
