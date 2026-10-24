@@ -7,9 +7,9 @@ voice channel they are in, their mute/deaf status, and streaming state.
 
 --]]
 
-local Types = require("./Types")
+const Types = require("./Types")
 
-local VoiceState = {}
+const VoiceState = {}
 VoiceState.__index = VoiceState
 
 export type VoiceState = typeof(setmetatable(
@@ -38,7 +38,7 @@ function VoiceState.new(client: Types.Client, data: Types.APIVoiceState, guild: 
     assert(type(client) == "table", "Expected client to be a table")
     assert(type(data) == "table", "Expected data to be a table")
 
-    local self = setmetatable({}, VoiceState)
+    const self = setmetatable({}, VoiceState)
 
     self.Client = client
     self.Guild = guild
@@ -112,7 +112,7 @@ function VoiceState.IsSuppressed(self: VoiceState): boolean
 end
 
 function VoiceState.__tostring(self: VoiceState): string
-    local channelPart = self.ChannelId or "none"
+    const channelPart = self.ChannelId or "none"
     return `VoiceState({self.UserId} in {channelPart})`
 end
 

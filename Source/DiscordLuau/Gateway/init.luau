@@ -1,4 +1,4 @@
-local Gateway = require("@self/Gateway")
+const Gateway = require("@self/Gateway")
 
 export type Gateway = Gateway.Gateway
 

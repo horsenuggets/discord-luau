@@ -6,16 +6,16 @@ Tests for the Client class.
 
 --]]
 
-local Client = require("@discordluau/Classes/Client")
-local GatewayIntent = require("@discordluau/Enums/GatewayIntent")
-local MockClient = require("./Helpers/MockClient")
-local MockData = require("./Helpers/MockData")
-local TestUtils = require("./Helpers/TestUtils")
+const Client = require("@discordluau/Classes/Client")
+const GatewayIntent = require("@discordluau/Enums/GatewayIntent")
+const MockClient = require("./Helpers/MockClient")
+const MockData = require("./Helpers/MockData")
+const TestUtils = require("./Helpers/TestUtils")
 
 return function()
     describe("Client.new", function()
         it("should create a client with default options", function()
-            local client = Client.new()
+            const client = Client.new()
             expect(client).to.be.ok()
             expect(client.Guilds).to.be.a("table")
             expect(client.Channels).to.be.a("table")
@@ -23,36 +23,36 @@ return function()
         end)
 
         it("should create a client with numeric intents", function()
-            local intents = bit32.bor(GatewayIntent.Guilds, GatewayIntent.GuildMessages)
-            local client = Client.new({ intents = intents })
+            const intents = bit32.bor(GatewayIntent.Guilds, GatewayIntent.GuildMessages)
+            const client = Client.new({ intents = intents })
             expect(client._intents).to.equal(intents)
         end)
 
         it("should create a client with array intents", function()
-            local client = Client.new({
+            const client = Client.new({
                 intents = { GatewayIntent.Guilds, GatewayIntent.GuildMessages, GatewayIntent.GuildMembers },
             })
 
-            local expected = bit32.bor(GatewayIntent.Guilds, GatewayIntent.GuildMessages, GatewayIntent.GuildMembers)
+            const expected = bit32.bor(GatewayIntent.Guilds, GatewayIntent.GuildMessages, GatewayIntent.GuildMembers)
             expect(client._intents).to.equal(expected)
         end)
 
         it("should initialize empty collections", function()
-            local client = Client.new()
+            const client = Client.new()
             expect(next(client.Guilds)).to.equal(nil)
             expect(next(client.Channels)).to.equal(nil)
             expect(next(client.Users)).to.equal(nil)
         end)
 
         it("should have _createMessage factory function", function()
-            local client = Client.new()
+            const client = Client.new()
             expect(client._createMessage).to.be.a("function")
         end)
     end)
 
     describe("Event handling", function()
         it("should register event handlers", function()
-            local client = Client.new()
+            const client = Client.new()
             local called = false
 
             client:On("test", function()
@@ -64,7 +64,7 @@ return function()
         end)
 
         it("should call handlers with arguments", function()
-            local client = Client.new()
+            const client = Client.new()
             local receivedArgs = nil
 
             client:On("test", function(arg1, arg2)
@@ -77,7 +77,7 @@ return function()
         end)
 
         it("should support multiple handlers", function()
-            local client = Client.new()
+            const client = Client.new()
             local count = 0
 
             client:On("test", function()
@@ -92,10 +92,10 @@ return function()
         end)
 
         it("should return disconnect function", function()
-            local client = Client.new()
+            const client = Client.new()
             local count = 0
 
-            local disconnect = client:On("test", function()
+            const disconnect = client:On("test", function()
                 count += 1
             end)
 
@@ -108,7 +108,7 @@ return function()
         end)
 
         it("should validate eventName type", function()
-            local client = Client.new()
+            const client = Client.new()
 
             expect(function()
                 client:On(123 :: any, function() end)
@@ -116,7 +116,7 @@ return function()
         end)
 
         it("should validate handler type", function()
-            local client = Client.new()
+            const client = Client.new()
 
             expect(function()
                 client:On("test", "not a function" :: any)
@@ -126,7 +126,7 @@ return function()
 
     describe("Once", function()
         it("should fire handler only once", function()
-            local client = Client.new()
+            const client = Client.new()
             local count = 0
 
             client:Once("test", function()
@@ -139,10 +139,10 @@ return function()
         end)
 
         it("should return disconnect function", function()
-            local client = Client.new()
+            const client = Client.new()
             local called = false
 
-            local disconnect = client:Once("test", function()
+            const disconnect = client:Once("test", function()
                 called = true
             end)
 
@@ -161,7 +161,7 @@ return function()
 
         describe("GetGuild", function()
             it("should return cached guild", function()
-                local guild = client:GetGuild(MockData.Snowflakes.GuildId)
+                const guild = client:GetGuild(MockData.Snowflakes.GuildId)
                 expect(guild).to.be.ok()
                 expect(guild.Id).to.equal(MockData.Snowflakes.GuildId)
             end)
@@ -179,7 +179,7 @@ return function()
 
         describe("GetChannel", function()
             it("should return cached channel", function()
-                local channel = client:GetChannel(MockData.Snowflakes.ChannelId)
+                const channel = client:GetChannel(MockData.Snowflakes.ChannelId)
                 expect(channel).to.be.ok()
                 expect(channel.Id).to.equal(MockData.Snowflakes.ChannelId)
             end)
@@ -197,7 +197,7 @@ return function()
 
         describe("GetUser", function()
             it("should return cached user", function()
-                local user = client:GetUser(MockData.Snowflakes.UserId)
+                const user = client:GetUser(MockData.Snowflakes.UserId)
                 expect(user).to.be.ok()
                 expect(user.Id).to.equal(MockData.Snowflakes.UserId)
             end)
@@ -216,25 +216,25 @@ return function()
 
     describe("IsReady", function()
         it("should return false when not ready", function()
-            local client = Client.new()
+            const client = Client.new()
             expect(client:IsReady()).to.equal(false)
         end)
 
         it("should return true when ready", function()
-            local client = MockClient.newWithData()
+            const client = MockClient.newWithData()
             expect(client:IsReady()).to.equal(true)
         end)
     end)
 
     describe("GetUptime", function()
         it("should return nil when not ready", function()
-            local client = Client.new()
+            const client = Client.new()
             expect(client:GetUptime()).to.equal(nil)
         end)
 
         it("should return uptime when ready", function()
-            local client = MockClient.newWithData()
-            local uptime = client:GetUptime()
+            const client = MockClient.newWithData()
+            const uptime = client:GetUptime()
             expect(uptime).to.be.a("number")
             expect(uptime >= 0).to.equal(true)
         end)
@@ -242,7 +242,7 @@ return function()
 
     describe("Destroy", function()
         it("should clear all state", function()
-            local client = MockClient.newWithData()
+            const client = MockClient.newWithData()
 
             -- Add some handlers
             client:On("test", function() end)
@@ -268,12 +268,12 @@ return function()
 
     describe("__tostring", function()
         it("should return not logged in when no user", function()
-            local client = Client.new()
+            const client = Client.new()
             expect(tostring(client)).to.equal("Client(not logged in)")
         end)
 
         it("should return client with user tag when logged in", function()
-            local client = MockClient.newWithData()
+            const client = MockClient.newWithData()
             expect(TestUtils.contains(tostring(client), "Client(")).to.equal(true)
         end)
     end)

@@ -7,7 +7,7 @@ type, but system messages have special types.
 
 --]]
 
-local MessageType = table.freeze({
+const MessageType = table.freeze({
     -- A default message
     Default = 0,
     -- A recipient was added to a group DM

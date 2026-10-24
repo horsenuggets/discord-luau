@@ -7,7 +7,7 @@ payload being sent or received through the gateway connection.
 
 --]]
 
-local GatewayOpcode = table.freeze({
+const GatewayOpcode = table.freeze({
     -- Receive: An event was dispatched
     Dispatch = 0,
     -- Send/Receive: Fired periodically to keep connection alive

@@ -7,11 +7,11 @@ for responding to it.
 
 --]]
 
-local InteractionResponseType = require("../Enums/InteractionResponseType")
-local InteractionType = require("../Enums/InteractionType")
-local Member = require("./Member")
-local Types = require("./Types")
-local User = require("./User")
+const InteractionResponseType = require("../Enums/InteractionResponseType")
+const InteractionType = require("../Enums/InteractionType")
+const Member = require("./Member")
+const Types = require("./Types")
+const User = require("./User")
 
 --[=[
     @class Interaction
@@ -28,7 +28,7 @@ local User = require("./User")
     end)
     ```
 ]=]
-local Interaction = {}
+const Interaction = {}
 Interaction.__index = Interaction
 
 export type InteractionReplyOptions = {
@@ -70,7 +70,7 @@ export type Interaction = typeof(setmetatable(
 ))
 
 function Interaction.new(client: any, data: Types.APIInteraction): Interaction
-    local self = setmetatable({}, Interaction)
+    const self = setmetatable({}, Interaction)
 
     self._client = client
     self._deferred = false
@@ -91,7 +91,7 @@ function Interaction.new(client: any, data: Types.APIInteraction): Interaction
     -- Parse user/member
     if data.member then
         -- Get guild from cache if available
-        local guild = data.guild_id and client:GetGuild(data.guild_id) or nil
+        const guild = data.guild_id and client:GetGuild(data.guild_id) or nil
         if guild then
             self.Member = Member.new(client, guild, data.member)
         end
@@ -141,7 +141,7 @@ function Interaction._parseOptions(
             if resolved then
                 if option.type == 6 and resolved.users then
                     -- User type
-                    local userData = resolved.users[tostring(value)]
+                    const userData = resolved.users[tostring(value)]
                     if userData then
                         value = User.new(self._client, userData)
                     end

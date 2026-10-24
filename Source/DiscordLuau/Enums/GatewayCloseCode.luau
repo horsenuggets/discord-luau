@@ -7,7 +7,7 @@ These codes help identify why the connection was closed and what action to take.
 
 --]]
 
-local GatewayCloseCode = table.freeze({
+const GatewayCloseCode = table.freeze({
     -- Unknown error; try reconnecting
     UnknownError = 4000,
     -- Invalid Gateway opcode or payload

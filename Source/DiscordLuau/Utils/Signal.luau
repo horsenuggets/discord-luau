@@ -7,10 +7,10 @@ and immediate fire callbacks.
 
 --]]
 
-local Connection = require("./Connection")
-local task = require("@lune/task")
+const Connection = require("./Connection")
+const task = require("@lune/task")
 
-local Signal = {}
+const Signal = {}
 Signal.__index = Signal
 
 export type Signal<T...> = typeof(setmetatable(
@@ -22,7 +22,7 @@ export type Signal<T...> = typeof(setmetatable(
 ))
 
 function Signal.new<T...>(): Signal<T...>
-    local self = setmetatable({}, Signal)
+    const self = setmetatable({}, Signal)
 
     self._connections = {}
 
@@ -42,7 +42,7 @@ end
 function Signal.Connect<T...>(self: Signal<T...>, func: (...any) -> ()): Connection.Connection
     assert(type(func) == "function", "Expected func to be a function")
 
-    local connection = Connection.new(self, func)
+    const connection = Connection.new(self, func)
 
     table.insert(self._connections, connection)
 
@@ -56,7 +56,7 @@ end
 function Signal.Once<T...>(self: Signal<T...>, func: (...any) -> ()): Connection.Connection
     assert(type(func) == "function", "Expected func to be a function")
 
-    local connection = Connection.new(self, func)
+    const connection = Connection.new(self, func)
     connection._once = true
 
     table.insert(self._connections, connection)
@@ -75,10 +75,9 @@ function Signal.SetImmediateFire<T...>(self: Signal<T...>, func: (Connection.Con
 end
 
 function Signal.Wait<T...>(self: Signal<T...>): T...
-    local thread = coroutine.running()
-    local connection: Connection.Connection
+    const thread = coroutine.running()
 
-    connection = self:Once(function(...)
+    self:Once(function(...)
         task.spawn(thread, ...)
     end)
 

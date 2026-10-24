@@ -7,7 +7,7 @@ privileged and require approval from Discord for verified bots.
 
 --]]
 
-local GatewayIntent = table.freeze({
+const GatewayIntent = table.freeze({
     -- Guild events (create, update, delete, role events, etc.)
     Guilds = bit32.lshift(1, 0),
     -- Guild member events (add, update, remove) - PRIVILEGED

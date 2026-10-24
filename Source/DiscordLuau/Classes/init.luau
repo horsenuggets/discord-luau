@@ -6,9 +6,9 @@ Core classes for the Discord library including the main Client class.
 
 --]]
 
-local Client = require("@self/Client")
+const Client = require("@self/Client")
 
-local Classes = {
+const Classes = {
     Client = Client,
 }
 

@@ -2,24 +2,26 @@
 
 --[[
 
-SetupLavalink
+SetupLavalink.exec
 
 Downloads and configures Lavalink server for local development and testing.
 
+[Usage] ./Scripts/SetupLavalink.exec.luau
+
 --]]
 
-local fs = require("@lune/fs")
-local net = require("@lune/net")
-local process = require("@lune/process")
+const fs = require("@lune/fs")
+const net = require("@lune/net")
+const process = require("@lune/process")
 
-local LAVALINK_VERSION = "4.0.8"
-local LAVALINK_DIR = "Dependencies/lavalink"
-local JAR_PATH = `{LAVALINK_DIR}/Lavalink.jar`
-local CONFIG_PATH = `{LAVALINK_DIR}/application.yml`
+const LAVALINK_VERSION = "4.0.8"
+const LAVALINK_DIR = "Dependencies/lavalink"
+const JAR_PATH = `{LAVALINK_DIR}/Lavalink.jar`
+const CONFIG_PATH = `{LAVALINK_DIR}/application.yml`
 
-local DOWNLOAD_URL = `https://github.com/lavalink-devs/Lavalink/releases/download/{LAVALINK_VERSION}/Lavalink.jar`
+const DOWNLOAD_URL = `https://github.com/lavalink-devs/Lavalink/releases/download/{LAVALINK_VERSION}/Lavalink.jar`
 
-local DEFAULT_CONFIG = [[
+const DEFAULT_CONFIG = [[
 server:
   port: 2333
   address: 0.0.0.0
@@ -56,24 +58,24 @@ logging:
     lavalink: INFO
 ]]
 
-local function fileExists(path: string): boolean
-    local success, result = pcall(function()
+const function fileExists(path: string): boolean
+    const success, result = pcall(function()
         return fs.isFile(path)
     end)
     return success and result == true
 end
 
-local function dirExists(path: string): boolean
-    local success, result = pcall(function()
+const function dirExists(path: string): boolean
+    const success, result = pcall(function()
         return fs.isDir(path)
     end)
     return success and result == true
 end
 
-local function downloadFile(url: string, path: string): boolean
+const function downloadFile(url: string, path: string): boolean
     print(`Downloading from {url}...`)
 
-    local response = net.request({
+    const response = net.request({
         url = url,
         method = "GET",
     })
@@ -88,7 +90,9 @@ local function downloadFile(url: string, path: string): boolean
     return true
 end
 
-local function main()
+const SetupLavalink = {}
+
+function SetupLavalink.exec()
     print("Setting up Lavalink...")
 
     -- Create directory if needed
@@ -101,7 +105,7 @@ local function main()
     if fileExists(JAR_PATH) then
         print(`Lavalink.jar already exists at {JAR_PATH}`)
     else
-        local success = downloadFile(DOWNLOAD_URL, JAR_PATH)
+        const success = downloadFile(DOWNLOAD_URL, JAR_PATH)
         if not success then
             process.exit(1)
         end
@@ -125,4 +129,4 @@ local function main()
     print("Edit application.yml to change settings.")
 end
 
-main()
+SetupLavalink.exec()

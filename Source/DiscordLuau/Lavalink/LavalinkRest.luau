@@ -7,12 +7,12 @@ and server info requests.
 
 --]]
 
-local net = require("@lune/net")
-local serde = require("@lune/serde")
+const net = require("@lune/net")
+const serde = require("@lune/serde")
 
-local Types = require("./Types")
+const Types = require("./Types")
 
-local LavalinkRest = {}
+const LavalinkRest = {}
 LavalinkRest.__index = LavalinkRest
 
 export type LavalinkRest = typeof(setmetatable(
@@ -29,9 +29,9 @@ function LavalinkRest.new(host: string, port: number, password: string, secure: 
     assert(type(port) == "number", "Expected port to be a number")
     assert(type(password) == "string", "Expected password to be a string")
 
-    local self = setmetatable({}, LavalinkRest)
+    const self = setmetatable({}, LavalinkRest)
 
-    local protocol = if secure then "https" else "http"
+    const protocol = if secure then "https" else "http"
     self._baseUrl = `{protocol}://{host}:{port}`
     self._password = password
     self._sessionId = nil
@@ -49,14 +49,14 @@ function LavalinkRest._request(
     path: string,
     body: { [string]: any }?
 ): { success: boolean, data: any?, error: string? }
-    local url = `{self._baseUrl}{path}`
+    const url = `{self._baseUrl}{path}`
 
-    local headers: { [string]: string } = {
+    const headers: { [string]: string } = {
         ["Authorization"] = self._password,
         ["Content-Type"] = "application/json",
     }
 
-    local requestOptions: net.FetchParams = {
+    const requestOptions: net.FetchParams = {
         url = url,
         method = method,
         headers = headers,
@@ -66,7 +66,7 @@ function LavalinkRest._request(
         requestOptions.body = serde.encode("json", body)
     end
 
-    local success, response = pcall(net.request, requestOptions)
+    const success, response = pcall(net.request, requestOptions)
 
     if not success then
         return { success = false, error = tostring(response) }
@@ -75,7 +75,7 @@ function LavalinkRest._request(
     if not response.ok then
         local errorMessage = `HTTP {response.statusCode}`
         if response.body and #response.body > 0 then
-            local decodeSuccess, errorData = pcall(function()
+            const decodeSuccess, errorData = pcall(function()
                 return serde.decode("json" :: "json", response.body)
             end)
             if decodeSuccess and type(errorData) == "table" and errorData.message then
@@ -88,7 +88,7 @@ function LavalinkRest._request(
     end
 
     if response.body and #response.body > 0 then
-        local decodeSuccess, data = pcall(function()
+        const decodeSuccess, data = pcall(function()
             return serde.decode("json" :: "json", response.body)
         end)
         if decodeSuccess then
@@ -110,8 +110,8 @@ end
 function LavalinkRest.LoadTracks(self: LavalinkRest, identifier: string): Types.LoadResult
     assert(type(identifier) == "string", "Expected identifier to be a string")
 
-    local encodedIdentifier = net.urlEncode(identifier)
-    local result = self:_request("GET", `/v4/loadtracks?identifier={encodedIdentifier}`)
+    const encodedIdentifier = net.urlEncode(identifier)
+    const result = self:_request("GET", `/v4/loadtracks?identifier={encodedIdentifier}`)
 
     if not result.success then
         return {
@@ -136,8 +136,8 @@ end
 function LavalinkRest.DecodeTrack(self: LavalinkRest, encoded: string): Types.TrackInfo?
     assert(type(encoded) == "string", "Expected encoded to be a string")
 
-    local encodedTrack = net.urlEncode(encoded)
-    local result = self:_request("GET", `/v4/decodetrack?encodedTrack={encodedTrack}`)
+    const encodedTrack = net.urlEncode(encoded)
+    const result = self:_request("GET", `/v4/decodetrack?encodedTrack={encodedTrack}`)
 
     if not result.success then
         return nil
@@ -155,7 +155,7 @@ end
 function LavalinkRest.DecodeTracks(self: LavalinkRest, encodedTracks: { string }): { Types.LavalinkTrack }
     assert(type(encodedTracks) == "table", "Expected encodedTracks to be a table")
 
-    local result = self:_request("POST", "/v4/decodetracks", encodedTracks :: any)
+    const result = self:_request("POST", "/v4/decodetracks", encodedTracks :: any)
 
     if not result.success then
         return {}
@@ -174,7 +174,7 @@ function LavalinkRest.GetPlayers(self: LavalinkRest): { Types.LavalinkPlayer }
         return {}
     end
 
-    local result = self:_request("GET", `/v4/sessions/{self._sessionId}/players`)
+    const result = self:_request("GET", `/v4/sessions/{self._sessionId}/players`)
 
     if not result.success then
         return {}
@@ -196,7 +196,7 @@ function LavalinkRest.GetPlayer(self: LavalinkRest, guildId: string): Types.Lava
         return nil
     end
 
-    local result = self:_request("GET", `/v4/sessions/{self._sessionId}/players/{guildId}`)
+    const result = self:_request("GET", `/v4/sessions/{self._sessionId}/players/{guildId}`)
 
     if not result.success then
         return nil
@@ -231,7 +231,7 @@ function LavalinkRest.UpdatePlayer(
         path = `{path}?noReplace=true`
     end
 
-    local result = self:_request("PATCH", path, data)
+    const result = self:_request("PATCH", path, data)
 
     if not result.success then
         return nil
@@ -253,7 +253,7 @@ function LavalinkRest.DestroyPlayer(self: LavalinkRest, guildId: string): boolea
         return false
     end
 
-    local result = self:_request("DELETE", `/v4/sessions/{self._sessionId}/players/{guildId}`)
+    const result = self:_request("DELETE", `/v4/sessions/{self._sessionId}/players/{guildId}`)
 
     return result.success
 end
@@ -270,7 +270,7 @@ function LavalinkRest.UpdateSession(self: LavalinkRest, resuming: boolean?, time
         return false
     end
 
-    local body: { [string]: any } = {}
+    const body: { [string]: any } = {}
     if resuming ~= nil then
         body.resuming = resuming
     end
@@ -278,7 +278,7 @@ function LavalinkRest.UpdateSession(self: LavalinkRest, resuming: boolean?, time
         body.timeout = timeout
     end
 
-    local result = self:_request("PATCH", `/v4/sessions/{self._sessionId}`, body)
+    const result = self:_request("PATCH", `/v4/sessions/{self._sessionId}`, body)
 
     return result.success
 end
@@ -289,7 +289,7 @@ end
     @return Server info or nil
 ]]
 function LavalinkRest.GetInfo(self: LavalinkRest): Types.LavalinkInfo?
-    local result = self:_request("GET", "/v4/info")
+    const result = self:_request("GET", "/v4/info")
 
     if not result.success then
         return nil
@@ -304,7 +304,7 @@ end
     @return Stats or nil
 ]]
 function LavalinkRest.GetStats(self: LavalinkRest): Types.StatsEvent?
-    local result = self:_request("GET", "/v4/stats")
+    const result = self:_request("GET", "/v4/stats")
 
     if not result.success then
         return nil
@@ -319,7 +319,7 @@ end
     @return Version string or nil
 ]]
 function LavalinkRest.GetVersion(self: LavalinkRest): string?
-    local result = self:_request("GET", "/version")
+    const result = self:_request("GET", "/version")
 
     if not result.success then
         return nil
@@ -339,8 +339,8 @@ end
 function LavalinkRest.Search(self: LavalinkRest, query: string, source: string?): Types.LoadResult
     assert(type(query) == "string", "Expected query to be a string")
 
-    local searchPrefix = source or "ytsearch"
-    local identifier = `{searchPrefix}:{query}`
+    const searchPrefix = source or "ytsearch"
+    const identifier = `{searchPrefix}:{query}`
 
     return self:LoadTracks(identifier)
 end

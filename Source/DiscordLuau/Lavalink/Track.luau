@@ -6,9 +6,9 @@ Represents an audio track from Lavalink with metadata like title, author, durati
 
 --]]
 
-local Types = require("./Types")
+const Types = require("./Types")
 
-local Track = {}
+const Track = {}
 Track.__index = Track
 
 export type Track = typeof(setmetatable(
@@ -35,7 +35,7 @@ function Track.new(data: Types.LavalinkTrack): Track
     assert(type(data.encoded) == "string", "Expected data.encoded to be a string")
     assert(type(data.info) == "table", "Expected data.info to be a table")
 
-    local self = setmetatable({}, Track)
+    const self = setmetatable({}, Track)
 
     self._data = data
     self.Encoded = data.encoded
@@ -59,10 +59,10 @@ function Track.GetDurationFormatted(self: Track): string
         return "LIVE"
     end
 
-    local totalSeconds = math.floor(self.Length / 1000)
-    local hours = math.floor(totalSeconds / 3600)
-    local minutes = math.floor((totalSeconds % 3600) / 60)
-    local seconds = totalSeconds % 60
+    const totalSeconds = math.floor(self.Length / 1000)
+    const hours = math.floor(totalSeconds / 3600)
+    const minutes = math.floor((totalSeconds % 3600) / 60)
+    const seconds = totalSeconds % 60
 
     if hours > 0 then
         return string.format("%d:%02d:%02d", hours, minutes, seconds)

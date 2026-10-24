@@ -7,12 +7,12 @@ and track management for a single guild.
 
 --]]
 
-local Signal = require("../Utils/Signal")
+const Signal = require("../Utils/Signal")
 
-local Track = require("./Track")
-local Types = require("./Types")
+const Track = require("./Track")
+const Types = require("./Types")
 
-local Player = {}
+const Player = {}
 Player.__index = Player
 
 export type PlayerOptions = {
@@ -60,7 +60,7 @@ function Player.new(guildId: string, node: any, manager: any): Player
     assert(type(node) == "table", "Expected node to be a table")
     assert(type(manager) == "table", "Expected manager to be a table")
 
-    local self = setmetatable({}, Player)
+    const self = setmetatable({}, Player)
 
     self.GuildId = guildId
     self.ChannelId = nil
@@ -143,7 +143,7 @@ function Player.Play(self: Player, track: Track.Track | string, options: PlayOpt
         encoded = track.Encoded
     end
 
-    local updateData: Types.PlayerUpdateData = {
+    const updateData: Types.PlayerUpdateData = {
         track = { encoded = encoded },
     }
 
@@ -162,7 +162,7 @@ function Player.Play(self: Player, track: Track.Track | string, options: PlayOpt
         end
     end
 
-    local noReplace = options and options.noReplace or false
+    const noReplace = options and options.noReplace or false
 
     self._node.Rest:UpdatePlayer(self.GuildId, updateData, noReplace)
     self.Playing = true
@@ -189,7 +189,7 @@ end
     @param paused - Whether to pause (true) or resume (false)
 ]]
 function Player.Pause(self: Player, paused: boolean?)
-    local shouldPause = if paused ~= nil then paused else not self.Paused
+    const shouldPause = if paused ~= nil then paused else not self.Paused
 
     self._node.Rest:UpdatePlayer(self.GuildId, {
         paused = shouldPause,
@@ -228,7 +228,7 @@ end
 function Player.SetVolume(self: Player, volume: number)
     assert(type(volume) == "number", "Expected volume to be a number")
 
-    local clampedVolume = math.clamp(volume, 0, 1000)
+    const clampedVolume = math.clamp(volume, 0, 1000)
 
     self._node.Rest:UpdatePlayer(self.GuildId, {
         volume = clampedVolume,
@@ -287,7 +287,7 @@ end
     @param reason - The reason the track ended
 ]]
 function Player._onTrackEnd(self: Player, trackData: Types.LavalinkTrack, reason: string)
-    local track = Track.new(trackData)
+    const track = Track.new(trackData)
     self.Playing = false
 
     if reason == "finished" or reason == "stopped" then
@@ -308,7 +308,7 @@ function Player._onTrackException(
     trackData: Types.LavalinkTrack,
     exception: { message: string?, severity: string, cause: string }
 )
-    local track = Track.new(trackData)
+    const track = Track.new(trackData)
     self.OnTrackException:Fire(track, exception)
 end
 
@@ -319,7 +319,7 @@ end
     @param thresholdMs - The threshold in milliseconds
 ]]
 function Player._onTrackStuck(self: Player, trackData: Types.LavalinkTrack, thresholdMs: number)
-    local track = Track.new(trackData)
+    const track = Track.new(trackData)
     self.OnTrackStuck:Fire(track, thresholdMs)
 end
 
@@ -357,8 +357,8 @@ function Player._sendVoiceUpdate(self: Player)
 end
 
 function Player.__tostring(self: Player): string
-    local status = if self.Playing then "playing" else "idle"
-    local channel = self.ChannelId or "none"
+    const status = if self.Playing then "playing" else "idle"
+    const channel = self.ChannelId or "none"
     return `Player({self.GuildId}, {status}, channel={channel})`
 end
 

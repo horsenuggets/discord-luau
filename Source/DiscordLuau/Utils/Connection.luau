@@ -6,9 +6,9 @@ Represents a connection to a Signal. Can be disconnected to stop receiving event
 
 --]]
 
-local task = require("@lune/task")
+const task = require("@lune/task")
 
-local Connection = {}
+const Connection = {}
 Connection.__index = Connection
 
 export type Connection = typeof(setmetatable(
@@ -25,7 +25,7 @@ function Connection.new<T>(signal: any, func: (...T) -> ()): Connection
     assert(type(signal) == "table", "Expected signal to be a table")
     assert(type(func) == "function", "Expected func to be a function")
 
-    local self = setmetatable({}, Connection)
+    const self = setmetatable({}, Connection)
 
     self.Connected = true
     self._func = func
@@ -39,7 +39,7 @@ function Connection.Disconnect(self: Connection)
         return
     end
 
-    local connections = self._signal._connections
+    const connections = self._signal._connections
     for i, connection in connections do
         if connection == self then
             table.remove(connections, i)

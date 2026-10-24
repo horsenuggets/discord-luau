@@ -7,7 +7,7 @@ different capabilities and behaviors.
 
 --]]
 
-local ChannelType = table.freeze({
+const ChannelType = table.freeze({
     -- A text channel within a guild
     GuildText = 0,
     -- A direct message between users

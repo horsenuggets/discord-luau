@@ -7,21 +7,21 @@ heartbeating, identify/resume, and event dispatch.
 
 --]]
 
-local net = require("@lune/net")
-local serde = require("@lune/serde")
-local task = require("@lune/task")
+const net = require("@lune/net")
+const serde = require("@lune/serde")
+const task = require("@lune/task")
 
-local GatewayCloseCode = require("../Enums/GatewayCloseCode")
-local GatewayOpcode = require("../Enums/GatewayOpcode")
-local Signal = require("../Utils/Signal")
-local Types = require("../Structures/Types")
+const GatewayCloseCode = require("../Enums/GatewayCloseCode")
+const GatewayOpcode = require("../Enums/GatewayOpcode")
+const Signal = require("../Utils/Signal")
+const Types = require("../Structures/Types")
 
-local GATEWAY_VERSION = 10
-local DEFAULT_GATEWAY_URL = `wss://gateway.discord.gg/?v={GATEWAY_VERSION}&encoding=json`
-local RECONNECT_DELAY = 1
-local MAX_RECONNECT_ATTEMPTS = 5
+const GATEWAY_VERSION = 10
+const DEFAULT_GATEWAY_URL = `wss://gateway.discord.gg/?v={GATEWAY_VERSION}&encoding=json`
+const RECONNECT_DELAY = 1
+const MAX_RECONNECT_ATTEMPTS = 5
 
-local Gateway = {}
+const Gateway = {}
 Gateway.__index = Gateway
 
 export type Gateway = typeof(setmetatable(
@@ -50,7 +50,7 @@ function Gateway.new(client: Types.Client, token: string, intents: number): Gate
     assert(type(token) == "string", "Expected token to be a string")
     assert(type(intents) == "number", "Expected intents to be a number")
 
-    local self = setmetatable({}, Gateway)
+    const self = setmetatable({}, Gateway)
 
     self._client = client
     self._gatewayUrl = DEFAULT_GATEWAY_URL
@@ -70,7 +70,7 @@ function Gateway._sendPayload(self: Gateway, opcode: number, data: any)
         return
     end
 
-    local payload = serde.encode("json", {
+    const payload = serde.encode("json", {
         d = data,
         op = opcode,
     })
@@ -79,7 +79,7 @@ function Gateway._sendPayload(self: Gateway, opcode: number, data: any)
 end
 
 function Gateway._identify(self: Gateway)
-    local identifyData: Types.GatewayIdentifyData = {
+    const identifyData: Types.GatewayIdentifyData = {
         intents = self._intents,
         properties = {
             browser = "discord-luau",
@@ -98,7 +98,7 @@ function Gateway._resume(self: Gateway)
         return
     end
 
-    local resumeData: Types.GatewayResumeData = {
+    const resumeData: Types.GatewayResumeData = {
         seq = self._sequenceNumber,
         session_id = self._sessionId,
         token = self._token,
@@ -117,7 +117,7 @@ function Gateway._startHeartbeat(self: Gateway, interval: number)
 
     self._heartbeatProcess = task.spawn(function()
         -- First heartbeat has jitter
-        local jitter = math.random()
+        const jitter = math.random()
         task.wait(interval / 1000 * jitter)
 
         while true do
@@ -142,14 +142,14 @@ function Gateway._handlePayload(self: Gateway, payload: Types.GatewayPayload)
         self._sequenceNumber = payload.s
     end
 
-    local opcode = payload.op
-    local data = payload.d
-    local eventName = payload.t
+    const opcode = payload.op
+    const data = payload.d
+    const eventName = payload.t
 
     if opcode == GatewayOpcode.Dispatch then
         -- Dispatch event
         if eventName == "READY" then
-            local readyData = data :: Types.GatewayReadyData
+            const readyData = data :: Types.GatewayReadyData
             self._sessionId = readyData.session_id
             self._resumeGatewayUrl = readyData.resume_gateway_url
             self._reconnectAttempts = 0
@@ -168,7 +168,7 @@ function Gateway._handlePayload(self: Gateway, payload: Types.GatewayPayload)
         self:_disconnect(4000)
     elseif opcode == GatewayOpcode.InvalidSession then
         -- Invalid session
-        local canResume = data == true
+        const canResume = data == true
         if canResume then
             -- Wait 1-5 seconds then resume
             task.wait(math.random() * 4 + 1)
@@ -182,7 +182,7 @@ function Gateway._handlePayload(self: Gateway, payload: Types.GatewayPayload)
         end
     elseif opcode == GatewayOpcode.Hello then
         -- Hello event
-        local helloData = data :: Types.GatewayHelloData
+        const helloData = data :: Types.GatewayHelloData
         self:_startHeartbeat(helloData.heartbeat_interval)
 
         -- Identify or resume
@@ -217,7 +217,7 @@ function Gateway._shouldReconnect(self: Gateway, closeCode: number?): boolean
     end
 
     -- Non-reconnectable close codes
-    local noReconnect = {
+    const noReconnect = {
         [GatewayCloseCode.AuthenticationFailed] = true,
         [GatewayCloseCode.InvalidShard] = true,
         [GatewayCloseCode.ShardingRequired] = true,
@@ -238,7 +238,7 @@ function Gateway._connect(self: Gateway)
         gatewayUrl = `{gatewayUrl}?v={GATEWAY_VERSION}&encoding=json`
     end
 
-    local success, result = pcall(function()
+    const success, result = pcall(function()
         return net.socket(gatewayUrl)
     end)
 
@@ -274,9 +274,9 @@ function Gateway.Connect(self: Gateway)
 
             -- Message loop
             while self._webSocket do
-                local message = self._webSocket:next()
+                const message = self._webSocket:next()
                 if not message then
-                    local closeCode = self._webSocket.closeCode
+                    const closeCode = self._webSocket.closeCode
                     self:_disconnect()
 
                     if self:_shouldReconnect(closeCode) then
@@ -294,7 +294,7 @@ function Gateway.Connect(self: Gateway)
                 end
 
                 -- Parse and handle payload
-                local success, payload = pcall(function()
+                const success, payload = pcall(function()
                     return serde.decode("json", message)
                 end)
 
@@ -332,13 +332,13 @@ function Gateway.UpdatePresence(self: Gateway, presence: Types.GatewayPresenceUp
         return
     end
 
-    local activitiesJson = serde.encode("json", presence.activities or {})
-    local statusJson = serde.encode("json", presence.status or "online")
-    local afkJson = presence.afk and "true" or "false"
-    local sinceJson = if presence.since then tostring(presence.since) else "null"
+    const activitiesJson = serde.encode("json", presence.activities or {})
+    const statusJson = serde.encode("json", presence.status or "online")
+    const afkJson = presence.afk and "true" or "false"
+    const sinceJson = if presence.since then tostring(presence.since) else "null"
 
-    local dataJson = `\{"since":{sinceJson},"activities":{activitiesJson},"status":{statusJson},"afk":{afkJson}\}`
-    local payload = `\{"op":{GatewayOpcode.PresenceUpdate},"d":{dataJson}\}`
+    const dataJson = `\{"since":{sinceJson},"activities":{activitiesJson},"status":{statusJson},"afk":{afkJson}\}`
+    const payload = `\{"op":{GatewayOpcode.PresenceUpdate},"d":{dataJson}\}`
 
     self._webSocket:send(payload)
 end
@@ -355,7 +355,7 @@ function Gateway.RequestGuildMembers(
 )
     assert(type(guildId) == "string", "Expected guildId to be a string")
 
-    local data: { [string]: any } = {
+    const data: { [string]: any } = {
         guild_id = guildId,
     }
 

@@ -1,4 +1,4 @@
-local Lavalink = require("@self/Lavalink")
+const Lavalink = require("@self/Lavalink")
 
 export type Lavalink = Lavalink.Lavalink
 

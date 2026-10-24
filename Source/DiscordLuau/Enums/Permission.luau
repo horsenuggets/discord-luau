@@ -7,7 +7,7 @@ flags that can be combined to create permission sets.
 
 --]]
 
-local Permission = table.freeze({
+const Permission = table.freeze({
     -- Allows creation of instant invites
     CreateInstantInvite = bit32.lshift(1, 0),
     -- Allows kicking members

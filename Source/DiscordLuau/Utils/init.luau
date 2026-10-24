@@ -7,11 +7,11 @@ and common helper functions.
 
 --]]
 
-local Connection = require("@self/Connection")
-local Signal = require("@self/Signal")
-local Snowflake = require("@self/Snowflake")
+const Connection = require("@self/Connection")
+const Signal = require("@self/Signal")
+const Snowflake = require("@self/Snowflake")
 
-local Utils = {
+const Utils = {
     Connection = Connection,
     Signal = Signal,
     Snowflake = Snowflake,

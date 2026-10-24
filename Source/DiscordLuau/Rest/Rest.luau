@@ -7,17 +7,17 @@ authentication, rate limiting, and request formatting.
 
 --]]
 
-local net = require("@lune/net")
-local serde = require("@lune/serde")
-local task = require("@lune/task")
+const net = require("@lune/net")
+const serde = require("@lune/serde")
+const task = require("@lune/task")
 
-local Types = require("../Structures/Types")
+const Types = require("../Structures/Types")
 
-local API_VERSION = 10
-local API_BASE_URL = `https://discord.com/api/v{API_VERSION}`
-local _CDN_BASE_URL = "https://cdn.discordapp.com"
+const API_VERSION = 10
+const API_BASE_URL = `https://discord.com/api/v{API_VERSION}`
+const _CDN_BASE_URL = "https://cdn.discordapp.com"
 
-local Rest = {}
+const Rest = {}
 Rest.__index = Rest
 
 export type Rest = typeof(setmetatable(
@@ -33,7 +33,7 @@ function Rest.new(client: Types.Client, token: string): Rest
     assert(type(client) == "table", "Expected client to be a table")
     assert(type(token) == "string", "Expected token to be a string")
 
-    local self = setmetatable({}, Rest)
+    const self = setmetatable({}, Rest)
 
     self._client = client
     self._rateLimits = {}
@@ -43,9 +43,9 @@ function Rest.new(client: Types.Client, token: string): Rest
 end
 
 function Rest._request(self: Rest, method: string, endpoint: string, body: { [string]: any }?, reason: string?): any
-    local url = `{API_BASE_URL}{endpoint}`
+    const url = `{API_BASE_URL}{endpoint}`
 
-    local headers: { [string]: string } = {
+    const headers: { [string]: string } = {
         ["Authorization"] = `Bot {self._token}`,
         ["Content-Type"] = "application/json",
         ["User-Agent"] = "DiscordLuau (https://github.com/horsenuggets/discord-luau, 0.0.0)",
@@ -55,7 +55,7 @@ function Rest._request(self: Rest, method: string, endpoint: string, body: { [st
         headers["X-Audit-Log-Reason"] = reason
     end
 
-    local response = net.request({
+    const response = net.request({
         body = body and serde.encode("json", body) or nil,
         headers = headers,
         method = method,
@@ -63,7 +63,7 @@ function Rest._request(self: Rest, method: string, endpoint: string, body: { [st
     })
 
     -- Parse rate limit headers
-    local rateLimitBucket = response.headers["x-ratelimit-bucket"]
+    const rateLimitBucket = response.headers["x-ratelimit-bucket"]
     if rateLimitBucket then
         self._rateLimits[rateLimitBucket] = {
             limit = tonumber(response.headers["x-ratelimit-limit"]) or 0,
@@ -74,7 +74,7 @@ function Rest._request(self: Rest, method: string, endpoint: string, body: { [st
 
     -- Handle rate limiting
     if response.statusCode == 429 then
-        local retryAfter = tonumber(response.headers["retry-after"]) or 1
+        const retryAfter = tonumber(response.headers["retry-after"]) or 1
         warn(`Rate limited. Retrying after {retryAfter} seconds.`)
         task.wait(retryAfter)
         return self:_request(method, endpoint, body, reason)
@@ -82,8 +82,8 @@ function Rest._request(self: Rest, method: string, endpoint: string, body: { [st
 
     -- Handle errors
     if not response.ok then
-        local errorBody = response.body
-        local success, decoded = pcall(function()
+        const errorBody = response.body
+        const success, decoded = pcall(function()
             return serde.decode("json", errorBody)
         end)
 
@@ -96,7 +96,7 @@ function Rest._request(self: Rest, method: string, endpoint: string, body: { [st
 
     -- Parse response body
     if response.body and #response.body > 0 then
-        local success, decoded = pcall(function()
+        const success, decoded = pcall(function()
             return serde.decode("json", response.body)
         end)
 
@@ -170,7 +170,7 @@ function Rest.GetChannelMessages(
 
     local query = ""
     if options then
-        local params = {}
+        const params = {}
         if options.after then
             table.insert(params, `after={options.after}`)
         end
@@ -252,7 +252,7 @@ function Rest.CreateReaction(self: Rest, channelId: Types.Snowflake, messageId: 
     assert(type(emoji) == "string", "Expected emoji to be a string")
 
     -- URL encode the emoji
-    local encodedEmoji = net.urlEncode(emoji)
+    const encodedEmoji = net.urlEncode(emoji)
 
     self:_request("PUT", `/channels/{channelId}/messages/{messageId}/reactions/{encodedEmoji}/@me`)
 end
@@ -262,7 +262,7 @@ function Rest.DeleteOwnReaction(self: Rest, channelId: Types.Snowflake, messageI
     assert(type(messageId) == "string", "Expected messageId to be a string")
     assert(type(emoji) == "string", "Expected emoji to be a string")
 
-    local encodedEmoji = net.urlEncode(emoji)
+    const encodedEmoji = net.urlEncode(emoji)
 
     self:_request("DELETE", `/channels/{channelId}/messages/{messageId}/reactions/{encodedEmoji}/@me`)
 end
@@ -279,7 +279,7 @@ function Rest.DeleteUserReaction(
     assert(type(emoji) == "string", "Expected emoji to be a string")
     assert(type(userId) == "string", "Expected userId to be a string")
 
-    local encodedEmoji = net.urlEncode(emoji)
+    const encodedEmoji = net.urlEncode(emoji)
 
     self:_request("DELETE", `/channels/{channelId}/messages/{messageId}/reactions/{encodedEmoji}/{userId}`)
 end
@@ -301,7 +301,7 @@ function Rest.DeleteAllReactionsForEmoji(
     assert(type(messageId) == "string", "Expected messageId to be a string")
     assert(type(emoji) == "string", "Expected emoji to be a string")
 
-    local encodedEmoji = net.urlEncode(emoji)
+    const encodedEmoji = net.urlEncode(emoji)
 
     self:_request("DELETE", `/channels/{channelId}/messages/{messageId}/reactions/{encodedEmoji}`)
 end
@@ -339,7 +339,7 @@ function Rest.StartThreadFromMessage(
     assert(type(messageId) == "string", "Expected messageId to be a string")
     assert(type(name) == "string", "Expected name to be a string")
 
-    local data: { [string]: any } = { name = name }
+    const data: { [string]: any } = { name = name }
     if options then
         if options.auto_archive_duration then
             data.auto_archive_duration = options.auto_archive_duration
@@ -366,7 +366,7 @@ function Rest.StartThreadWithoutMessage(
     assert(type(channelId) == "string", "Expected channelId to be a string")
     assert(type(name) == "string", "Expected name to be a string")
 
-    local data: { [string]: any } = { name = name }
+    const data: { [string]: any } = { name = name }
     if options then
         if options.auto_archive_duration then
             data.auto_archive_duration = options.auto_archive_duration
@@ -389,7 +389,7 @@ end
 function Rest.GetGuild(self: Rest, guildId: Types.Snowflake, withCounts: boolean?): Types.APIGuild
     assert(type(guildId) == "string", "Expected guildId to be a string")
 
-    local query = withCounts and "?with_counts=true" or ""
+    const query = withCounts and "?with_counts=true" or ""
 
     return self:_request("GET", `/guilds/{guildId}{query}`)
 end
@@ -428,7 +428,7 @@ function Rest.GetGuildMembers(
 
     local query = ""
     if options then
-        local params = {}
+        const params = {}
         if options.after then
             table.insert(params, `after={options.after}`)
         end
@@ -698,9 +698,9 @@ function Rest.CreateInteractionResponse(
     assert(type(data) == "table", "Expected data to be a table")
 
     -- Interaction responses use a different base URL (no /api/v10)
-    local url = `https://discord.com/api/v{API_VERSION}/interactions/{interactionId}/{interactionToken}/callback`
+    const url = `https://discord.com/api/v{API_VERSION}/interactions/{interactionId}/{interactionToken}/callback`
 
-    local response = net.request({
+    const response = net.request({
         body = serde.encode("json", data),
         headers = {
             ["Content-Type"] = "application/json",

@@ -8,36 +8,36 @@ and WebSocket gateway support.
 
 --]]
 
-local Classes = require("@self/Classes")
-local Enums = require("@self/Enums")
-local Gateway = require("@self/Gateway")
-local Lavalink = require("@self/Lavalink")
-local Rest = require("@self/Rest")
-local Structures = require("@self/Structures")
-local Types = require("@self/Structures/Types")
-local Utils = require("@self/Utils")
+const Classes = require("@self/Classes")
+const Enums = require("@self/Enums")
+const Gateway = require("@self/Gateway")
+const Lavalink = require("@self/Lavalink")
+const Rest = require("@self/Rest")
+const Structures = require("@self/Structures")
+const Types = require("@self/Structures/Types")
+const Utils = require("@self/Utils")
 
 -- Re-export commonly used classes at top level
-local Client = Classes.Client
-local Embed = Structures.Embed
-local SlashCommandBuilder = Structures.SlashCommandBuilder
+const Client = Classes.Client
+const Embed = Structures.Embed
+const SlashCommandBuilder = Structures.SlashCommandBuilder
 
 -- Re-export enums at top level
-local ApplicationCommandOptionType = Enums.ApplicationCommandOptionType
-local ApplicationCommandType = Enums.ApplicationCommandType
-local ChannelType = Enums.ChannelType
-local GatewayCloseCode = Enums.GatewayCloseCode
-local GatewayIntent = Enums.GatewayIntent
-local GatewayOpcode = Enums.GatewayOpcode
-local InteractionResponseType = Enums.InteractionResponseType
-local InteractionType = Enums.InteractionType
-local MessageType = Enums.MessageType
-local Permission = Enums.Permission
+const ApplicationCommandOptionType = Enums.ApplicationCommandOptionType
+const ApplicationCommandType = Enums.ApplicationCommandType
+const ChannelType = Enums.ChannelType
+const GatewayCloseCode = Enums.GatewayCloseCode
+const GatewayIntent = Enums.GatewayIntent
+const GatewayOpcode = Enums.GatewayOpcode
+const InteractionResponseType = Enums.InteractionResponseType
+const InteractionType = Enums.InteractionType
+const MessageType = Enums.MessageType
+const Permission = Enums.Permission
 
 -- Convenience aliases
-local Intents = GatewayIntent
+const Intents = GatewayIntent
 
-local DiscordLuau = {
+const DiscordLuau = {
     -- Main client class
     Client = Client,
 
