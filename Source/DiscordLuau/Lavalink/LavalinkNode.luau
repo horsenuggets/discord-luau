@@ -7,16 +7,16 @@ session management, and reconnection.
 
 --]]
 
-local net = require("@lune/net")
-local serde = require("@lune/serde")
-local task = require("@lune/task")
+const net = require("@lune/net")
+const serde = require("@lune/serde")
+const task = require("@lune/task")
 
-local Signal = require("../Utils/Signal")
+const Signal = require("../Utils/Signal")
 
-local LavalinkRest = require("./LavalinkRest")
-local Types = require("./Types")
+const LavalinkRest = require("./LavalinkRest")
+const Types = require("./Types")
 
-local LavalinkNode = {}
+const LavalinkNode = {}
 LavalinkNode.__index = LavalinkNode
 
 export type LavalinkNode = typeof(setmetatable(
@@ -66,7 +66,7 @@ function LavalinkNode.new(options: Types.NodeOptions, clientId: string): Lavalin
     assert(type(options.password) == "string", "Expected options.password to be a string")
     assert(type(clientId) == "string", "Expected clientId to be a string")
 
-    local self = setmetatable({}, LavalinkNode)
+    const self = setmetatable({}, LavalinkNode)
 
     self.Name = options.name
     self.Host = options.host
@@ -108,10 +108,10 @@ function LavalinkNode.Connect(self: LavalinkNode): boolean
         return true
     end
 
-    local protocol = if self.Secure then "wss" else "ws"
-    local url = `{protocol}://{self.Host}:{self.Port}/v4/websocket`
+    const protocol = if self.Secure then "wss" else "ws"
+    const url = `{protocol}://{self.Host}:{self.Port}/v4/websocket`
 
-    local headers: { [string]: string } = {
+    const headers: { [string]: string } = {
         ["Authorization"] = self.Password,
         ["User-Id"] = self._clientId,
         ["Client-Name"] = "DiscordLuau/1.0.0",
@@ -124,8 +124,8 @@ function LavalinkNode.Connect(self: LavalinkNode): boolean
     -- NOTE: Lune's net.socket doesn't currently support headers in its type definition.
     -- This requires a custom Lune build with WebSocket headers support for Lavalink auth.
     -- Using type cast to suppress static analysis error.
-    local socketWithHeaders = net.socket :: (string, { headers: { [string]: string } }?) -> net.WebSocket
-    local success, socket = pcall(function()
+    const socketWithHeaders = net.socket :: (string, { headers: { [string]: string } }?) -> net.WebSocket
+    const success, socket = pcall(function()
         return socketWithHeaders(url, { headers = headers })
     end)
 
@@ -164,7 +164,7 @@ function LavalinkNode._listen(self: LavalinkNode)
     end
 
     while self.Connected do
-        local success, message = pcall(function()
+        const success, message = pcall(function()
             return self._socket:next()
         end)
 
@@ -200,7 +200,7 @@ function LavalinkNode._listen(self: LavalinkNode)
 end
 
 function LavalinkNode._handleMessage(self: LavalinkNode, data: string)
-    local success, payload = pcall(function()
+    const success, payload = pcall(function()
         return serde.decode("json" :: "json", data)
     end)
 
@@ -208,7 +208,7 @@ function LavalinkNode._handleMessage(self: LavalinkNode, data: string)
         return
     end
 
-    local op = payload.op
+    const op = payload.op
 
     if op == "ready" then
         self:_handleReady(payload :: Types.ReadyEvent)
@@ -244,22 +244,22 @@ function LavalinkNode._handleStats(self: LavalinkNode, data: Types.StatsEvent)
 end
 
 function LavalinkNode._handleEvent(self: LavalinkNode, data: Types.LavalinkEvent)
-    local eventType = data.type
+    const eventType = data.type
 
     if eventType == "TrackStartEvent" then
-        local event = data :: Types.TrackStartEvent
+        const event = data :: Types.TrackStartEvent
         self.OnTrackStart:Fire(event.guildId, event.track)
     elseif eventType == "TrackEndEvent" then
-        local event = data :: Types.TrackEndEvent
+        const event = data :: Types.TrackEndEvent
         self.OnTrackEnd:Fire(event.guildId, event.track, event.reason)
     elseif eventType == "TrackExceptionEvent" then
-        local event = data :: Types.TrackExceptionEvent
+        const event = data :: Types.TrackExceptionEvent
         self.OnTrackException:Fire(event.guildId, event.track, event.exception)
     elseif eventType == "TrackStuckEvent" then
-        local event = data :: Types.TrackStuckEvent
+        const event = data :: Types.TrackStuckEvent
         self.OnTrackStuck:Fire(event.guildId, event.track, event.thresholdMs)
     elseif eventType == "WebSocketClosedEvent" then
-        local event = data :: Types.WebSocketClosedEvent
+        const event = data :: Types.WebSocketClosedEvent
         self.OnWebSocketClosed:Fire(event.guildId, event.code, event.reason, event.byRemote)
     end
 end
@@ -274,7 +274,7 @@ function LavalinkNode._handleReconnect(self: LavalinkNode)
     end
 
     self._reconnectAttempts += 1
-    local delay = self._reconnectDelay * self._reconnectAttempts
+    const delay = self._reconnectDelay * self._reconnectAttempts
 
     task.delay(delay, function()
         if self._shouldReconnect and not self.Connected then
@@ -294,7 +294,7 @@ function LavalinkNode.GetPenalty(self: LavalinkNode): number
         return math.huge
     end
 
-    local stats = self.Stats
+    const stats = self.Stats
     local penalty = 0
 
     -- CPU penalty
@@ -305,13 +305,13 @@ function LavalinkNode.GetPenalty(self: LavalinkNode): number
     penalty += stats.playingPlayers * 10
 
     -- Memory penalty
-    local memoryUsage = stats.memory.used / stats.memory.allocated
+    const memoryUsage = stats.memory.used / stats.memory.allocated
     penalty += memoryUsage * 50
 
     -- Frame stats penalty (if available)
     if stats.frameStats then
-        local nullFrames = stats.frameStats.nulled
-        local deficitFrames = stats.frameStats.deficit
+        const nullFrames = stats.frameStats.nulled
+        const deficitFrames = stats.frameStats.deficit
         penalty += nullFrames * 5
         penalty += deficitFrames * 2
     end
@@ -320,7 +320,7 @@ function LavalinkNode.GetPenalty(self: LavalinkNode): number
 end
 
 function LavalinkNode.__tostring(self: LavalinkNode): string
-    local status = if self.Connected then "connected" else "disconnected"
+    const status = if self.Connected then "connected" else "disconnected"
     return `LavalinkNode({self.Name}, {status})`
 end
 

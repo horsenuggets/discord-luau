@@ -6,12 +6,12 @@ Tests for Discord enumeration values.
 
 --]]
 
-local ChannelType = require("@discordluau/Enums/ChannelType")
-local GatewayCloseCode = require("@discordluau/Enums/GatewayCloseCode")
-local GatewayIntent = require("@discordluau/Enums/GatewayIntent")
-local GatewayOpcode = require("@discordluau/Enums/GatewayOpcode")
-local MessageType = require("@discordluau/Enums/MessageType")
-local Permission = require("@discordluau/Enums/Permission")
+const ChannelType = require("@discordluau/Enums/ChannelType")
+const GatewayCloseCode = require("@discordluau/Enums/GatewayCloseCode")
+const GatewayIntent = require("@discordluau/Enums/GatewayIntent")
+const GatewayOpcode = require("@discordluau/Enums/GatewayOpcode")
+const MessageType = require("@discordluau/Enums/MessageType")
+const Permission = require("@discordluau/Enums/Permission")
 
 return function()
     describe("ChannelType", function()
@@ -58,7 +58,7 @@ return function()
         end)
 
         it("should be combinable with bit32", function()
-            local combined = bit32.bor(GatewayIntent.Guilds, GatewayIntent.GuildMessages)
+            const combined = bit32.bor(GatewayIntent.Guilds, GatewayIntent.GuildMessages)
             expect(combined).to.equal(513)
         end)
     end)
@@ -80,7 +80,7 @@ return function()
         end)
 
         it("should be combinable with bit32", function()
-            local combined = bit32.bor(Permission.SendMessages, Permission.ViewChannel)
+            const combined = bit32.bor(Permission.SendMessages, Permission.ViewChannel)
             expect(bit32.band(combined, Permission.SendMessages)).to.equal(Permission.SendMessages)
             expect(bit32.band(combined, Permission.ViewChannel)).to.equal(Permission.ViewChannel)
         end)

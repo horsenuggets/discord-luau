@@ -6,9 +6,9 @@ Represents a guild role with permissions, color, and position settings.
 
 --]]
 
-local Types = require("./Types")
+const Types = require("./Types")
 
-local Role = {}
+const Role = {}
 Role.__index = Role
 
 export type Role = typeof(setmetatable(
@@ -44,7 +44,7 @@ function Role.new(client: Types.Client, guild: Types.Guild, data: Types.APIRole)
     assert(type(guild) == "table", "Expected guild to be a table")
     assert(type(data) == "table", "Expected data to be a table")
 
-    local self = setmetatable({}, Role)
+    const self = setmetatable({}, Role)
 
     self.Client = client
     self.Guild = guild
@@ -75,8 +75,8 @@ function Role.GetIconUrl(self: Role, options: { format: string?, size: number? }
         return nil
     end
 
-    local format = options and options.format or "webp"
-    local size = options and options.size or 64
+    const format = options and options.format or "webp"
+    const size = options and options.size or 64
 
     return `https://cdn.discordapp.com/role-icons/{self.Id}/{self.Icon}.{format}?size={size}`
 end
@@ -86,7 +86,7 @@ function Role.GetHexColor(self: Role): string
 end
 
 function Role.HasPermission(self: Role, permission: number): boolean
-    local permissions = tonumber(self.Permissions) or 0
+    const permissions = tonumber(self.Permissions) or 0
 
     -- Administrator has all permissions
     if bit32.band(permissions, bit32.lshift(1, 3)) ~= 0 then
@@ -115,8 +115,8 @@ function Role.ComparePositionTo(self: Role, other: Role): number
         return -1
     else
         -- If same position, compare by ID (lower ID = created first = higher priority)
-        local selfId = tonumber(self.Id) or 0
-        local otherId = tonumber(other.Id) or 0
+        const selfId = tonumber(self.Id) or 0
+        const otherId = tonumber(other.Id) or 0
 
         if selfId < otherId then
             return 1

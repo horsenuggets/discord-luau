@@ -17,28 +17,28 @@ Environment variables:
 
 --]]
 
-local process = require("@lune/process")
-local task = require("@lune/task")
+const process = require("@lune/process")
+const task = require("@lune/task")
 
-local Client = require("@discordluau/Classes/Client")
-local GatewayIntent = require("@discordluau/Enums/GatewayIntent")
-local Lavalink = require("@discordluau/Lavalink")
+const Client = require("@discordluau/Classes/Client")
+const GatewayIntent = require("@discordluau/Enums/GatewayIntent")
+const Lavalink = require("@discordluau/Lavalink")
 
 -- Get environment variables
-local BOT_TOKEN = process.env.DISCORD_BOT_TOKEN
-local GUILD_ID = process.env.DISCORD_TEST_GUILD_ID
-local VOICE_CHANNEL_ID = process.env.DISCORD_TEST_VOICE_CHANNEL_ID
-local LAVALINK_HOST = process.env.LAVALINK_HOST
-local LAVALINK_PORT = process.env.LAVALINK_PORT
-local LAVALINK_PASSWORD = process.env.LAVALINK_PASSWORD
+const BOT_TOKEN = process.env.DISCORD_BOT_TOKEN
+const GUILD_ID = process.env.DISCORD_TEST_GUILD_ID
+const VOICE_CHANNEL_ID = process.env.DISCORD_TEST_VOICE_CHANNEL_ID
+const LAVALINK_HOST = process.env.LAVALINK_HOST
+const LAVALINK_PORT = process.env.LAVALINK_PORT
+const LAVALINK_PASSWORD = process.env.LAVALINK_PASSWORD
 
 -- Test audio files (local)
-local ASSETS_PATH = `{string.gsub(process.cwd, "/$", "")}/Tests/Assets`
-local TEST_AUDIO_MP3 = `{ASSETS_PATH}/VineBoom.mp3`
-local TEST_AUDIO_WAV = `{ASSETS_PATH}/Gunshot.wav`
+const ASSETS_PATH = `{string.gsub(process.cwd, "/$", "")}/Tests/Assets`
+const TEST_AUDIO_MP3 = `{ASSETS_PATH}/VineBoom.mp3`
+const TEST_AUDIO_WAV = `{ASSETS_PATH}/Gunshot.wav`
 
 -- Check if voice tests should run
-local function shouldRunVoiceTests(): boolean
+const function shouldRunVoiceTests(): boolean
     return BOT_TOKEN ~= nil
         and BOT_TOKEN ~= ""
         and GUILD_ID ~= nil
@@ -47,7 +47,7 @@ local function shouldRunVoiceTests(): boolean
 end
 
 -- Check if Lavalink tests should run
-local function shouldRunLavalinkTests(): boolean
+const function shouldRunLavalinkTests(): boolean
     return shouldRunVoiceTests()
         and LAVALINK_HOST ~= nil
         and LAVALINK_HOST ~= ""
@@ -74,7 +74,7 @@ return function()
 
         beforeAll(function()
             -- Create client with required intents for voice
-            local success, _err = pcall(function()
+            const success, _err = pcall(function()
                 client = Client.new({
                     intents = {
                         GatewayIntent.Guilds,
@@ -99,7 +99,7 @@ return function()
                 client:Login(BOT_TOKEN)
 
                 -- Wait for ready (max 15 seconds)
-                local startTime = os.clock()
+                const startTime = os.clock()
                 while not isReady and (os.clock() - startTime) < 15 do
                     task.wait(0.1)
                 end
@@ -146,7 +146,7 @@ return function()
             -- Wait for guild to be cached
             task.wait(2)
 
-            local guild = client.Guilds[GUILD_ID]
+            const guild = client.Guilds[GUILD_ID]
             expect(guild).to.be.ok()
             expect(guild.Id).to.equal(GUILD_ID)
         end)
@@ -164,7 +164,7 @@ return function()
             client.Gateway:UpdateVoiceState(GUILD_ID, VOICE_CHANNEL_ID, false, true) -- self-deaf
 
             -- Wait for voice state update (max 10 seconds)
-            local startTime = os.clock()
+            const startTime = os.clock()
             while not voiceStateReceived and (os.clock() - startTime) < 10 do
                 task.wait(0.1)
             end
@@ -181,12 +181,12 @@ return function()
 
             task.wait(1)
 
-            local guild = client.Guilds[GUILD_ID]
+            const guild = client.Guilds[GUILD_ID]
             if not guild then
                 return
             end
 
-            local voiceState = guild:GetVoiceState(client.User.Id)
+            const voiceState = guild:GetVoiceState(client.User.Id)
             expect(voiceState).to.be.ok()
             expect(voiceState.channel_id).to.equal(VOICE_CHANNEL_ID)
         end)
@@ -196,12 +196,12 @@ return function()
                 return
             end
 
-            local guild = client.Guilds[GUILD_ID]
+            const guild = client.Guilds[GUILD_ID]
             if not guild then
                 return
             end
 
-            local members = guild:GetVoiceChannelMembers(VOICE_CHANNEL_ID)
+            const members = guild:GetVoiceChannelMembers(VOICE_CHANNEL_ID)
             expect(members).to.be.a("table")
 
             -- Bot should be in the list
@@ -221,7 +221,7 @@ return function()
             end
 
             -- Only test leaving if we actually joined (check before resetting)
-            local wasInVoice = receivedVoiceState and receivedVoiceState.ChannelId == VOICE_CHANNEL_ID
+            const wasInVoice = receivedVoiceState and receivedVoiceState.ChannelId == VOICE_CHANNEL_ID
             if not wasInVoice then
                 return
             end
@@ -234,7 +234,7 @@ return function()
             client.Gateway:UpdateVoiceState(GUILD_ID, nil, false, false)
 
             -- Wait for voice state update (max 10 seconds)
-            local startTime = os.clock()
+            const startTime = os.clock()
             while not voiceStateReceived and (os.clock() - startTime) < 10 do
                 task.wait(0.1)
             end
@@ -253,12 +253,12 @@ return function()
 
             task.wait(1)
 
-            local guild = client.Guilds[GUILD_ID]
+            const guild = client.Guilds[GUILD_ID]
             if not guild then
                 return
             end
 
-            local voiceState = guild:GetVoiceState(client.User.Id)
+            const voiceState = guild:GetVoiceState(client.User.Id)
             expect(voiceState).to.equal(nil)
         end)
     end)
@@ -313,7 +313,7 @@ return function()
                     while not nodeReady and (os.clock() - startTime) < 10 do
                         task.wait(0.1)
                         -- Also check SessionId directly as backup
-                        local node = lavalink:GetNode("test-node")
+                        const node = lavalink:GetNode("test-node")
                         if node and node.SessionId then
                             nodeReady = true
                         end
@@ -350,22 +350,22 @@ return function()
 
                 -- Node may take time to fully connect via WebSocket
                 -- Check that the node exists and can make REST calls
-                local node = lavalink:GetNode("test-node")
+                const node = lavalink:GetNode("test-node")
                 expect(node).to.be.ok()
 
                 -- REST should work even if WebSocket isn't fully ready
-                local info = node.Rest:GetInfo()
+                const info = node.Rest:GetInfo()
                 expect(info).to.be.ok()
                 expect(info.version).to.be.ok()
             end)
 
             it("should get Lavalink server info", function()
-                local node = lavalink:GetNode("test-node")
+                const node = lavalink:GetNode("test-node")
                 if not node or not node.Connected then
                     return
                 end
 
-                local info = node.Rest:GetInfo()
+                const info = node.Rest:GetInfo()
                 expect(info).to.be.ok()
                 expect(info.version).to.be.ok()
                 expect(info.version.semver).to.be.a("string")
@@ -376,7 +376,7 @@ return function()
                     return
                 end
 
-                local result = lavalink:Search("never gonna give you up", "ytsearch")
+                const result = lavalink:Search("never gonna give you up", "ytsearch")
 
                 expect(result).to.be.ok()
                 expect(result.loadType).to.be.a("string")
@@ -394,7 +394,7 @@ return function()
                     return
                 end
 
-                local player = lavalink:GetPlayer(GUILD_ID)
+                const player = lavalink:GetPlayer(GUILD_ID)
                 expect(player).to.be.ok()
                 expect(player.GuildId).to.equal(GUILD_ID)
             end)
@@ -404,7 +404,7 @@ return function()
                     return
                 end
 
-                local player = lavalink:GetPlayer(GUILD_ID)
+                const player = lavalink:GetPlayer(GUILD_ID)
                 if not player then
                     return
                 end
@@ -422,19 +422,19 @@ return function()
                     return
                 end
 
-                local player = lavalink:GetPlayer(GUILD_ID)
+                const player = lavalink:GetPlayer(GUILD_ID)
                 if not player or not player.ChannelId then
                     return
                 end
 
                 -- Load local mp3 file
-                local result = lavalink:LoadFile(TEST_AUDIO_MP3)
+                const result = lavalink:LoadFile(TEST_AUDIO_MP3)
 
                 if result.loadType ~= "track" or not result.data then
                     return
                 end
 
-                local trackEncoded = result.data.encoded
+                const trackEncoded = result.data.encoded
 
                 -- Set up track start listener
                 local trackStarted = false
@@ -446,7 +446,7 @@ return function()
                 player:Play(trackEncoded)
 
                 -- Wait for track to start (max 5 seconds)
-                local startTime = os.clock()
+                const startTime = os.clock()
                 while not trackStarted and (os.clock() - startTime) < 5 do
                     task.wait(0.1)
                 end
@@ -464,19 +464,19 @@ return function()
                     return
                 end
 
-                local player = lavalink:GetPlayer(GUILD_ID)
+                const player = lavalink:GetPlayer(GUILD_ID)
                 if not player or not player.ChannelId then
                     return
                 end
 
                 -- Load local wav file
-                local result = lavalink:LoadFile(TEST_AUDIO_WAV)
+                const result = lavalink:LoadFile(TEST_AUDIO_WAV)
 
                 if result.loadType ~= "track" or not result.data then
                     return
                 end
 
-                local trackEncoded = result.data.encoded
+                const trackEncoded = result.data.encoded
 
                 -- Set up track start listener
                 local trackStarted = false
@@ -488,7 +488,7 @@ return function()
                 player:Play(trackEncoded)
 
                 -- Wait for track to start (max 5 seconds)
-                local startTime = os.clock()
+                const startTime = os.clock()
                 while not trackStarted and (os.clock() - startTime) < 5 do
                     task.wait(0.1)
                 end
@@ -506,7 +506,7 @@ return function()
                     return
                 end
 
-                local player = lavalink:GetPlayer(GUILD_ID)
+                const player = lavalink:GetPlayer(GUILD_ID)
                 if not player or not player.Playing then
                     return
                 end
@@ -527,7 +527,7 @@ return function()
                     return
                 end
 
-                local player = lavalink:GetPlayer(GUILD_ID)
+                const player = lavalink:GetPlayer(GUILD_ID)
                 if not player then
                     return
                 end
@@ -544,7 +544,7 @@ return function()
                     return
                 end
 
-                local player = lavalink:GetPlayer(GUILD_ID)
+                const player = lavalink:GetPlayer(GUILD_ID)
                 if not player then
                     return
                 end
@@ -559,7 +559,7 @@ return function()
                     return
                 end
 
-                local player = lavalink:GetPlayer(GUILD_ID)
+                const player = lavalink:GetPlayer(GUILD_ID)
                 if not player then
                     return
                 end
@@ -578,7 +578,7 @@ return function()
 
                 lavalink:DestroyPlayer(GUILD_ID)
 
-                local player = lavalink.Players[GUILD_ID]
+                const player = lavalink.Players[GUILD_ID]
                 expect(player).to.equal(nil)
             end)
         end)

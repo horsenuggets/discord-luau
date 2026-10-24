@@ -7,7 +7,7 @@ snowflakes and data structures match the Discord API specification.
 
 --]]
 
-local MockData = {}
+const MockData = {}
 
 -- Valid snowflake IDs for testing
 MockData.Snowflakes = {

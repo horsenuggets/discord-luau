@@ -1,4 +1,4 @@
-local Rest = require("@self/Rest")
+const Rest = require("@self/Rest")
 
 export type Rest = Rest.Rest
 

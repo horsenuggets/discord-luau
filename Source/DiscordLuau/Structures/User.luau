@@ -6,7 +6,7 @@ Represents a Discord user. Contains user information like username, avatar, and 
 
 --]]
 
-local Types = require("./Types")
+const Types = require("./Types")
 
 --[=[
     @class User
@@ -17,13 +17,13 @@ local Types = require("./Types")
 
     ```lua
     client:On("messageCreate", function(message)
-        local user = message.Author
+        const user = message.Author
         print(user:GetTag()) -- "Username#0000" or "username"
         print(user:GetDisplayAvatarUrl()) -- Avatar URL
     end)
     ```
 ]=]
-local User = {}
+const User = {}
 User.__index = User
 
 export type User = typeof(setmetatable(
@@ -49,7 +49,7 @@ function User.new(client: Types.Client, data: Types.APIUser): User
     assert(type(client) == "table", "Expected client to be a table")
     assert(type(data) == "table", "Expected data to be a table")
 
-    local self = setmetatable({}, User)
+    const self = setmetatable({}, User)
 
     self.Client = client
     self._data = data
@@ -78,10 +78,10 @@ function User.GetAvatarUrl(self: User, options: { format: string?, size: number?
         return nil
     end
 
-    local format = options and options.format or "webp"
-    local size = options and options.size or 128
+    const format = options and options.format or "webp"
+    const size = options and options.size or 128
 
-    local extension = if self.Avatar:sub(1, 2) == "a_" then "gif" else format
+    const extension = if self.Avatar:sub(1, 2) == "a_" then "gif" else format
 
     return `https://cdn.discordapp.com/avatars/{self.Id}/{self.Avatar}.{extension}?size={size}`
 end
@@ -108,10 +108,10 @@ function User.GetBannerUrl(self: User, options: { format: string?, size: number?
         return nil
     end
 
-    local format = options and options.format or "webp"
-    local size = options and options.size or 512
+    const format = options and options.format or "webp"
+    const size = options and options.size or 512
 
-    local extension = if self.Banner:sub(1, 2) == "a_" then "gif" else format
+    const extension = if self.Banner:sub(1, 2) == "a_" then "gif" else format
 
     return `https://cdn.discordapp.com/banners/{self.Id}/{self.Banner}.{extension}?size={size}`
 end

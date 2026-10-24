@@ -7,7 +7,7 @@ channels, each with different capabilities.
 
 --]]
 
-local Types = require("./Types")
+const Types = require("./Types")
 
 --[=[
     @class Channel
@@ -16,7 +16,7 @@ local Types = require("./Types")
     Represents a Discord channel. Channels can be text, voice, category, thread,
     forum, or DM channels. Provides methods for sending messages and managing permissions.
 ]=]
-local Channel = {}
+const Channel = {}
 Channel.__index = Channel
 
 export type Channel = typeof(setmetatable(
@@ -61,7 +61,7 @@ function Channel.new(client: Types.Client, data: Types.APIChannel, guild: Types.
     assert(type(client) == "table", "Expected client to be a table")
     assert(type(data) == "table", "Expected data to be a table")
 
-    local self = setmetatable({}, Channel)
+    const self = setmetatable({}, Channel)
 
     self.Client = client
     self.Guild = guild
@@ -107,7 +107,7 @@ end
 function Channel.IsText(self: Channel): boolean
     -- Text channel types: GuildText (0), DM (1), GroupDM (3), GuildAnnouncement (5),
     -- AnnouncementThread (10), PublicThread (11), PrivateThread (12)
-    local textTypes = { [0] = true, [1] = true, [3] = true, [5] = true, [10] = true, [11] = true, [12] = true }
+    const textTypes = { [0] = true, [1] = true, [3] = true, [5] = true, [10] = true, [11] = true, [12] = true }
     return textTypes[self.Type] == true
 end
 
@@ -151,7 +151,7 @@ function Channel.Send(self: Channel, options: string | Types.MessageSendOptions)
         body = options
     end
 
-    local data = self.Client.Rest:CreateMessage(self.Id, body)
+    const data = self.Client.Rest:CreateMessage(self.Id, body)
 
     -- Use the Client's message factory to avoid cyclic dependency
     if self.Client._createMessage then
@@ -167,8 +167,8 @@ function Channel.GetIconUrl(self: Channel, options: { format: string?, size: num
         return nil
     end
 
-    local format = options and options.format or "webp"
-    local size = options and options.size or 64
+    const format = options and options.format or "webp"
+    const size = options and options.size or 64
 
     return `https://cdn.discordapp.com/channel-icons/{self.Id}/{self.Icon}.{format}?size={size}`
 end

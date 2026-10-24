@@ -6,7 +6,7 @@ Helper functions for testing Discord-Luau structures.
 
 --]]
 
-local TestUtils = {}
+const TestUtils = {}
 
 -- Check if a string contains a substring (plain text, not pattern)
 function TestUtils.contains(str: string?, substring: string): boolean

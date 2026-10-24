@@ -6,7 +6,7 @@ Discord interaction response types.
 
 --]]
 
-local InteractionResponseType = {
+const InteractionResponseType = {
     Pong = 1,
     ChannelMessageWithSource = 4,
     DeferredChannelMessageWithSource = 5,

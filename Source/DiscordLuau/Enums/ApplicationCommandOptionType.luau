@@ -6,7 +6,7 @@ Discord application command option types for slash command parameters.
 
 --]]
 
-local ApplicationCommandOptionType = {
+const ApplicationCommandOptionType = {
     SubCommand = 1,
     SubCommandGroup = 2,
     String = 3,

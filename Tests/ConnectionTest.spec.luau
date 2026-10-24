@@ -6,29 +6,29 @@ Tests for the Connection class.
 
 --]]
 
-local Signal = require("@discordluau/Utils/Signal")
+const Signal = require("@discordluau/Utils/Signal")
 
 return function()
     describe("Connection", function()
         it("should be created by Signal:Connect", function()
-            local signal = Signal.new()
-            local connection = signal:Connect(function() end)
+            const signal = Signal.new()
+            const connection = signal:Connect(function() end)
 
             expect(connection).to.be.ok()
             expect(connection.Connected).to.equal(true)
         end)
 
         it("should start in connected state", function()
-            local signal = Signal.new()
-            local connection = signal:Connect(function() end)
+            const signal = Signal.new()
+            const connection = signal:Connect(function() end)
 
             expect(connection.Connected).to.equal(true)
         end)
 
         describe("Disconnect", function()
             it("should disconnect when called", function()
-                local signal = Signal.new()
-                local connection = signal:Connect(function() end)
+                const signal = Signal.new()
+                const connection = signal:Connect(function() end)
 
                 connection:Disconnect()
 
@@ -36,9 +36,9 @@ return function()
             end)
 
             it("should prevent future calls", function()
-                local signal = Signal.new()
+                const signal = Signal.new()
                 local callCount = 0
-                local connection = signal:Connect(function()
+                const connection = signal:Connect(function()
                     callCount += 1
                 end)
 
@@ -52,8 +52,8 @@ return function()
             end)
 
             it("should be safe to call multiple times", function()
-                local signal = Signal.new()
-                local connection = signal:Connect(function() end)
+                const signal = Signal.new()
+                const connection = signal:Connect(function() end)
 
                 connection:Disconnect()
                 connection:Disconnect()
@@ -65,14 +65,14 @@ return function()
 
         describe("multiple connections", function()
             it("should allow multiple connections to same signal", function()
-                local signal = Signal.new()
+                const signal = Signal.new()
                 local count1 = 0
                 local count2 = 0
 
-                local conn1 = signal:Connect(function()
+                const conn1 = signal:Connect(function()
                     count1 += 1
                 end)
-                local conn2 = signal:Connect(function()
+                const conn2 = signal:Connect(function()
                     count2 += 1
                 end)
 
@@ -85,14 +85,14 @@ return function()
             end)
 
             it("should disconnect independently", function()
-                local signal = Signal.new()
+                const signal = Signal.new()
                 local count1 = 0
                 local count2 = 0
 
-                local conn1 = signal:Connect(function()
+                const conn1 = signal:Connect(function()
                     count1 += 1
                 end)
-                local conn2 = signal:Connect(function()
+                const conn2 = signal:Connect(function()
                     count2 += 1
                 end)
 

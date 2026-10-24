@@ -6,7 +6,7 @@ Discord application command types.
 
 --]]
 
-local ApplicationCommandType = {
+const ApplicationCommandType = {
     ChatInput = 1,
     User = 2,
     Message = 3,

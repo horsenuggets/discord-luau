@@ -7,19 +7,19 @@ access to guilds, channels, users, and other Discord resources.
 
 --]]
 
-local task = require("@lune/task")
+const task = require("@lune/task")
 
-local Channel = require("../Structures/Channel")
-local Gateway = require("../Gateway")
-local GatewayIntent = require("../Enums/GatewayIntent")
-local Guild = require("../Structures/Guild")
-local Interaction = require("../Structures/Interaction")
-local Member = require("../Structures/Member")
-local Message = require("../Structures/Message")
-local Rest = require("../Rest")
-local Types = require("../Structures/Types")
-local User = require("../Structures/User")
-local VoiceState = require("../Structures/VoiceState")
+const Channel = require("../Structures/Channel")
+const Gateway = require("../Gateway")
+const GatewayIntent = require("../Enums/GatewayIntent")
+const Guild = require("../Structures/Guild")
+const Interaction = require("../Structures/Interaction")
+const Member = require("../Structures/Member")
+const Message = require("../Structures/Message")
+const Rest = require("../Rest")
+const Types = require("../Structures/Types")
+const User = require("../Structures/User")
+const VoiceState = require("../Structures/VoiceState")
 
 --[=[
     @class Client
@@ -29,9 +29,9 @@ local VoiceState = require("../Structures/VoiceState")
     and provides access to guilds, channels, users, and other Discord resources.
 
     ```lua
-    local Discord = require("@packages/Discord")
+    const Discord = require("@packages/Discord")
 
-    local client = Discord.Client.new({
+    const client = Discord.Client.new({
         intents = {
             Discord.Intents.Guilds,
             Discord.Intents.GuildMessages,
@@ -46,7 +46,7 @@ local VoiceState = require("../Structures/VoiceState")
     client:Login(process.env.DISCORD_BOT_TOKEN)
     ```
 ]=]
-local Client = {}
+const Client = {}
 Client.__index = Client
 
 export type Client = typeof(setmetatable(
@@ -74,7 +74,7 @@ export type Client = typeof(setmetatable(
     @return Client -- The new client instance
 ]=]
 function Client.new(options: Types.ClientOptions?): Client
-    local self = setmetatable({}, Client)
+    const self = setmetatable({}, Client)
 
     self.Channels = {}
     self.Guilds = {}
@@ -114,7 +114,7 @@ function Client._setupGatewayHandlers(self: Client)
 
     -- Handle ready event
     self.Gateway.OnReady:Connect(function(data: Types.GatewayReadyData)
-        local user = User.new(self, data.user)
+        const user = User.new(self, data.user)
         self.User = user
         self.Application = data.application
         self.ReadyAt = os.time()
@@ -145,7 +145,7 @@ end
 function Client._handleDispatchEvent(self: Client, eventName: string, data: any)
     -- Handle specific events for caching
     if eventName == "GUILD_CREATE" then
-        local guild = Guild.new(self, data)
+        const guild = Guild.new(self, data)
         self.Guilds[guild.Id] = guild
 
         -- Cache channels
@@ -162,13 +162,13 @@ function Client._handleDispatchEvent(self: Client, eventName: string, data: any)
 
         self:_emit("guildCreate", guild)
     elseif eventName == "GUILD_UPDATE" then
-        local guild = self.Guilds[data.id]
+        const guild = self.Guilds[data.id]
         if guild then
             guild:_patch(data)
             self:_emit("guildUpdate", guild)
         end
     elseif eventName == "GUILD_DELETE" then
-        local guild = self.Guilds[data.id]
+        const guild = self.Guilds[data.id]
         if guild then
             -- Remove cached channels
             for channelId in guild.Channels do
@@ -184,8 +184,8 @@ function Client._handleDispatchEvent(self: Client, eventName: string, data: any)
             end
         end
     elseif eventName == "CHANNEL_CREATE" then
-        local guild = data.guild_id and self.Guilds[data.guild_id]
-        local channel = Channel.new(self, data, guild)
+        const guild = data.guild_id and self.Guilds[data.guild_id]
+        const channel = Channel.new(self, data, guild)
         self.Channels[channel.Id] = channel
 
         if guild then
@@ -199,13 +199,13 @@ function Client._handleDispatchEvent(self: Client, eventName: string, data: any)
             channel:_patch(data)
             self:_emit("channelUpdate", channel)
         else
-            local guild = data.guild_id and self.Guilds[data.guild_id]
+            const guild = data.guild_id and self.Guilds[data.guild_id]
             channel = Channel.new(self, data, guild)
             self.Channels[channel.Id] = channel
             self:_emit("channelUpdate", channel)
         end
     elseif eventName == "CHANNEL_DELETE" then
-        local channel = self.Channels[data.id]
+        const channel = self.Channels[data.id]
         if channel then
             self.Channels[data.id] = nil
 
@@ -216,7 +216,7 @@ function Client._handleDispatchEvent(self: Client, eventName: string, data: any)
             self:_emit("channelDelete", channel)
         end
     elseif eventName == "MESSAGE_CREATE" then
-        local message = Message.new(self, data)
+        const message = Message.new(self, data)
 
         -- Set guild reference
         if data.guild_id then
@@ -241,7 +241,7 @@ function Client._handleDispatchEvent(self: Client, eventName: string, data: any)
         self:_emit("messageCreate", message)
     elseif eventName == "MESSAGE_UPDATE" then
         -- MESSAGE_UPDATE may be partial, so we need to handle it carefully
-        local message = Message.new(self, data)
+        const message = Message.new(self, data)
 
         if data.guild_id then
             message.GuildId = data.guild_id
@@ -294,9 +294,9 @@ function Client._handleDispatchEvent(self: Client, eventName: string, data: any)
             messageId = data.message_id,
         })
     elseif eventName == "GUILD_MEMBER_ADD" then
-        local guild = self.Guilds[data.guild_id]
+        const guild = self.Guilds[data.guild_id]
         if guild then
-            local member = Member.new(self, guild, data)
+            const member = Member.new(self, guild, data)
             if member.User then
                 guild.Members[member.User.Id] = member
                 self.Users[member.User.Id] = member.User
@@ -304,7 +304,7 @@ function Client._handleDispatchEvent(self: Client, eventName: string, data: any)
             self:_emit("guildMemberAdd", member)
         end
     elseif eventName == "GUILD_MEMBER_UPDATE" then
-        local guild = self.Guilds[data.guild_id]
+        const guild = self.Guilds[data.guild_id]
         if guild and data.user then
             local member = guild.Members[data.user.id]
             if member then
@@ -318,9 +318,9 @@ function Client._handleDispatchEvent(self: Client, eventName: string, data: any)
             self:_emit("guildMemberUpdate", member)
         end
     elseif eventName == "GUILD_MEMBER_REMOVE" then
-        local guild = self.Guilds[data.guild_id]
+        const guild = self.Guilds[data.guild_id]
         if guild and data.user then
-            local member = guild.Members[data.user.id]
+            const member = guild.Members[data.user.id]
             guild.Members[data.user.id] = nil
             self:_emit("guildMemberRemove", {
                 guild = guild,
@@ -329,7 +329,7 @@ function Client._handleDispatchEvent(self: Client, eventName: string, data: any)
             })
         end
     elseif eventName == "INTERACTION_CREATE" then
-        local interaction = Interaction.new(self, data)
+        const interaction = Interaction.new(self, data)
         self:_emit("interactionCreate", interaction)
     elseif eventName == "TYPING_START" then
         self:_emit("typingStart", {
@@ -340,13 +340,13 @@ function Client._handleDispatchEvent(self: Client, eventName: string, data: any)
             userId = data.user_id,
         })
     elseif eventName == "VOICE_STATE_UPDATE" then
-        local guild = data.guild_id and self.Guilds[data.guild_id]
+        const guild = data.guild_id and self.Guilds[data.guild_id]
         local oldState = nil
         local newState = nil
 
         if guild then
             -- Get old state before updating
-            local oldData = guild.VoiceStates[data.user_id]
+            const oldData = guild.VoiceStates[data.user_id]
             if oldData then
                 oldState = VoiceState.new(self, oldData, guild)
             end
@@ -382,7 +382,7 @@ function Client._handleDispatchEvent(self: Client, eventName: string, data: any)
 end
 
 function Client._emit(self: Client, eventName: string, ...: any)
-    local handlers = self._eventHandlers[eventName]
+    const handlers = self._eventHandlers[eventName]
     if handlers then
         for _, handler in handlers do
             task.spawn(handler, ...)
@@ -409,7 +409,7 @@ function Client.On(self: Client, eventName: string, handler: (any) -> ()): () ->
 
     -- Return disconnect function
     return function()
-        local handlers = self._eventHandlers[eventName]
+        const handlers = self._eventHandlers[eventName]
         if handlers then
             for i, h in handlers do
                 if h == handler then
@@ -455,7 +455,7 @@ function Client.Login(self: Client, token: string)
     self._token = token
     self.Rest = Rest.new(self, token)
 
-    local gateway = Gateway.new(self, token, self._intents)
+    const gateway = Gateway.new(self, token, self._intents)
     self.Gateway = gateway
 
     self:_setupGatewayHandlers()
@@ -529,8 +529,8 @@ function Client.FetchGuild(self: Client, guildId: Types.Snowflake): Guild.Guild
     assert(type(guildId) == "string", "Expected guildId to be a string")
     assert(self.Rest, "Client is not logged in")
 
-    local data = self.Rest:GetGuild(guildId, true)
-    local guild = Guild.new(self, data)
+    const data = self.Rest:GetGuild(guildId, true)
+    const guild = Guild.new(self, data)
     self.Guilds[guild.Id] = guild
 
     return guild
@@ -540,9 +540,9 @@ function Client.FetchChannel(self: Client, channelId: Types.Snowflake): Channel.
     assert(type(channelId) == "string", "Expected channelId to be a string")
     assert(self.Rest, "Client is not logged in")
 
-    local data = self.Rest:GetChannel(channelId)
-    local guild = data.guild_id and self.Guilds[data.guild_id]
-    local channel = Channel.new(self, data, guild)
+    const data = self.Rest:GetChannel(channelId)
+    const guild = data.guild_id and self.Guilds[data.guild_id]
+    const channel = Channel.new(self, data, guild)
     self.Channels[channel.Id] = channel
 
     return channel
@@ -552,8 +552,8 @@ function Client.FetchUser(self: Client, userId: Types.Snowflake): User.User
     assert(type(userId) == "string", "Expected userId to be a string")
     assert(self.Rest, "Client is not logged in")
 
-    local data = self.Rest:GetUser(userId)
-    local user = User.new(self, data)
+    const data = self.Rest:GetUser(userId)
+    const user = User.new(self, data)
     self.Users[user.Id] = user
 
     return user
@@ -563,8 +563,8 @@ function Client.CreateDM(self: Client, userId: Types.Snowflake): Channel.Channel
     assert(type(userId) == "string", "Expected userId to be a string")
     assert(self.Rest, "Client is not logged in")
 
-    local data = self.Rest:CreateDM(userId)
-    local channel = Channel.new(self, data)
+    const data = self.Rest:CreateDM(userId)
+    const channel = Channel.new(self, data)
     self.Channels[channel.Id] = channel
 
     return channel
@@ -597,7 +597,7 @@ function Client.RegisterGlobalCommand(
     assert(self.Rest, "Client is not logged in")
     assert(self.Application, "Application not available yet, wait for ready event")
 
-    local data = if type(command.ToJSON) == "function" then command:ToJSON() else command
+    const data = if type(command.ToJSON) == "function" then command:ToJSON() else command
     return self.Rest:CreateGlobalApplicationCommand(self.Application.id, data)
 end
 
@@ -610,7 +610,7 @@ function Client.RegisterGuildCommand(
     assert(self.Rest, "Client is not logged in")
     assert(self.Application, "Application not available yet, wait for ready event")
 
-    local data = if type(command.ToJSON) == "function" then command:ToJSON() else command
+    const data = if type(command.ToJSON) == "function" then command:ToJSON() else command
     return self.Rest:CreateGuildApplicationCommand(self.Application.id, guildId, data)
 end
 
@@ -628,7 +628,7 @@ function Client.SetGlobalCommands(
     assert(self.Rest, "Client is not logged in")
     assert(self.Application, "Application not available yet, wait for ready event")
 
-    local data = {}
+    const data = {}
     for _, command in commands do
         if type(command.ToJSON) == "function" then
             table.insert(data, command:ToJSON())
@@ -650,7 +650,7 @@ function Client.SetGuildCommands(
     assert(self.Rest, "Client is not logged in")
     assert(self.Application, "Application not available yet, wait for ready event")
 
-    local data = {}
+    const data = {}
     for _, command in commands do
         if type(command.ToJSON) == "function" then
             table.insert(data, command:ToJSON())

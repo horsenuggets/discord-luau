@@ -7,13 +7,13 @@ methods for replying, reacting, and editing.
 
 --]]
 
-local Member = require("./Member")
-local Types = require("./Types")
-local User = require("./User")
+const Member = require("./Member")
+const Types = require("./Types")
+const User = require("./User")
 
 -- Deferred require to avoid circular dependency with Channel
 local Channel: any = nil
-local function getChannel()
+const function getChannel()
     if not Channel then
         Channel = require("./Channel")
     end
@@ -35,7 +35,7 @@ end
     end)
     ```
 ]=]
-local Message = {}
+const Message = {}
 Message.__index = Message
 
 export type Message = typeof(setmetatable(
@@ -83,7 +83,7 @@ function Message.new(client: Types.Client, data: Types.APIMessage): Message
     assert(type(client) == "table", "Expected client to be a table")
     assert(type(data) == "table", "Expected data to be a table")
 
-    local self = setmetatable({}, Message)
+    const self = setmetatable({}, Message)
 
     self.Client = client
     self._data = data

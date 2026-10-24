@@ -6,8 +6,8 @@ Main manager for Lavalink audio functionality. Handles node management, player c
 and coordination between Discord voice events and Lavalink servers.
 
 Usage:
-    local client = Client.new(token)
-    local lavalink = Lavalink.new(client)
+    const client = Client.new(token)
+    const lavalink = Lavalink.new(client)
 
     lavalink:AddNode({
         name = "main",
@@ -16,24 +16,24 @@ Usage:
         password = "lifeisroblox",
     })
 
-    local player = lavalink:GetPlayer(guildId)
+    const player = lavalink:GetPlayer(guildId)
     player:Connect(channelId)
 
-    local result = lavalink:Search("never gonna give you up")
+    const result = lavalink:Search("never gonna give you up")
     if result.loadType == "search" then
         player:Play(result.data[1])
     end
 
 --]]
 
-local Signal = require("../Utils/Signal")
+const Signal = require("../Utils/Signal")
 
-local LavalinkNode = require("./LavalinkNode")
-local Player = require("./Player")
-local Track = require("./Track")
-local Types = require("./Types")
+const LavalinkNode = require("./LavalinkNode")
+const Player = require("./Player")
+const Track = require("./Track")
+const Types = require("./Types")
 
-local Lavalink = {}
+const Lavalink = {}
 Lavalink.__index = Lavalink
 
 export type Lavalink = typeof(setmetatable(
@@ -62,7 +62,7 @@ export type Lavalink = typeof(setmetatable(
 function Lavalink.new(client: any): Lavalink
     assert(type(client) == "table", "Expected client to be a table")
 
-    local self = setmetatable({}, Lavalink)
+    const self = setmetatable({}, Lavalink)
 
     self.Client = client
     self.Nodes = {}
@@ -98,7 +98,7 @@ function Lavalink._setupClientListeners(self: Lavalink)
             return
         end
 
-        local guildId = newState.GuildId
+        const guildId = newState.GuildId
         if not guildId then
             return
         end
@@ -113,7 +113,7 @@ function Lavalink._setupClientListeners(self: Lavalink)
 
     -- Listen for voice server updates
     self.Client:On("voiceServerUpdate", function(data: any)
-        local guildId = data.guild_id
+        const guildId = data.guild_id
         if not guildId then
             return
         end
@@ -128,8 +128,8 @@ function Lavalink._setupClientListeners(self: Lavalink)
 end
 
 function Lavalink._tryConnectPlayer(self: Lavalink, guildId: string)
-    local voiceState = self._voiceStates[guildId]
-    local voiceServer = self._voiceServers[guildId]
+    const voiceState = self._voiceStates[guildId]
+    const voiceServer = self._voiceServers[guildId]
 
     if not voiceState or not voiceServer then
         return
@@ -139,7 +139,7 @@ function Lavalink._tryConnectPlayer(self: Lavalink, guildId: string)
         return
     end
 
-    local player = self.Players[guildId]
+    const player = self.Players[guildId]
     if not player then
         return
     end
@@ -161,8 +161,8 @@ function Lavalink.AddNode(self: Lavalink, options: Types.NodeOptions): LavalinkN
     assert(type(options) == "table", "Expected options to be a table")
     assert(type(options.name) == "string", "Expected options.name to be a string")
 
-    local clientId = self.Client.User and self.Client.User.Id or "0"
-    local node = LavalinkNode.new(options, clientId)
+    const clientId = self.Client.User and self.Client.User.Id or "0"
+    const node = LavalinkNode.new(options, clientId)
 
     -- Set up node event listeners
     node.OnReady:Connect(function(sessionId: string, resumed: boolean)
@@ -174,14 +174,14 @@ function Lavalink.AddNode(self: Lavalink, options: Types.NodeOptions): LavalinkN
     end)
 
     node.OnPlayerUpdate:Connect(function(guildId: string, state: Types.PlayerState)
-        local player = self.Players[guildId]
+        const player = self.Players[guildId]
         if player then
             player:_updateState(state)
         end
     end)
 
     node.OnTrackStart:Connect(function(guildId: string, track: Types.LavalinkTrack)
-        local player = self.Players[guildId]
+        const player = self.Players[guildId]
         if player then
             player:_onTrackStart(track)
             self.OnTrackStart:Fire(player, player.CurrentTrack :: Track.Track)
@@ -189,7 +189,7 @@ function Lavalink.AddNode(self: Lavalink, options: Types.NodeOptions): LavalinkN
     end)
 
     node.OnTrackEnd:Connect(function(guildId: string, track: Types.LavalinkTrack, reason: string)
-        local player = self.Players[guildId]
+        const player = self.Players[guildId]
         if player then
             player:_onTrackEnd(track, reason)
             self.OnTrackEnd:Fire(player, Track.new(track), reason)
@@ -197,7 +197,7 @@ function Lavalink.AddNode(self: Lavalink, options: Types.NodeOptions): LavalinkN
     end)
 
     node.OnTrackException:Connect(function(guildId: string, track: Types.LavalinkTrack, exception: any)
-        local player = self.Players[guildId]
+        const player = self.Players[guildId]
         if player then
             player:_onTrackException(track, exception)
             self.OnTrackException:Fire(player, Track.new(track), exception)
@@ -205,7 +205,7 @@ function Lavalink.AddNode(self: Lavalink, options: Types.NodeOptions): LavalinkN
     end)
 
     node.OnTrackStuck:Connect(function(guildId: string, track: Types.LavalinkTrack, thresholdMs: number)
-        local player = self.Players[guildId]
+        const player = self.Players[guildId]
         if player then
             player:_onTrackStuck(track, thresholdMs)
             self.OnTrackStuck:Fire(player, Track.new(track), thresholdMs)
@@ -228,7 +228,7 @@ end
 function Lavalink.RemoveNode(self: Lavalink, name: string)
     assert(type(name) == "string", "Expected name to be a string")
 
-    local node = self.Nodes[name]
+    const node = self.Nodes[name]
     if node then
         node:Disconnect()
         self.Nodes[name] = nil
@@ -246,7 +246,7 @@ function Lavalink.GetBestNode(self: Lavalink): LavalinkNode.LavalinkNode?
 
     for _, node in self.Nodes do
         if node:IsReady() then
-            local penalty = node:GetPenalty()
+            const penalty = node:GetPenalty()
             if penalty < bestPenalty then
                 bestPenalty = penalty
                 bestNode = node
@@ -276,7 +276,7 @@ end
 function Lavalink.GetPlayer(self: Lavalink, guildId: string): Player.Player?
     assert(type(guildId) == "string", "Expected guildId to be a string")
 
-    local player = self.Players[guildId]
+    const player = self.Players[guildId]
     if player then
         return player
     end
@@ -293,12 +293,12 @@ end
 function Lavalink.CreatePlayer(self: Lavalink, guildId: string): Player.Player?
     assert(type(guildId) == "string", "Expected guildId to be a string")
 
-    local node = self:GetBestNode()
+    const node = self:GetBestNode()
     if not node then
         return nil
     end
 
-    local player = Player.new(guildId, node, self)
+    const player = Player.new(guildId, node, self)
     self.Players[guildId] = player
 
     return player
@@ -312,7 +312,7 @@ end
 function Lavalink.DestroyPlayer(self: Lavalink, guildId: string)
     assert(type(guildId) == "string", "Expected guildId to be a string")
 
-    local player = self.Players[guildId]
+    const player = self.Players[guildId]
     if player then
         player:Disconnect()
         self.Players[guildId] = nil
@@ -332,7 +332,7 @@ end
 function Lavalink.Search(self: Lavalink, query: string, source: string?): Types.LoadResult
     assert(type(query) == "string", "Expected query to be a string")
 
-    local node = self:GetBestNode()
+    const node = self:GetBestNode()
     if not node then
         return {
             loadType = "error",
@@ -356,7 +356,7 @@ end
 function Lavalink.LoadTracks(self: Lavalink, identifier: string): Types.LoadResult
     assert(type(identifier) == "string", "Expected identifier to be a string")
 
-    local node = self:GetBestNode()
+    const node = self:GetBestNode()
     if not node then
         return {
             loadType = "error",
@@ -381,7 +381,7 @@ function Lavalink.LoadFile(self: Lavalink, filePath: string): Types.LoadResult
     assert(type(filePath) == "string", "Expected filePath to be a string")
 
     -- Ensure absolute path and normalize
-    local absolutePath = filePath
+    const absolutePath = filePath
     if not string.match(absolutePath, "^/") then
         -- Relative path - this won't work for Lavalink, warn the user
         return {

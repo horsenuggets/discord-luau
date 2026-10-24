@@ -7,13 +7,13 @@ REST API and mock Gateway that can be configured to return specific responses.
 
 --]]
 
-local MockData = require("./MockData")
+const MockData = require("./MockData")
 
-local MockClient = {}
+const MockClient = {}
 
 -- Create a minimal mock client that doesn't require real connections
 function MockClient.new()
-    local client = {
+    const client = {
         -- Core properties
         User = nil,
         Application = nil,
@@ -45,7 +45,7 @@ end
 
 -- Create a mock client with pre-populated data
 function MockClient.newWithData()
-    local client = MockClient.new()
+    const client = MockClient.new()
 
     -- Populate with mock data
     client.User = MockClient.createMockUser(MockData.BotUser)
@@ -53,11 +53,11 @@ function MockClient.newWithData()
     client.ReadyAt = os.time()
 
     -- Add mock guild
-    local guild = MockClient.createMockGuild(MockData.Guild)
+    const guild = MockClient.createMockGuild(MockData.Guild)
     client.Guilds[MockData.Snowflakes.GuildId] = guild
 
     -- Add mock channel
-    local channel = MockClient.createMockChannel(MockData.TextChannel, client)
+    const channel = MockClient.createMockChannel(MockData.TextChannel, client)
     client.Channels[MockData.Snowflakes.ChannelId] = channel
     guild.Channels[MockData.Snowflakes.ChannelId] = channel
 
@@ -134,14 +134,14 @@ end
 
 -- Create a mock REST API
 function MockClient.createMockRest()
-    local rest = {
+    const rest = {
         _responses = {},
         _calls = {},
     }
 
     -- Configure a mock response for an endpoint
     function rest:setResponse(method, endpoint, response)
-        local key = `{method}:{endpoint}`
+        const key = `{method}:{endpoint}`
         self._responses[key] = response
     end
 
@@ -157,7 +157,7 @@ function MockClient.createMockRest()
 
     -- Mock request method
     function rest:_request(method, endpoint, body, _reason)
-        local key = `{method}:{endpoint}`
+        const key = `{method}:{endpoint}`
         table.insert(self._calls, { method = method, endpoint = endpoint, body = body })
 
         if self._responses[key] then
@@ -251,9 +251,9 @@ function MockClient.createMockRest()
     function rest:BulkOverwriteGlobalApplicationCommands(applicationId, commands)
         self:_request("PUT", `/applications/{applicationId}/commands`, commands)
         -- Return commands with IDs
-        local result = {}
+        const result = {}
         for i, cmd in commands do
-            local cmdWithId = table.clone(cmd)
+            const cmdWithId = table.clone(cmd)
             cmdWithId.id = tostring(100000000000000000 + i)
             table.insert(result, cmdWithId)
         end
@@ -303,17 +303,17 @@ function MockClient.createMockUser(data)
             if not self.Avatar then
                 return nil
             end
-            local format = options and options.format or "webp"
-            local size = options and options.size or 128
+            const format = options and options.format or "webp"
+            const size = options and options.size or 128
             return `https://cdn.discordapp.com/avatars/{self.Id}/{self.Avatar}.{format}?size={size}`
         end,
 
         GetDisplayAvatarUrl = function(self, options)
-            local avatarUrl = self:GetAvatarUrl(options)
+            const avatarUrl = self:GetAvatarUrl(options)
             if avatarUrl then
                 return avatarUrl
             end
-            local index = (tonumber(self.Id) :: number) % 5
+            const index = (tonumber(self.Id) :: number) % 5
             return `https://cdn.discordapp.com/embed/avatars/{index}.png`
         end,
 
@@ -352,8 +352,8 @@ function MockClient.createMockGuild(data)
             if not self.Icon then
                 return nil
             end
-            local format = options and options.format or "webp"
-            local size = options and options.size or 128
+            const format = options and options.format or "webp"
+            const size = options and options.size or 128
             return `https://cdn.discordapp.com/icons/{self.Id}/{self.Icon}.{format}?size={size}`
         end,
     }
@@ -361,7 +361,7 @@ end
 
 -- Create a mock channel object
 function MockClient.createMockChannel(data, client)
-    local channel = {
+    const channel = {
         _data = data,
         Client = client,
         Id = data.id,
@@ -378,7 +378,7 @@ function MockClient.createMockChannel(data, client)
         ParentId = data.parent_id,
 
         IsText = function(self)
-            local textTypes = { [0] = true, [1] = true, [3] = true, [5] = true, [10] = true, [11] = true, [12] = true }
+            const textTypes = { [0] = true, [1] = true, [3] = true, [5] = true, [10] = true, [11] = true, [12] = true }
             return textTypes[self.Type] == true
         end,
 
@@ -398,7 +398,7 @@ function MockClient.createMockChannel(data, client)
             else
                 body = options
             end
-            local messageData = self.Client.Rest:CreateMessage(self.Id, body)
+            const messageData = self.Client.Rest:CreateMessage(self.Id, body)
             return MockClient.createMockMessage(messageData, client, self)
         end,
 
@@ -542,8 +542,8 @@ function MockClient.createMockMember(data, guild)
 
         GetDisplayAvatarUrl = function(self, options)
             if self.Avatar then
-                local format = options and options.format or "webp"
-                local size = options and options.size or 128
+                const format = options and options.format or "webp"
+                const size = options and options.size or 128
                 return `https://cdn.discordapp.com/guilds/{self.GuildId}/users/{self.User.Id}/avatars/{self.Avatar}.{format}?size={size}`
             end
             if self.User then

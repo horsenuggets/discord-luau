@@ -7,12 +7,12 @@ information like nickname, roles, and join date.
 
 --]]
 
-local DateTime = require("@lune/datetime")
+const DateTime = require("@lune/datetime")
 
-local Types = require("./Types")
-local User = require("./User")
+const Types = require("./Types")
+const User = require("./User")
 
-local Member = {}
+const Member = {}
 Member.__index = Member
 
 export type Member = typeof(setmetatable(
@@ -42,7 +42,7 @@ function Member.new(client: Types.Client, guild: Types.Guild, data: Types.APIMem
     assert(type(guild) == "table", "Expected guild to be a table")
     assert(type(data) == "table", "Expected data to be a table")
 
-    local self = setmetatable({}, Member)
+    const self = setmetatable({}, Member)
 
     self.Client = client
     self.Guild = guild
@@ -87,16 +87,16 @@ function Member.GetAvatarUrl(self: Member, options: { format: string?, size: num
         return nil
     end
 
-    local format = options and options.format or "webp"
-    local size = options and options.size or 128
+    const format = options and options.format or "webp"
+    const size = options and options.size or 128
 
-    local extension = if self.Avatar:sub(1, 2) == "a_" then "gif" else format
+    const extension = if self.Avatar:sub(1, 2) == "a_" then "gif" else format
 
     return `https://cdn.discordapp.com/guilds/{self.GuildId}/users/{self.User and self.User.Id or "0"}/avatars/{self.Avatar}.{extension}?size={size}`
 end
 
 function Member.GetDisplayAvatarUrl(self: Member, options: { format: string?, size: number? }?): string
-    local guildAvatar = self:GetAvatarUrl(options)
+    const guildAvatar = self:GetAvatarUrl(options)
     if guildAvatar then
         return guildAvatar
     end
@@ -113,7 +113,7 @@ function Member.HasPermission(self: Member, permission: number): boolean
         return false
     end
 
-    local permissions = tonumber(self.Permissions) or 0
+    const permissions = tonumber(self.Permissions) or 0
 
     -- Administrator has all permissions
     if bit32.band(permissions, bit32.lshift(1, 3)) ~= 0 then
@@ -129,7 +129,7 @@ function Member.IsTimedOut(self: Member): boolean
     end
 
     -- Parse ISO 8601 timestamp and compare with current time
-    local success, timeoutEnd = pcall(function()
+    const success, timeoutEnd = pcall(function()
         return DateTime.fromIsoDate(self.CommunicationDisabledUntil)
     end)
 
@@ -137,7 +137,7 @@ function Member.IsTimedOut(self: Member): boolean
         return false
     end
 
-    local now = DateTime.now()
+    const now = DateTime.now()
     return timeoutEnd.unixTimestamp > now.unixTimestamp
 end
 
@@ -166,8 +166,8 @@ function Member.Timeout(self: Member, durationSeconds: number?, reason: string?)
 
     local untilTimestamp = nil
     if durationSeconds and durationSeconds > 0 then
-        local futureTime = DateTime.now().unixTimestamp + durationSeconds
-        local futureDate = DateTime.fromUnixTimestamp(futureTime)
+        const futureTime = DateTime.now().unixTimestamp + durationSeconds
+        const futureDate = DateTime.fromUnixTimestamp(futureTime)
         untilTimestamp = futureDate:toIsoDate()
     end
 
@@ -212,7 +212,7 @@ function Member.ToString(self: Member): string
 end
 
 function Member.__tostring(self: Member): string
-    local userId = self.User and self.User.Id or "unknown"
+    const userId = self.User and self.User.Id or "unknown"
     return `Member({userId} in {self.GuildId})`
 end
 

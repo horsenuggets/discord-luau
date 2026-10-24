@@ -17,30 +17,30 @@ These tests are skipped when running locally without proper configuration.
 
 --]]
 
-local process = require("@lune/process")
-local task = require("@lune/task")
+const process = require("@lune/process")
+const task = require("@lune/task")
 
-local Rest = require("@discordluau/Rest")
-local TestUtils = require("./Helpers/TestUtils")
+const Rest = require("@discordluau/Rest")
+const TestUtils = require("./Helpers/TestUtils")
 
 -- Get environment variables
-local BOT_TOKEN = process.env.DISCORD_BOT_TOKEN
-local GUILD_ID = process.env.DISCORD_TEST_GUILD_ID
-local TEXT_CHANNEL_ID = process.env.DISCORD_TEST_TEXT_CHANNEL_ID
-local VOICE_CHANNEL_ID = process.env.DISCORD_TEST_VOICE_CHANNEL_ID
-local CATEGORY_ID = process.env.DISCORD_TEST_CATEGORY_ID
-local _FORUM_CHANNEL_ID = process.env.DISCORD_TEST_FORUM_CHANNEL_ID
+const BOT_TOKEN = process.env.DISCORD_BOT_TOKEN
+const GUILD_ID = process.env.DISCORD_TEST_GUILD_ID
+const TEXT_CHANNEL_ID = process.env.DISCORD_TEST_TEXT_CHANNEL_ID
+const VOICE_CHANNEL_ID = process.env.DISCORD_TEST_VOICE_CHANNEL_ID
+const CATEGORY_ID = process.env.DISCORD_TEST_CATEGORY_ID
+const _FORUM_CHANNEL_ID = process.env.DISCORD_TEST_FORUM_CHANNEL_ID
 
 -- Channel types
-local CHANNEL_TYPE_TEXT = 0
-local CHANNEL_TYPE_VOICE = 2
+const CHANNEL_TYPE_TEXT = 0
+const CHANNEL_TYPE_VOICE = 2
 
 -- Permission overwrite types
-local OVERWRITE_TYPE_ROLE = 0
-local OVERWRITE_TYPE_MEMBER = 1
+const OVERWRITE_TYPE_ROLE = 0
+const OVERWRITE_TYPE_MEMBER = 1
 
 -- Check if integration tests should run
-local function shouldRunIntegrationTests(): boolean
+const function shouldRunIntegrationTests(): boolean
     return BOT_TOKEN ~= nil and BOT_TOKEN ~= "" and GUILD_ID ~= nil and TEXT_CHANNEL_ID ~= nil
 end
 
@@ -56,21 +56,21 @@ return function()
     end
 
     local rest
-    local mockClient = { _eventHandlers = {} }
+    const mockClient = { _eventHandlers = {} }
     local botUserId: string?
 
     beforeAll(function()
         rest = Rest.new(mockClient, BOT_TOKEN)
 
         -- Get the bot's user ID for permission tests
-        local user = rest:GetCurrentUser()
+        const user = rest:GetCurrentUser()
         botUserId = user.id
     end)
 
     describe("REST API Integration", function()
         describe("User endpoints", function()
             it("should get current user", function()
-                local user = rest:GetCurrentUser()
+                const user = rest:GetCurrentUser()
 
                 expect(user).to.be.ok()
                 expect(user.id).to.be.a("string")
@@ -81,7 +81,7 @@ return function()
 
         describe("Guild endpoints", function()
             it("should get guild", function()
-                local guild = rest:GetGuild(GUILD_ID)
+                const guild = rest:GetGuild(GUILD_ID)
 
                 expect(guild).to.be.ok()
                 expect(guild.id).to.equal(GUILD_ID)
@@ -89,21 +89,21 @@ return function()
             end)
 
             it("should get guild with counts", function()
-                local guild = rest:GetGuild(GUILD_ID, true)
+                const guild = rest:GetGuild(GUILD_ID, true)
 
                 expect(guild).to.be.ok()
                 expect(guild.approximate_member_count).to.be.a("number")
             end)
 
             it("should get guild channels", function()
-                local channels = rest:GetGuildChannels(GUILD_ID)
+                const channels = rest:GetGuildChannels(GUILD_ID)
 
                 expect(channels).to.be.a("table")
                 expect(#channels > 0).to.equal(true)
             end)
 
             it("should get guild roles", function()
-                local roles = rest:GetGuildRoles(GUILD_ID)
+                const roles = rest:GetGuildRoles(GUILD_ID)
 
                 expect(roles).to.be.a("table")
                 expect(#roles > 0).to.equal(true)
@@ -122,7 +122,7 @@ return function()
 
         describe("Channel endpoints", function()
             it("should get channel", function()
-                local channel = rest:GetChannel(TEXT_CHANNEL_ID)
+                const channel = rest:GetChannel(TEXT_CHANNEL_ID)
 
                 expect(channel).to.be.ok()
                 expect(channel.id).to.equal(TEXT_CHANNEL_ID)
@@ -134,7 +134,7 @@ return function()
                     return
                 end
 
-                local channel = rest:GetChannel(VOICE_CHANNEL_ID)
+                const channel = rest:GetChannel(VOICE_CHANNEL_ID)
 
                 expect(channel).to.be.ok()
                 expect(channel.id).to.equal(VOICE_CHANNEL_ID)
@@ -146,7 +146,7 @@ return function()
                     return
                 end
 
-                local channel = rest:GetChannel(CATEGORY_ID)
+                const channel = rest:GetChannel(CATEGORY_ID)
 
                 expect(channel).to.be.ok()
                 expect(channel.id).to.equal(CATEGORY_ID)
@@ -158,8 +158,8 @@ return function()
             local createdChannelId: string?
 
             it("should create a text channel", function()
-                local timestamp = os.date("%H%M%S")
-                local channel = rest:CreateGuildChannel(GUILD_ID, {
+                const timestamp = os.date("%H%M%S")
+                const channel = rest:CreateGuildChannel(GUILD_ID, {
                     name = `integration-test-{timestamp}`,
                     type = CHANNEL_TYPE_TEXT,
                     parent_id = CATEGORY_ID,
@@ -183,7 +183,7 @@ return function()
                     return
                 end
 
-                local channel = rest:ModifyChannel(createdChannelId, {
+                const channel = rest:ModifyChannel(createdChannelId, {
                     topic = "Modified by integration test",
                 }, "Integration test channel modification")
 
@@ -200,7 +200,7 @@ return function()
                 rest:DeleteChannel(createdChannelId, "Integration test cleanup")
 
                 -- Verify it's deleted by trying to fetch it
-                local success = pcall(function()
+                const success = pcall(function()
                     rest:GetChannel(createdChannelId :: string)
                 end)
 
@@ -224,8 +224,8 @@ return function()
 
             beforeAll(function()
                 -- Create a test channel for permission tests
-                local timestamp = os.date("%H%M%S")
-                local channel = rest:CreateGuildChannel(GUILD_ID, {
+                const timestamp = os.date("%H%M%S")
+                const channel = rest:CreateGuildChannel(GUILD_ID, {
                     name = `perm-test-{timestamp}`,
                     type = CHANNEL_TYPE_TEXT,
                     parent_id = CATEGORY_ID,
@@ -253,7 +253,7 @@ return function()
                 }, "Integration test permission change")
 
                 -- Verify the channel now has the permission overwrite
-                local channel = rest:GetChannel(testChannelId)
+                const channel = rest:GetChannel(testChannelId)
                 expect(channel.permission_overwrites).to.be.a("table")
 
                 local foundOverwrite = false
@@ -285,7 +285,7 @@ return function()
                 task.wait(1)
 
                 -- Verify the permission overwrite exists
-                local channel = rest:GetChannel(testChannelId)
+                const channel = rest:GetChannel(testChannelId)
 
                 local foundBotOverwrite = false
                 for _, overwrite in channel.permission_overwrites do
@@ -310,7 +310,7 @@ return function()
                 task.wait(1)
 
                 -- Verify the overwrite is removed
-                local channel = rest:GetChannel(testChannelId)
+                const channel = rest:GetChannel(testChannelId)
 
                 local foundBotOverwrite = false
                 for _, overwrite in channel.permission_overwrites do
@@ -337,8 +337,8 @@ return function()
 
             it("should send a message", function()
                 task.wait(1)
-                local timestamp = os.date("%Y-%m-%d %H:%M:%S")
-                local message = rest:CreateMessage(TEXT_CHANNEL_ID, {
+                const timestamp = os.date("%Y-%m-%d %H:%M:%S")
+                const message = rest:CreateMessage(TEXT_CHANNEL_ID, {
                     content = `[Integration Test] Message created at {timestamp}`,
                 })
 
@@ -350,7 +350,7 @@ return function()
             end)
 
             it("should send a message with an embed", function()
-                local message = rest:CreateMessage(TEXT_CHANNEL_ID, {
+                const message = rest:CreateMessage(TEXT_CHANNEL_ID, {
                     content = "[Integration Test] Message with embed",
                     embeds = {
                         {
@@ -377,7 +377,7 @@ return function()
             end)
 
             it("should get messages", function()
-                local messages = rest:GetChannelMessages(TEXT_CHANNEL_ID, { limit = 5 })
+                const messages = rest:GetChannelMessages(TEXT_CHANNEL_ID, { limit = 5 })
 
                 expect(messages).to.be.a("table")
                 expect(#messages > 0).to.equal(true)
@@ -388,7 +388,7 @@ return function()
                     return
                 end
 
-                local message = rest:GetChannelMessage(TEXT_CHANNEL_ID, createdMessageId)
+                const message = rest:GetChannelMessage(TEXT_CHANNEL_ID, createdMessageId)
 
                 expect(message).to.be.ok()
                 expect(message.id).to.equal(createdMessageId)
@@ -397,13 +397,13 @@ return function()
             it("should edit a message", function()
                 if not createdMessageId then
                     -- Create a message first
-                    local message = rest:CreateMessage(TEXT_CHANNEL_ID, {
+                    const message = rest:CreateMessage(TEXT_CHANNEL_ID, {
                         content = "[Integration Test] To be edited",
                     })
                     createdMessageId = message.id
                 end
 
-                local editedMessage = rest:EditMessage(TEXT_CHANNEL_ID, createdMessageId :: string, {
+                const editedMessage = rest:EditMessage(TEXT_CHANNEL_ID, createdMessageId :: string, {
                     content = "[Integration Test] Message has been edited",
                 })
 
@@ -414,7 +414,7 @@ return function()
 
             it("should delete a message", function()
                 -- Create a message to delete
-                local message = rest:CreateMessage(TEXT_CHANNEL_ID, {
+                const message = rest:CreateMessage(TEXT_CHANNEL_ID, {
                     content = "[Integration Test] This message will be deleted",
                 })
 
@@ -427,7 +427,7 @@ return function()
                 rest:DeleteMessage(TEXT_CHANNEL_ID, message.id)
 
                 -- Verify it's deleted by trying to fetch it (should fail)
-                local success = pcall(function()
+                const success = pcall(function()
                     rest:GetChannelMessage(TEXT_CHANNEL_ID, message.id)
                 end)
 
@@ -449,7 +449,7 @@ return function()
 
             beforeAll(function()
                 -- Create a test message for reactions
-                local message = rest:CreateMessage(TEXT_CHANNEL_ID, {
+                const message = rest:CreateMessage(TEXT_CHANNEL_ID, {
                     content = "[Integration Test] Reaction test message",
                 })
                 testMessageId = message.id
@@ -511,8 +511,8 @@ return function()
                 task.wait(0.5)
 
                 -- Verify the message has no reactions
-                local message = rest:GetChannelMessage(TEXT_CHANNEL_ID, testMessageId)
-                local hasReactions = message.reactions ~= nil and #message.reactions > 0
+                const message = rest:GetChannelMessage(TEXT_CHANNEL_ID, testMessageId)
+                const hasReactions = message.reactions ~= nil and #message.reactions > 0
                 expect(hasReactions).to.equal(false)
             end)
 
@@ -530,7 +530,7 @@ return function()
             local testMessageId: string?
 
             beforeAll(function()
-                local message = rest:CreateMessage(TEXT_CHANNEL_ID, {
+                const message = rest:CreateMessage(TEXT_CHANNEL_ID, {
                     content = "[Integration Test] Pin test message",
                 })
                 testMessageId = message.id
@@ -544,7 +544,7 @@ return function()
                 rest:PinMessage(TEXT_CHANNEL_ID, testMessageId)
 
                 -- Verify it's pinned
-                local pins = rest:GetPinnedMessages(TEXT_CHANNEL_ID)
+                const pins = rest:GetPinnedMessages(TEXT_CHANNEL_ID)
                 local isPinned = false
                 for _, pin in pins do
                     if pin.id == testMessageId then
@@ -556,7 +556,7 @@ return function()
             end)
 
             it("should get pinned messages", function()
-                local pins = rest:GetPinnedMessages(TEXT_CHANNEL_ID)
+                const pins = rest:GetPinnedMessages(TEXT_CHANNEL_ID)
 
                 expect(pins).to.be.a("table")
             end)
@@ -571,7 +571,7 @@ return function()
                 task.wait(1)
 
                 -- Verify it's unpinned
-                local pins = rest:GetPinnedMessages(TEXT_CHANNEL_ID)
+                const pins = rest:GetPinnedMessages(TEXT_CHANNEL_ID)
                 local isPinned = false
                 for _, pin in pins do
                     if pin.id == testMessageId then
@@ -598,7 +598,7 @@ return function()
 
             beforeAll(function()
                 task.wait(1)
-                local message = rest:CreateMessage(TEXT_CHANNEL_ID, {
+                const message = rest:CreateMessage(TEXT_CHANNEL_ID, {
                     content = "[Integration Test] Thread test message",
                 })
                 testMessageId = message.id
@@ -610,8 +610,8 @@ return function()
                 end
 
                 task.wait(1)
-                local timestamp = os.date("%H%M%S")
-                local thread = rest:StartThreadFromMessage(
+                const timestamp = os.date("%H%M%S")
+                const thread = rest:StartThreadFromMessage(
                     TEXT_CHANNEL_ID,
                     testMessageId,
                     `test-thread-{timestamp}`,
@@ -631,7 +631,7 @@ return function()
                 end
 
                 task.wait(1)
-                local message = rest:CreateMessage(testThreadId, {
+                const message = rest:CreateMessage(testThreadId, {
                     content = "[Integration Test] Message in thread",
                 })
 
@@ -659,8 +659,8 @@ return function()
 
             it("should create a role", function()
                 task.wait(1)
-                local timestamp = os.date("%H%M%S")
-                local role = rest:CreateGuildRole(GUILD_ID, {
+                const timestamp = os.date("%H%M%S")
+                const role = rest:CreateGuildRole(GUILD_ID, {
                     name = `test-role-{timestamp}`,
                     color = 0xFF5733,
                     hoist = false,
@@ -681,7 +681,7 @@ return function()
                 end
 
                 task.wait(1)
-                local role = rest:ModifyGuildRole(GUILD_ID, createdRoleId, {
+                const role = rest:ModifyGuildRole(GUILD_ID, createdRoleId, {
                     name = "modified-test-role",
                     color = 0x3498DB,
                 }, "Integration test role modification")
@@ -700,7 +700,7 @@ return function()
                 rest:DeleteGuildRole(GUILD_ID, createdRoleId, "Integration test cleanup")
 
                 -- Verify it's deleted by checking guild roles
-                local roles = rest:GetGuildRoles(GUILD_ID)
+                const roles = rest:GetGuildRoles(GUILD_ID)
                 local roleExists = false
                 for _, role in roles do
                     if role.id == createdRoleId then
@@ -724,7 +724,7 @@ return function()
 
         describe("Gateway endpoints", function()
             it("should get gateway URL", function()
-                local gateway = rest:GetGateway()
+                const gateway = rest:GetGateway()
 
                 expect(gateway).to.be.ok()
                 expect(gateway.url).to.be.a("string")
@@ -732,7 +732,7 @@ return function()
             end)
 
             it("should get gateway bot info", function()
-                local gatewayBot = rest:GetGatewayBot()
+                const gatewayBot = rest:GetGatewayBot()
 
                 expect(gatewayBot).to.be.ok()
                 expect(gatewayBot.url).to.be.a("string")
@@ -746,7 +746,7 @@ return function()
 
             beforeAll(function()
                 -- Get the application ID from the bot user
-                local user = rest:GetCurrentUser()
+                const user = rest:GetCurrentUser()
                 applicationId = user.id
             end)
 
@@ -755,7 +755,7 @@ return function()
                     return
                 end
 
-                local commands = rest:GetGlobalApplicationCommands(applicationId)
+                const commands = rest:GetGlobalApplicationCommands(applicationId)
                 expect(commands).to.be.a("table")
             end)
 
@@ -764,7 +764,7 @@ return function()
                     return
                 end
 
-                local commands = rest:GetGuildApplicationCommands(applicationId, GUILD_ID)
+                const commands = rest:GetGuildApplicationCommands(applicationId, GUILD_ID)
                 expect(commands).to.be.a("table")
             end)
         end)

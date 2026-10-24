@@ -6,10 +6,10 @@ Represents a Discord guild (server). Contains channels, members, roles, and guil
 
 --]]
 
-local Channel = require("./Channel")
-local Member = require("./Member")
-local Role = require("./Role")
-local Types = require("./Types")
+const Channel = require("./Channel")
+const Member = require("./Member")
+const Role = require("./Role")
+const Types = require("./Types")
 
 --[=[
     @class Guild
@@ -18,7 +18,7 @@ local Types = require("./Types")
     Represents a Discord guild (server). Contains channels, members, roles,
     and guild settings. Provides methods for managing the guild.
 ]=]
-local Guild = {}
+const Guild = {}
 Guild.__index = Guild
 
 export type Guild = typeof(setmetatable(
@@ -76,7 +76,7 @@ function Guild.new(client: Types.Client, data: Types.APIGuild): Guild
     assert(type(client) == "table", "Expected client to be a table")
     assert(type(data) == "table", "Expected data to be a table")
 
-    local self = setmetatable({}, Guild)
+    const self = setmetatable({}, Guild)
 
     self.Client = client
     self.Channels = {}
@@ -134,7 +134,7 @@ function Guild._patch(self: Guild, data: Types.APIGuild)
     -- Process roles
     if data.roles then
         for _, roleData in data.roles do
-            local role = Role.new(self.Client, self, roleData)
+            const role = Role.new(self.Client, self, roleData)
             self.Roles[role.Id] = role
         end
     end
@@ -142,7 +142,7 @@ function Guild._patch(self: Guild, data: Types.APIGuild)
     -- Process channels
     if data.channels then
         for _, channelData in data.channels do
-            local channel = Channel.new(self.Client, channelData, self)
+            const channel = Channel.new(self.Client, channelData, self)
             self.Channels[channel.Id] = channel
         end
     end
@@ -150,7 +150,7 @@ function Guild._patch(self: Guild, data: Types.APIGuild)
     -- Process members
     if data.members then
         for _, memberData in data.members do
-            local member = Member.new(self.Client, self, memberData)
+            const member = Member.new(self.Client, self, memberData)
             if member.User then
                 self.Members[member.User.Id] = member
             end
@@ -172,10 +172,10 @@ function Guild.GetIconUrl(self: Guild, options: { format: string?, size: number?
         return nil
     end
 
-    local format = options and options.format or "webp"
-    local size = options and options.size or 128
+    const format = options and options.format or "webp"
+    const size = options and options.size or 128
 
-    local extension = if self.Icon:sub(1, 2) == "a_" then "gif" else format
+    const extension = if self.Icon:sub(1, 2) == "a_" then "gif" else format
 
     return `https://cdn.discordapp.com/icons/{self.Id}/{self.Icon}.{extension}?size={size}`
 end
@@ -185,10 +185,10 @@ function Guild.GetBannerUrl(self: Guild, options: { format: string?, size: numbe
         return nil
     end
 
-    local format = options and options.format or "webp"
-    local size = options and options.size or 512
+    const format = options and options.format or "webp"
+    const size = options and options.size or 512
 
-    local extension = if self.Banner:sub(1, 2) == "a_" then "gif" else format
+    const extension = if self.Banner:sub(1, 2) == "a_" then "gif" else format
 
     return `https://cdn.discordapp.com/banners/{self.Id}/{self.Banner}.{extension}?size={size}`
 end
@@ -198,8 +198,8 @@ function Guild.GetSplashUrl(self: Guild, options: { format: string?, size: numbe
         return nil
     end
 
-    local format = options and options.format or "webp"
-    local size = options and options.size or 512
+    const format = options and options.format or "webp"
+    const size = options and options.size or 512
 
     return `https://cdn.discordapp.com/splashes/{self.Id}/{self.Splash}.{format}?size={size}`
 end
@@ -209,8 +209,8 @@ function Guild.GetDiscoverySplashUrl(self: Guild, options: { format: string?, si
         return nil
     end
 
-    local format = options and options.format or "webp"
-    local size = options and options.size or 512
+    const format = options and options.format or "webp"
+    const size = options and options.size or 512
 
     return `https://cdn.discordapp.com/discovery-splashes/{self.Id}/{self.DiscoverySplash}.{format}?size={size}`
 end
@@ -237,7 +237,7 @@ function Guild.GetVoiceState(self: Guild, userId: Types.Snowflake): Types.APIVoi
 end
 
 function Guild.GetVoiceChannelMembers(self: Guild, channelId: Types.Snowflake): { Types.APIVoiceState }
-    local members = {}
+    const members = {}
     for _, voiceState in self.VoiceStates do
         if voiceState.channel_id == channelId then
             table.insert(members, voiceState)
@@ -277,8 +277,8 @@ end
 function Guild.FetchMember(self: Guild, userId: Types.Snowflake): Member.Member
     assert(self.Client.Rest, "Client is not logged in")
 
-    local data = self.Client.Rest:GetGuildMember(self.Id, userId)
-    local member = Member.new(self.Client, self, data)
+    const data = self.Client.Rest:GetGuildMember(self.Id, userId)
+    const member = Member.new(self.Client, self, data)
     if member.User then
         self.Members[member.User.Id] = member
     end

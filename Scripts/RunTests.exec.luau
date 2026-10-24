@@ -11,12 +11,12 @@ name as an argument to run only that test suite.
 
 --]]
 
-local Dotenv = require("@devpackages/Dotenv")
-local Testable = require("@devpackages/Testable")
-local process = require("@lune/process")
-local stdio = require("@lune/stdio")
+const Dotenv = require("@devpackages/Dotenv")
+const Testable = require("@devpackages/Testable")
+const process = require("@lune/process")
+const stdio = require("@lune/stdio")
 
-local RunTests = {}
+const RunTests = {}
 
 --[[
     Requires every test suite. The integration suites read their credentials from the
@@ -55,8 +55,8 @@ function RunTests.exec()
         Parallel = false,
     })
 
-    local tests = RunTests.load()
-    local filterName = process.args[1]
+    const tests = RunTests.load()
+    const filterName = process.args[1]
     local testsToRun = tests
 
     if filterName then
@@ -77,7 +77,7 @@ function RunTests.exec()
         end
     end
 
-    local _, passed = Testable.run(testsToRun)
+    const _, passed = Testable.run(testsToRun)
     process.exit(if passed then 0 else 1)
 end
 

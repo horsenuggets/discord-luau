@@ -6,16 +6,16 @@ Tests for the Snowflake utility functions.
 
 --]]
 
-local Snowflake = require("@discordluau/Utils/Snowflake")
+const Snowflake = require("@discordluau/Utils/Snowflake")
 
 return function()
     -- Discord's example snowflake: 175928847299117063
     -- Timestamp: 1462015105796 (2016-04-30T11:18:25.796Z)
-    local testSnowflake = "175928847299117063"
+    const testSnowflake = "175928847299117063"
 
     describe("getTimestamp", function()
         it("should extract timestamp from snowflake", function()
-            local timestamp = Snowflake.getTimestamp(testSnowflake)
+            const timestamp = Snowflake.getTimestamp(testSnowflake)
             expect(type(timestamp)).to.equal("number")
             expect(timestamp).to.be.near(1462015105796, 1000)
         end)
@@ -35,7 +35,7 @@ return function()
 
     describe("getWorkerId", function()
         it("should extract worker ID from snowflake", function()
-            local workerId = Snowflake.getWorkerId(testSnowflake)
+            const workerId = Snowflake.getWorkerId(testSnowflake)
             expect(type(workerId)).to.equal("number")
             expect(workerId).to.be.ok()
         end)
@@ -43,7 +43,7 @@ return function()
 
     describe("getProcessId", function()
         it("should extract process ID from snowflake", function()
-            local processId = Snowflake.getProcessId(testSnowflake)
+            const processId = Snowflake.getProcessId(testSnowflake)
             expect(type(processId)).to.equal("number")
             expect(processId).to.be.ok()
         end)
@@ -51,7 +51,7 @@ return function()
 
     describe("getIncrement", function()
         it("should extract increment from snowflake", function()
-            local increment = Snowflake.getIncrement(testSnowflake)
+            const increment = Snowflake.getIncrement(testSnowflake)
             expect(type(increment)).to.equal("number")
             expect(increment).to.be.ok()
         end)
@@ -59,17 +59,17 @@ return function()
 
     describe("compare", function()
         it("should return -1 when a < b", function()
-            local result = Snowflake.compare("100", "200")
+            const result = Snowflake.compare("100", "200")
             expect(result).to.equal(-1)
         end)
 
         it("should return 1 when a > b", function()
-            local result = Snowflake.compare("200", "100")
+            const result = Snowflake.compare("200", "100")
             expect(result).to.equal(1)
         end)
 
         it("should return 0 when a == b", function()
-            local result = Snowflake.compare("100", "100")
+            const result = Snowflake.compare("100", "100")
             expect(result).to.equal(0)
         end)
 

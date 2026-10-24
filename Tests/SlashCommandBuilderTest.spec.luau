@@ -6,14 +6,14 @@ Tests for the SlashCommandBuilder class.
 
 --]]
 
-local ApplicationCommandOptionType = require("@discordluau/Enums/ApplicationCommandOptionType")
-local ApplicationCommandType = require("@discordluau/Enums/ApplicationCommandType")
-local SlashCommandBuilder = require("@discordluau/Structures/SlashCommandBuilder")
+const ApplicationCommandOptionType = require("@discordluau/Enums/ApplicationCommandOptionType")
+const ApplicationCommandType = require("@discordluau/Enums/ApplicationCommandType")
+const SlashCommandBuilder = require("@discordluau/Structures/SlashCommandBuilder")
 
 return function()
     describe("SlashCommandBuilder.new", function()
         it("should create an empty builder", function()
-            local builder = SlashCommandBuilder.new()
+            const builder = SlashCommandBuilder.new()
             expect(builder._data).to.be.ok()
             expect(builder._data.type).to.equal(ApplicationCommandType.ChatInput)
             expect(builder._data.options).to.be.a("table")
@@ -22,13 +22,13 @@ return function()
 
     describe("SetName", function()
         it("should set the command name", function()
-            local builder = SlashCommandBuilder.new():SetName("test")
+            const builder = SlashCommandBuilder.new():SetName("test")
             expect(builder._data.name).to.equal("test")
         end)
 
         it("should return self for chaining", function()
-            local builder = SlashCommandBuilder.new()
-            local result = builder:SetName("test")
+            const builder = SlashCommandBuilder.new()
+            const result = builder:SetName("test")
             expect(result).to.equal(builder)
         end)
 
@@ -45,14 +45,14 @@ return function()
 
     describe("SetDescription", function()
         it("should set the description", function()
-            local builder = SlashCommandBuilder.new():SetDescription("A test command")
+            const builder = SlashCommandBuilder.new():SetDescription("A test command")
             expect(builder._data.description).to.equal("A test command")
         end)
     end)
 
     describe("AddStringOption", function()
         it("should add a string option", function()
-            local builder = SlashCommandBuilder.new():AddStringOption("name", "The name")
+            const builder = SlashCommandBuilder.new():AddStringOption("name", "The name")
             expect(#builder._data.options).to.equal(1)
             expect(builder._data.options[1].type).to.equal(ApplicationCommandOptionType.String)
             expect(builder._data.options[1].name).to.equal("name")
@@ -60,14 +60,14 @@ return function()
         end)
 
         it("should support required option", function()
-            local builder = SlashCommandBuilder.new():AddStringOption("name", "The name", {
+            const builder = SlashCommandBuilder.new():AddStringOption("name", "The name", {
                 required = true,
             })
             expect(builder._data.options[1].required).to.equal(true)
         end)
 
         it("should support choices", function()
-            local builder = SlashCommandBuilder.new():AddStringOption("color", "Pick a color", {
+            const builder = SlashCommandBuilder.new():AddStringOption("color", "Pick a color", {
                 choices = {
                     { name = "Red", value = "red" },
                     { name = "Blue", value = "blue" },
@@ -79,12 +79,12 @@ return function()
 
     describe("AddIntegerOption", function()
         it("should add an integer option", function()
-            local builder = SlashCommandBuilder.new():AddIntegerOption("count", "The count")
+            const builder = SlashCommandBuilder.new():AddIntegerOption("count", "The count")
             expect(builder._data.options[1].type).to.equal(ApplicationCommandOptionType.Integer)
         end)
 
         it("should support min and max values", function()
-            local builder = SlashCommandBuilder.new():AddIntegerOption("count", "The count", {
+            const builder = SlashCommandBuilder.new():AddIntegerOption("count", "The count", {
                 min_value = 1,
                 max_value = 100,
             })
@@ -95,35 +95,35 @@ return function()
 
     describe("AddBooleanOption", function()
         it("should add a boolean option", function()
-            local builder = SlashCommandBuilder.new():AddBooleanOption("enabled", "Enable feature")
+            const builder = SlashCommandBuilder.new():AddBooleanOption("enabled", "Enable feature")
             expect(builder._data.options[1].type).to.equal(ApplicationCommandOptionType.Boolean)
         end)
     end)
 
     describe("AddUserOption", function()
         it("should add a user option", function()
-            local builder = SlashCommandBuilder.new():AddUserOption("user", "Select a user")
+            const builder = SlashCommandBuilder.new():AddUserOption("user", "Select a user")
             expect(builder._data.options[1].type).to.equal(ApplicationCommandOptionType.User)
         end)
     end)
 
     describe("AddChannelOption", function()
         it("should add a channel option", function()
-            local builder = SlashCommandBuilder.new():AddChannelOption("channel", "Select a channel")
+            const builder = SlashCommandBuilder.new():AddChannelOption("channel", "Select a channel")
             expect(builder._data.options[1].type).to.equal(ApplicationCommandOptionType.Channel)
         end)
     end)
 
     describe("AddRoleOption", function()
         it("should add a role option", function()
-            local builder = SlashCommandBuilder.new():AddRoleOption("role", "Select a role")
+            const builder = SlashCommandBuilder.new():AddRoleOption("role", "Select a role")
             expect(builder._data.options[1].type).to.equal(ApplicationCommandOptionType.Role)
         end)
     end)
 
     describe("AddSubCommand", function()
         it("should add a subcommand", function()
-            local builder = SlashCommandBuilder.new():AddSubCommand("sub", "A subcommand")
+            const builder = SlashCommandBuilder.new():AddSubCommand("sub", "A subcommand")
             expect(builder._data.options[1].type).to.equal(ApplicationCommandOptionType.SubCommand)
             expect(builder._data.options[1].name).to.equal("sub")
         end)
@@ -131,38 +131,38 @@ return function()
 
     describe("SetDefaultMemberPermissions", function()
         it("should set permissions from number", function()
-            local builder = SlashCommandBuilder.new():SetDefaultMemberPermissions(8)
+            const builder = SlashCommandBuilder.new():SetDefaultMemberPermissions(8)
             expect(builder._data.default_member_permissions).to.equal("8")
         end)
 
         it("should set permissions from string", function()
-            local builder = SlashCommandBuilder.new():SetDefaultMemberPermissions("8")
+            const builder = SlashCommandBuilder.new():SetDefaultMemberPermissions("8")
             expect(builder._data.default_member_permissions).to.equal("8")
         end)
     end)
 
     describe("SetDMPermission", function()
         it("should set DM permission", function()
-            local builder = SlashCommandBuilder.new():SetDMPermission(false)
+            const builder = SlashCommandBuilder.new():SetDMPermission(false)
             expect(builder._data.dm_permission).to.equal(false)
         end)
     end)
 
     describe("SetNSFW", function()
         it("should set NSFW flag", function()
-            local builder = SlashCommandBuilder.new():SetNSFW(true)
+            const builder = SlashCommandBuilder.new():SetNSFW(true)
             expect(builder._data.nsfw).to.equal(true)
         end)
     end)
 
     describe("ToJSON", function()
         it("should return complete command data", function()
-            local builder = SlashCommandBuilder.new()
+            const builder = SlashCommandBuilder.new()
                 :SetName("ping")
                 :SetDescription("Ping pong!")
                 :AddStringOption("message", "Optional message")
 
-            local json = builder:ToJSON()
+            const json = builder:ToJSON()
 
             expect(json.name).to.equal("ping")
             expect(json.description).to.equal("Ping pong!")
@@ -185,7 +185,7 @@ return function()
 
     describe("chaining", function()
         it("should support full method chaining", function()
-            local builder = SlashCommandBuilder.new()
+            const builder = SlashCommandBuilder.new()
                 :SetName("moderation")
                 :SetDescription("Moderation commands")
                 :SetDefaultMemberPermissions(8)
@@ -204,7 +204,7 @@ return function()
                     },
                 })
 
-            local json = builder:ToJSON()
+            const json = builder:ToJSON()
             expect(json.name).to.equal("moderation")
             expect(json.default_member_permissions).to.equal("8")
             expect(json.dm_permission).to.equal(false)

@@ -6,7 +6,7 @@ Type definitions for Lavalink API structures and responses.
 
 --]]
 
-local DiscordTypes = require("../Structures/Types")
+const DiscordTypes = require("../Structures/Types")
 
 export type TrackInfo = {
     identifier: string,
@@ -204,7 +204,12 @@ export type WebSocketClosedEvent = {
     byRemote: boolean,
 }
 
-export type LavalinkEvent = TrackStartEvent | TrackEndEvent | TrackExceptionEvent | TrackStuckEvent | WebSocketClosedEvent
+export type LavalinkEvent =
+    TrackStartEvent
+    | TrackEndEvent
+    | TrackExceptionEvent
+    | TrackStuckEvent
+    | WebSocketClosedEvent
 
 export type NodeOptions = {
     name: string,

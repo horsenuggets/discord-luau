@@ -7,7 +7,7 @@ fields, images, author, footer, and more.
 
 --]]
 
-local Types = require("./Types")
+const Types = require("./Types")
 
 --[=[
     @class Embed
@@ -17,7 +17,7 @@ local Types = require("./Types")
     All setter methods return the Embed instance for method chaining.
 
     ```lua
-    local embed = Discord.Embed.new()
+    const embed = Discord.Embed.new()
         :SetTitle("Hello World")
         :SetDescription("This is an embed!")
         :SetColor(0x5865F2)
@@ -28,7 +28,7 @@ local Types = require("./Types")
     message:Reply({ embeds = { embed:ToJSON() } })
     ```
 ]=]
-local Embed = {}
+const Embed = {}
 Embed.__index = Embed
 
 export type Embed = typeof(setmetatable(
@@ -39,7 +39,7 @@ export type Embed = typeof(setmetatable(
 ))
 
 function Embed.new(data: Types.APIEmbed?): Embed
-    local self = setmetatable({}, Embed)
+    const self = setmetatable({}, Embed)
 
     self._data = data or {}
 
@@ -96,7 +96,7 @@ function Embed.SetColorHex(self: Embed, hex: string): Embed
         hex = hex:sub(2)
     end
 
-    local color = tonumber(hex, 16)
+    const color = tonumber(hex, 16)
     assert(color, `Invalid hex color "{hex}"`)
 
     self._data.color = color
@@ -167,7 +167,7 @@ function Embed.SetFields(self: Embed, fields: { { name: string, value: string, i
     assert(type(fields) == "table", "Expected fields to be a table")
     assert(#fields <= 25, "Embeds can have at most 25 fields")
 
-    local embedFields: { Types.APIEmbedField } = {}
+    const embedFields: { Types.APIEmbedField } = {}
     self._data.fields = embedFields
     for _, field in fields do
         assert(type(field.name) == "string", "Expected field.name to be a string")

@@ -8,19 +8,19 @@ encode creation timestamp and other metadata.
 --]]
 
 -- Discord epoch (2015-01-01T00:00:00.000Z) in milliseconds
-local DISCORD_EPOCH = 1420070400000
+const DISCORD_EPOCH = 1420070400000
 
-local Snowflake = {}
+const Snowflake = {}
 
 -- Helper to divide a large number string by a power of 2 and return quotient and lower bits
-local function divideBy(numStr: string, divisor: number): (string, number)
+const function divideBy(numStr: string, divisor: number): (string, number)
     local result = ""
     local remainder = 0
 
     for i = 1, #numStr do
-        local digit = tonumber(string.sub(numStr, i, i))
-        local current = remainder * 10 + digit
-        local quotient = math.floor(current / divisor)
+        const digit = tonumber(string.sub(numStr, i, i))
+        const current = remainder * 10 + digit
+        const quotient = math.floor(current / divisor)
         remainder = current % divisor
 
         if #result > 0 or quotient > 0 then
@@ -38,7 +38,7 @@ end
 -- Helper to extract bits from a snowflake string
 -- offset: bit position from the right (0-indexed)
 -- bits: number of bits to extract
-local function extractBits(snowflake: string, offset: number, bits: number): number
+const function extractBits(snowflake: string, offset: number, bits: number): number
     assert(type(snowflake) == "string", "Expected snowflake to be a string")
 
     -- Validate snowflake is numeric
@@ -55,12 +55,12 @@ local function extractBits(snowflake: string, offset: number, bits: number): num
     end
 
     -- Now extract the lower 'bits' bits
-    local mask = (2 ^ bits) - 1
+    const mask = (2 ^ bits) - 1
     local value = 0
     local multiplier = 1
 
     for _ = 1, bits do
-        local _, remainder = divideBy(shiftedStr, 2)
+        const _, remainder = divideBy(shiftedStr, 2)
         shiftedStr = divideBy(shiftedStr, 2)
         value += remainder * multiplier
         multiplier *= 2
@@ -70,7 +70,7 @@ local function extractBits(snowflake: string, offset: number, bits: number): num
 end
 
 -- Helper to extract timestamp (top 42 bits after shifting by 22)
-local function extractTimestamp(snowflake: string): number
+const function extractTimestamp(snowflake: string): number
     assert(type(snowflake) == "string", "Expected snowflake to be a string")
 
     if not string.match(snowflake, "^%d+$") then
@@ -84,7 +84,7 @@ local function extractTimestamp(snowflake: string): number
     end
 
     -- Convert the result to a number and add Discord epoch
-    local timestamp = tonumber(shiftedStr) or 0
+    const timestamp = tonumber(shiftedStr) or 0
     return timestamp + DISCORD_EPOCH
 end
 

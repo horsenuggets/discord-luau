@@ -7,8 +7,8 @@ subcommands, and permission requirements.
 
 --]]
 
-local ApplicationCommandOptionType = require("../Enums/ApplicationCommandOptionType")
-local ApplicationCommandType = require("../Enums/ApplicationCommandType")
+const ApplicationCommandOptionType = require("../Enums/ApplicationCommandOptionType")
+const ApplicationCommandType = require("../Enums/ApplicationCommandType")
 
 --[=[
     @class SlashCommandBuilder
@@ -17,11 +17,11 @@ local ApplicationCommandType = require("../Enums/ApplicationCommandType")
     A builder class for creating Discord slash commands with a fluent API.
 
     ```lua
-    local pingCommand = Discord.SlashCommandBuilder.new()
+    const pingCommand = Discord.SlashCommandBuilder.new()
         :SetName("ping")
         :SetDescription("Check bot latency")
 
-    local echoCommand = Discord.SlashCommandBuilder.new()
+    const echoCommand = Discord.SlashCommandBuilder.new()
         :SetName("echo")
         :SetDescription("Echo a message")
         :AddStringOption("message", "The message to echo", { required = true })
@@ -29,7 +29,7 @@ local ApplicationCommandType = require("../Enums/ApplicationCommandType")
     client:SetGlobalCommands({ pingCommand, echoCommand })
     ```
 ]=]
-local SlashCommandBuilder = {}
+const SlashCommandBuilder = {}
 SlashCommandBuilder.__index = SlashCommandBuilder
 
 export type SlashCommandOptionChoice = {
@@ -68,7 +68,7 @@ export type SlashCommandBuilder = typeof(setmetatable(
 ))
 
 function SlashCommandBuilder.new(): SlashCommandBuilder
-    local self = setmetatable({}, SlashCommandBuilder)
+    const self = setmetatable({}, SlashCommandBuilder)
 
     self._data = {
         type = ApplicationCommandType.ChatInput,
@@ -158,7 +158,7 @@ function SlashCommandBuilder.AddStringOption(
     assert(type(name) == "string", "Expected name to be a string")
     assert(type(description) == "string", "Expected description to be a string")
 
-    local option: SlashCommandOption = {
+    const option: SlashCommandOption = {
         type = ApplicationCommandOptionType.String,
         name = name,
         description = description,
@@ -191,7 +191,7 @@ function SlashCommandBuilder.AddIntegerOption(
     assert(type(name) == "string", "Expected name to be a string")
     assert(type(description) == "string", "Expected description to be a string")
 
-    local option: SlashCommandOption = {
+    const option: SlashCommandOption = {
         type = ApplicationCommandOptionType.Integer,
         name = name,
         description = description,
@@ -224,7 +224,7 @@ function SlashCommandBuilder.AddNumberOption(
     assert(type(name) == "string", "Expected name to be a string")
     assert(type(description) == "string", "Expected description to be a string")
 
-    local option: SlashCommandOption = {
+    const option: SlashCommandOption = {
         type = ApplicationCommandOptionType.Number,
         name = name,
         description = description,
@@ -251,7 +251,7 @@ function SlashCommandBuilder.AddBooleanOption(
     assert(type(name) == "string", "Expected name to be a string")
     assert(type(description) == "string", "Expected description to be a string")
 
-    local option: SlashCommandOption = {
+    const option: SlashCommandOption = {
         type = ApplicationCommandOptionType.Boolean,
         name = name,
         description = description,
@@ -274,7 +274,7 @@ function SlashCommandBuilder.AddUserOption(
     assert(type(name) == "string", "Expected name to be a string")
     assert(type(description) == "string", "Expected description to be a string")
 
-    local option: SlashCommandOption = {
+    const option: SlashCommandOption = {
         type = ApplicationCommandOptionType.User,
         name = name,
         description = description,
@@ -300,7 +300,7 @@ function SlashCommandBuilder.AddChannelOption(
     assert(type(name) == "string", "Expected name to be a string")
     assert(type(description) == "string", "Expected description to be a string")
 
-    local option: SlashCommandOption = {
+    const option: SlashCommandOption = {
         type = ApplicationCommandOptionType.Channel,
         name = name,
         description = description,
@@ -324,7 +324,7 @@ function SlashCommandBuilder.AddRoleOption(
     assert(type(name) == "string", "Expected name to be a string")
     assert(type(description) == "string", "Expected description to be a string")
 
-    local option: SlashCommandOption = {
+    const option: SlashCommandOption = {
         type = ApplicationCommandOptionType.Role,
         name = name,
         description = description,
@@ -347,7 +347,7 @@ function SlashCommandBuilder.AddMentionableOption(
     assert(type(name) == "string", "Expected name to be a string")
     assert(type(description) == "string", "Expected description to be a string")
 
-    local option: SlashCommandOption = {
+    const option: SlashCommandOption = {
         type = ApplicationCommandOptionType.Mentionable,
         name = name,
         description = description,
@@ -370,7 +370,7 @@ function SlashCommandBuilder.AddAttachmentOption(
     assert(type(name) == "string", "Expected name to be a string")
     assert(type(description) == "string", "Expected description to be a string")
 
-    local option: SlashCommandOption = {
+    const option: SlashCommandOption = {
         type = ApplicationCommandOptionType.Attachment,
         name = name,
         description = description,
@@ -393,7 +393,7 @@ function SlashCommandBuilder.AddSubCommand(
     assert(type(name) == "string", "Expected name to be a string")
     assert(type(description) == "string", "Expected description to be a string")
 
-    local option: SlashCommandOption = {
+    const option: SlashCommandOption = {
         type = ApplicationCommandOptionType.SubCommand,
         name = name,
         description = description,
@@ -414,7 +414,7 @@ function SlashCommandBuilder.AddSubCommandGroup(
     assert(type(description) == "string", "Expected description to be a string")
     assert(type(subcommands) == "table", "Expected subcommands to be a table")
 
-    local option: SlashCommandOption = {
+    const option: SlashCommandOption = {
         type = ApplicationCommandOptionType.SubCommandGroup,
         name = name,
         description = description,
@@ -429,7 +429,7 @@ function SlashCommandBuilder.ToJSON(self: SlashCommandBuilder): { [string]: any 
     assert(self._data.name, "Command name is required")
     assert(self._data.description, "Command description is required")
 
-    local data: { [string]: any } = {
+    const data: { [string]: any } = {
         name = self._data.name,
         description = self._data.description,
         type = self._data.type,

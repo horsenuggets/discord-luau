@@ -7,18 +7,18 @@ and more. These classes wrap raw API data and provide convenient methods.
 
 --]]
 
-local Channel = require("@self/Channel")
-local Embed = require("@self/Embed")
-local Guild = require("@self/Guild")
-local Interaction = require("@self/Interaction")
-local Member = require("@self/Member")
-local Message = require("@self/Message")
-local Role = require("@self/Role")
-local SlashCommandBuilder = require("@self/SlashCommandBuilder")
-local User = require("@self/User")
-local VoiceState = require("@self/VoiceState")
+const Channel = require("@self/Channel")
+const Embed = require("@self/Embed")
+const Guild = require("@self/Guild")
+const Interaction = require("@self/Interaction")
+const Member = require("@self/Member")
+const Message = require("@self/Message")
+const Role = require("@self/Role")
+const SlashCommandBuilder = require("@self/SlashCommandBuilder")
+const User = require("@self/User")
+const VoiceState = require("@self/VoiceState")
 
-local Structures = {
+const Structures = {
     Channel = Channel,
     Embed = Embed,
     Guild = Guild,
