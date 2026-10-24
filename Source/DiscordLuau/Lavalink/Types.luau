@@ -6,8 +6,6 @@ Type definitions for Lavalink API structures and responses.
 
 --]]
 
-const DiscordTypes = require("../Structures/Types")
-
 export type TrackInfo = {
     identifier: string,
     isSeekable: boolean,

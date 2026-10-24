@@ -76,9 +76,8 @@ end
 
 function Signal.Wait<T...>(self: Signal<T...>): T...
     const thread = coroutine.running()
-    local connection: Connection.Connection
 
-    connection = self:Once(function(...)
+    self:Once(function(...)
         task.spawn(thread, ...)
     end)
 
