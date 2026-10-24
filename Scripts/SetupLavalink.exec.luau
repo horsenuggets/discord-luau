@@ -2,9 +2,11 @@
 
 --[[
 
-SetupLavalink
+SetupLavalink.exec
 
 Downloads and configures Lavalink server for local development and testing.
+
+[Usage] ./Scripts/SetupLavalink.exec.luau
 
 --]]
 
@@ -88,7 +90,9 @@ local function downloadFile(url: string, path: string): boolean
     return true
 end
 
-local function main()
+const SetupLavalink = {}
+
+function SetupLavalink.exec()
     print("Setting up Lavalink...")
 
     -- Create directory if needed
@@ -125,4 +129,4 @@ local function main()
     print("Edit application.yml to change settings.")
 end
 
-main()
+SetupLavalink.exec()
