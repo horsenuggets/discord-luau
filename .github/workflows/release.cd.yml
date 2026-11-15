@@ -1,4 +1,4 @@
-name: Publish release
+name: Release / CD
 
 on:
   push:
@@ -6,8 +6,8 @@ on:
       - release
 
 jobs:
-  publish:
-    name: Publish release
+  publish-release:
+    name: publish-release
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -25,8 +25,8 @@ jobs:
         id: version
         run: |
           VERSION=$(cat VERSION | tr -d '[:space:]')
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "tag=$VERSION" >> $GITHUB_OUTPUT
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=$VERSION" >> "$GITHUB_OUTPUT"
 
           # Extract changelog for this version
           CHANGELOG=$(awk -v ver="$VERSION" '
