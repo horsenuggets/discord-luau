@@ -1,6 +1,6 @@
 --[[
 
-UserTest
+UserTest.spec
 
 Tests for the User structure class.
 

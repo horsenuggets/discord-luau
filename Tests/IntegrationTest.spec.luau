@@ -1,6 +1,6 @@
 --[[
 
-IntegrationTest
+IntegrationTest.spec
 
 Integration tests that run against the real Discord API. These tests require a valid bot
 token and test channel configuration via environment variables or GitHub secrets.

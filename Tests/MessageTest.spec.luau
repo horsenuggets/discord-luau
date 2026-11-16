@@ -1,6 +1,6 @@
 --[[
 
-MessageTest
+MessageTest.spec
 
 Tests for the Message structure class.
 

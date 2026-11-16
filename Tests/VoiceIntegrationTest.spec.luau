@@ -1,6 +1,6 @@
 --[[
 
-VoiceIntegrationTest
+VoiceIntegrationTest.spec
 
 Integration tests for voice functionality. Tests joining/leaving voice channels
 and optionally Lavalink audio playback if a Lavalink server is configured.

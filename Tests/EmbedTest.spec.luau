@@ -1,6 +1,6 @@
 --[[
 
-EmbedTest
+EmbedTest.spec
 
 Tests for the Embed builder class.
 

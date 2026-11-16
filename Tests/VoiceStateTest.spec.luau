@@ -1,6 +1,6 @@
 --[[
 
-VoiceStateTest
+VoiceStateTest.spec
 
 Tests for the VoiceState structure class.
 

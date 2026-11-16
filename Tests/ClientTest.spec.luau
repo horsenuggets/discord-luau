@@ -1,6 +1,6 @@
 --[[
 
-ClientTest
+ClientTest.spec
 
 Tests for the Client class.
 

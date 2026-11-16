@@ -1,6 +1,6 @@
 --[[
 
-EnumsTest
+EnumsTest.spec
 
 Tests for Discord enumeration values.
 

@@ -1,6 +1,6 @@
 --[[
 
-ChannelTest
+ChannelTest.spec
 
 Tests for the Channel structure class.
 

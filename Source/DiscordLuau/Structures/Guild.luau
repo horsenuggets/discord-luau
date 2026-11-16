@@ -2,7 +2,8 @@
 
 Guild
 
-Represents a Discord guild (server). Contains channels, members, roles, and guild settings.
+Represents a Discord guild (server). Contains channels, members, roles, and guild
+settings.
 
 --]]
 

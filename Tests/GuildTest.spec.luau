@@ -1,6 +1,6 @@
 --[[
 
-GuildTest
+GuildTest.spec
 
 Tests for the Guild structure class.
 

@@ -2,8 +2,8 @@
 
 Member
 
-Represents a guild member, which is a user within a specific guild. Contains guild-specific
-information like nickname, roles, and join date.
+Represents a guild member, which is a user within a specific guild. Contains
+guild-specific information like nickname, roles, and join date.
 
 --]]
 
