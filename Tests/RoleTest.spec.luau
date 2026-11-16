@@ -1,6 +1,6 @@
 --[[
 
-RoleTest
+RoleTest.spec
 
 Tests for the Role structure class.
 

@@ -1,6 +1,6 @@
 --[[
 
-MemberTest
+MemberTest.spec
 
 Tests for the Member structure class.
 

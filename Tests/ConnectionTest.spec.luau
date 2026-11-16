@@ -1,6 +1,6 @@
 --[[
 
-ConnectionTest
+ConnectionTest.spec
 
 Tests for the Connection class.
 

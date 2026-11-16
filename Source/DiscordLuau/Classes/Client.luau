@@ -2,8 +2,8 @@
 
 Client
 
-The main Discord client class. Handles connection to Discord, event management, and provides
-access to guilds, channels, users, and other Discord resources.
+The main Discord client class. Handles connection to Discord, event management, and
+provides access to guilds, channels, users, and other Discord resources.
 
 --]]
 

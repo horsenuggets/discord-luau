@@ -1,6 +1,6 @@
 --[[
 
-InteractionTest
+InteractionTest.spec
 
 Tests for the Interaction structure class.
 

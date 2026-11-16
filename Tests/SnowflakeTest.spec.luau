@@ -1,6 +1,6 @@
 --[[
 
-SnowflakeTest
+SnowflakeTest.spec
 
 Tests for the Snowflake utility functions.
 

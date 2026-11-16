@@ -1,6 +1,6 @@
 --[[
 
-LavalinkTest
+LavalinkTest.spec
 
 Tests for the Lavalink module including Track class and type handling.
 

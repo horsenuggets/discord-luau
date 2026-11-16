@@ -2,8 +2,8 @@
 
 VoiceState
 
-Represents a user's voice connection state within a guild. Contains information about which
-voice channel they are in, their mute/deaf status, and streaming state.
+Represents a user's voice connection state within a guild. Contains information about
+which voice channel they are in, their mute/deaf status, and streaming state.
 
 --]]
 

@@ -1,6 +1,6 @@
 --[[
 
-SlashCommandBuilderTest
+SlashCommandBuilderTest.spec
 
 Tests for the SlashCommandBuilder class.
 

@@ -1,6 +1,6 @@
 --[[
 
-SignalTest
+SignalTest.spec
 
 Tests for the Signal event system.
 
