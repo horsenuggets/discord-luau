@@ -7,6 +7,8 @@ Tests for the Snowflake utility functions.
 --]]
 
 const Snowflake = require("@discordluau/Utils/Snowflake")
+const Testable = require("@devpackages/Testable")
+const describe, expect, it = Testable.describe, Testable.expect, Testable.it
 
 return function()
     -- Discord's example snowflake: 175928847299117063

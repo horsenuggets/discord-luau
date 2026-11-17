@@ -9,7 +9,9 @@ Tests for the VoiceState structure class.
 const Guild = require("@discordluau/Structures/Guild")
 const MockClient = require("./Helpers/MockClient")
 const MockData = require("./Helpers/MockData")
+const Testable = require("@devpackages/Testable")
 const VoiceState = require("@discordluau/Structures/VoiceState")
+const beforeAll, describe, expect, it = Testable.beforeAll, Testable.describe, Testable.expect, Testable.it
 
 return function()
     local client

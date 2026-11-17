@@ -11,6 +11,8 @@ const GatewayIntent = require("@discordluau/Enums/GatewayIntent")
 const MockClient = require("./Helpers/MockClient")
 const MockData = require("./Helpers/MockData")
 const TestUtils = require("./Helpers/TestUtils")
+const Testable = require("@devpackages/Testable")
+const beforeEach, describe, expect, it = Testable.beforeEach, Testable.describe, Testable.expect, Testable.it
 
 return function()
     describe("Client.new", function()

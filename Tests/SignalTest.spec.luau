@@ -7,6 +7,8 @@ Tests for the Signal event system.
 --]]
 
 const Signal = require("@discordluau/Utils/Signal")
+const Testable = require("@devpackages/Testable")
+const describe, expect, it = Testable.describe, Testable.expect, Testable.it
 const task = require("@lune/task")
 
 return function()

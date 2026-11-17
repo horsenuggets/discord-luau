@@ -7,6 +7,8 @@ Tests for the Connection class.
 --]]
 
 const Signal = require("@discordluau/Utils/Signal")
+const Testable = require("@devpackages/Testable")
+const describe, expect, it = Testable.describe, Testable.expect, Testable.it
 
 return function()
     describe("Connection", function()

@@ -10,6 +10,8 @@ const Guild = require("@discordluau/Structures/Guild")
 const MockClient = require("./Helpers/MockClient")
 const MockData = require("./Helpers/MockData")
 const TestUtils = require("./Helpers/TestUtils")
+const Testable = require("@devpackages/Testable")
+const beforeAll, describe, expect, it = Testable.beforeAll, Testable.describe, Testable.expect, Testable.it
 
 return function()
     local client

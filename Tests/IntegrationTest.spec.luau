@@ -22,6 +22,9 @@ const task = require("@lune/task")
 
 const Rest = require("@discordluau/Rest")
 const TestUtils = require("./Helpers/TestUtils")
+const Testable = require("@devpackages/Testable")
+const afterAll, beforeAll, describe, expect, it =
+    Testable.afterAll, Testable.beforeAll, Testable.describe, Testable.expect, Testable.it
 
 -- Get environment variables
 const BOT_TOKEN = process.env.DISCORD_BOT_TOKEN

@@ -7,6 +7,8 @@ Tests for the Embed builder class.
 --]]
 
 const Embed = require("@discordluau/Structures/Embed")
+const Testable = require("@devpackages/Testable")
+const describe, expect, it = Testable.describe, Testable.expect, Testable.it
 
 return function()
     describe("Embed.new", function()
