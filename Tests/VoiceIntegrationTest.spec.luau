@@ -23,6 +23,9 @@ const task = require("@lune/task")
 const Client = require("@discordluau/Classes/Client")
 const GatewayIntent = require("@discordluau/Enums/GatewayIntent")
 const Lavalink = require("@discordluau/Lavalink")
+const Testable = require("@devpackages/Testable")
+const afterAll, beforeAll, describe, expect, it =
+    Testable.afterAll, Testable.beforeAll, Testable.describe, Testable.expect, Testable.it
 
 -- Get environment variables
 const BOT_TOKEN = process.env.DISCORD_BOT_TOKEN

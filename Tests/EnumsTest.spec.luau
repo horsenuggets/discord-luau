@@ -12,6 +12,8 @@ const GatewayIntent = require("@discordluau/Enums/GatewayIntent")
 const GatewayOpcode = require("@discordluau/Enums/GatewayOpcode")
 const MessageType = require("@discordluau/Enums/MessageType")
 const Permission = require("@discordluau/Enums/Permission")
+const Testable = require("@devpackages/Testable")
+const describe, expect, it = Testable.describe, Testable.expect, Testable.it
 
 return function()
     describe("ChannelType", function()

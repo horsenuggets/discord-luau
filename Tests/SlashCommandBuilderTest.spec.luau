@@ -9,6 +9,8 @@ Tests for the SlashCommandBuilder class.
 const ApplicationCommandOptionType = require("@discordluau/Enums/ApplicationCommandOptionType")
 const ApplicationCommandType = require("@discordluau/Enums/ApplicationCommandType")
 const SlashCommandBuilder = require("@discordluau/Structures/SlashCommandBuilder")
+const Testable = require("@devpackages/Testable")
+const describe, expect, it = Testable.describe, Testable.expect, Testable.it
 
 return function()
     describe("SlashCommandBuilder.new", function()

@@ -7,7 +7,9 @@ Tests for the Lavalink module including Track class and type handling.
 --]]
 
 const MockData = require("./Helpers/MockData")
+const Testable = require("@devpackages/Testable")
 const Track = require("@discordluau/Lavalink/Track")
+const describe, expect, it = Testable.describe, Testable.expect, Testable.it
 
 return function()
     describe("Track.new", function()

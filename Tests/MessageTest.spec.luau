@@ -10,6 +10,9 @@ const Message = require("@discordluau/Structures/Message")
 const MockClient = require("./Helpers/MockClient")
 const MockData = require("./Helpers/MockData")
 const TestUtils = require("./Helpers/TestUtils")
+const Testable = require("@devpackages/Testable")
+const beforeAll, beforeEach, describe, expect, it =
+    Testable.beforeAll, Testable.beforeEach, Testable.describe, Testable.expect, Testable.it
 
 return function()
     local client

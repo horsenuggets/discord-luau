@@ -9,7 +9,9 @@ Tests for the User structure class.
 const MockClient = require("./Helpers/MockClient")
 const MockData = require("./Helpers/MockData")
 const TestUtils = require("./Helpers/TestUtils")
+const Testable = require("@devpackages/Testable")
 const User = require("@discordluau/Structures/User")
+const beforeAll, describe, expect, it = Testable.beforeAll, Testable.describe, Testable.expect, Testable.it
 
 return function()
     local client
