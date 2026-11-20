@@ -30,3 +30,9 @@ Tools
 .terraform/
 *.tfstate
 *.tfstate.*
+
+# Dependencies
+/.wally-install/
+
+# Generated files
+/wally.install.json
