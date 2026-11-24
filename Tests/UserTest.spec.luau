@@ -66,7 +66,7 @@ return function()
             const minimalUser = {
                 id = "123",
                 username = "test",
-                discriminator = "0",
+                discriminator = "0"
             }
             const user = User.new(client, minimalUser)
 

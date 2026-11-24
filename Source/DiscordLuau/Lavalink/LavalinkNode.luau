@@ -53,7 +53,7 @@ export type LavalinkNode = typeof(setmetatable(
         _reconnectAttempts: number,
         _maxReconnectAttempts: number,
         _reconnectDelay: number,
-        _shouldReconnect: boolean,
+        _shouldReconnect: boolean
     },
     LavalinkNode
 ))
@@ -114,7 +114,7 @@ function LavalinkNode.Connect(self: LavalinkNode): boolean
     const headers: { [string]: string } = {
         ["Authorization"] = self.Password,
         ["User-Id"] = self._clientId,
-        ["Client-Name"] = "DiscordLuau/1.0.0",
+        ["Client-Name"] = "DiscordLuau/1.0.0"
     }
 
     if self._resumeKey and self.SessionId then

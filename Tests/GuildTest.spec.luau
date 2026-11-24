@@ -84,7 +84,7 @@ return function()
                 nsfw_level = 0,
                 roles = {},
                 emojis = {},
-                premium_progress_bar_enabled = false,
+                premium_progress_bar_enabled = false
             }
             const guild = Guild.new(client, minimalGuild)
 

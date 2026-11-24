@@ -28,7 +28,7 @@ const Structures = {
     Role = Role,
     SlashCommandBuilder = SlashCommandBuilder,
     User = User,
-    VoiceState = VoiceState,
+    VoiceState = VoiceState
 }
 
 return table.freeze(Structures)

@@ -62,7 +62,7 @@ export type Client = typeof(setmetatable(
         _createMessage: ((data: Types.APIMessage, channel: Channel.Channel?) -> Message.Message)?,
         _eventHandlers: { [string]: { (any) -> () } },
         _intents: number,
-        _token: string?,
+        _token: string?
     },
     Client
 ))
@@ -128,7 +128,7 @@ function Client._setupGatewayHandlers(self: Client)
                 self,
                 {
                     id = guildData.id,
-                    unavailable = true,
+                    unavailable = true
                 } :: any
             )
         end
@@ -255,13 +255,13 @@ function Client._handleDispatchEvent(self: Client, eventName: string, data: any)
         self:_emit("messageDelete", {
             channelId = data.channel_id,
             guildId = data.guild_id,
-            id = data.id,
+            id = data.id
         })
     elseif eventName == "MESSAGE_DELETE_BULK" then
         self:_emit("messageDeleteBulk", {
             channelId = data.channel_id,
             guildId = data.guild_id,
-            ids = data.ids,
+            ids = data.ids
         })
     elseif eventName == "MESSAGE_REACTION_ADD" then
         self:_emit("messageReactionAdd", {
@@ -270,7 +270,7 @@ function Client._handleDispatchEvent(self: Client, eventName: string, data: any)
             guildId = data.guild_id,
             member = data.member,
             messageId = data.message_id,
-            userId = data.user_id,
+            userId = data.user_id
         })
     elseif eventName == "MESSAGE_REACTION_REMOVE" then
         self:_emit("messageReactionRemove", {
@@ -278,20 +278,20 @@ function Client._handleDispatchEvent(self: Client, eventName: string, data: any)
             emoji = data.emoji,
             guildId = data.guild_id,
             messageId = data.message_id,
-            userId = data.user_id,
+            userId = data.user_id
         })
     elseif eventName == "MESSAGE_REACTION_REMOVE_ALL" then
         self:_emit("messageReactionRemoveAll", {
             channelId = data.channel_id,
             guildId = data.guild_id,
-            messageId = data.message_id,
+            messageId = data.message_id
         })
     elseif eventName == "MESSAGE_REACTION_REMOVE_EMOJI" then
         self:_emit("messageReactionRemoveEmoji", {
             channelId = data.channel_id,
             emoji = data.emoji,
             guildId = data.guild_id,
-            messageId = data.message_id,
+            messageId = data.message_id
         })
     elseif eventName == "GUILD_MEMBER_ADD" then
         const guild = self.Guilds[data.guild_id]
@@ -325,7 +325,7 @@ function Client._handleDispatchEvent(self: Client, eventName: string, data: any)
             self:_emit("guildMemberRemove", {
                 guild = guild,
                 member = member,
-                user = User.new(self, data.user),
+                user = User.new(self, data.user)
             })
         end
     elseif eventName == "INTERACTION_CREATE" then
@@ -337,7 +337,7 @@ function Client._handleDispatchEvent(self: Client, eventName: string, data: any)
             guildId = data.guild_id,
             member = data.member,
             timestamp = data.timestamp,
-            userId = data.user_id,
+            userId = data.user_id
         })
     elseif eventName == "VOICE_STATE_UPDATE" then
         const guild = data.guild_id and self.Guilds[data.guild_id]
@@ -376,7 +376,7 @@ function Client._handleDispatchEvent(self: Client, eventName: string, data: any)
         -- Emit raw event for unhandled events
         self:_emit("raw", {
             d = data,
-            t = eventName,
+            t = eventName
         })
     end
 end

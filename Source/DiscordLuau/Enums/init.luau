@@ -28,7 +28,7 @@ const Enums = {
     InteractionResponseType = InteractionResponseType,
     InteractionType = InteractionType,
     MessageType = MessageType,
-    Permission = Permission,
+    Permission = Permission
 }
 
 return table.freeze(Enums)

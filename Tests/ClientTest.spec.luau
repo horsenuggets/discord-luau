@@ -32,7 +32,7 @@ return function()
 
         it("should create a client with array intents", function()
             const client = Client.new({
-                intents = { GatewayIntent.Guilds, GatewayIntent.GuildMessages, GatewayIntent.GuildMembers },
+                intents = { GatewayIntent.Guilds, GatewayIntent.GuildMessages, GatewayIntent.GuildMembers }
             })
 
             const expected = bit32.bor(GatewayIntent.Guilds, GatewayIntent.GuildMessages, GatewayIntent.GuildMembers)
@@ -390,7 +390,7 @@ return function()
 
             client:_handleDispatchEvent("MESSAGE_DELETE", {
                 channel_id = MockData.Snowflakes.ChannelId,
-                id = MockData.Snowflakes.MessageId,
+                id = MockData.Snowflakes.MessageId
             })
 
             expect(receivedData).to.be.ok()

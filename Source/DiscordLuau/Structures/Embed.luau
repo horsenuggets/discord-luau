@@ -33,7 +33,7 @@ Embed.__index = Embed
 
 export type Embed = typeof(setmetatable(
     {} :: {
-        _data: Types.APIEmbed,
+        _data: Types.APIEmbed
     },
     Embed
 ))
@@ -109,7 +109,7 @@ function Embed.SetFooter(self: Embed, text: string, iconUrl: string?): Embed
 
     self._data.footer = {
         text = text,
-        icon_url = iconUrl,
+        icon_url = iconUrl
     }
     return self
 end
@@ -135,7 +135,7 @@ function Embed.SetAuthor(self: Embed, name: string, options: { url: string?, ico
     self._data.author = {
         name = name,
         url = options and options.url,
-        icon_url = options and options.icon_url,
+        icon_url = options and options.icon_url
     }
     return self
 end
@@ -157,7 +157,7 @@ function Embed.AddField(self: Embed, name: string, value: string, inline: boolea
     table.insert(embedFields, {
         name = name,
         value = value,
-        inline = inline or false,
+        inline = inline or false
     })
 
     return self
@@ -178,7 +178,7 @@ function Embed.SetFields(self: Embed, fields: { { name: string, value: string, i
         table.insert(embedFields, {
             name = field.name,
             value = field.value,
-            inline = field.inline or false,
+            inline = field.inline or false
         })
     end
 

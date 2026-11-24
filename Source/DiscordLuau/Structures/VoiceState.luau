@@ -29,7 +29,7 @@ export type VoiceState = typeof(setmetatable(
         SessionId: string,
         Suppress: boolean,
         UserId: Types.Snowflake,
-        _data: Types.APIVoiceState,
+        _data: Types.APIVoiceState
     },
     VoiceState
 ))

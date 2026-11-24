@@ -83,7 +83,7 @@ const MessageType = table.freeze({
     -- A purchase notification
     PurchaseNotification = 44,
     -- A poll result
-    PollResult = 46,
+    PollResult = 46
 })
 
 return MessageType

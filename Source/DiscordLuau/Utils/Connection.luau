@@ -16,7 +16,7 @@ export type Connection = typeof(setmetatable(
         Connected: boolean,
         _func: (...any) -> (),
         _once: boolean?,
-        _signal: any,
+        _signal: any
     },
     Connection
 ))

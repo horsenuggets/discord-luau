@@ -16,7 +16,7 @@ Signal.__index = Signal
 export type Signal<T...> = typeof(setmetatable(
     {} :: {
         _connections: { Connection.Connection },
-        _immediateFire: ((Connection.Connection) -> ())?,
+        _immediateFire: ((Connection.Connection) -> ())?
     },
     Signal
 ))

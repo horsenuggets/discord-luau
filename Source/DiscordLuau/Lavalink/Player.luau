@@ -18,7 +18,7 @@ Player.__index = Player
 export type PlayerOptions = {
     volume: number?,
     selfDeaf: boolean?,
-    selfMute: boolean?,
+    selfMute: boolean?
 }
 
 export type PlayOptions = {
@@ -26,7 +26,7 @@ export type PlayOptions = {
     endTime: number?,
     volume: number?,
     paused: boolean?,
-    noReplace: boolean?,
+    noReplace: boolean?
 }
 
 export type Player = typeof(setmetatable(
@@ -50,7 +50,7 @@ export type Player = typeof(setmetatable(
         _manager: any, -- Lavalink manager (circular reference)
         _voiceState: Types.VoiceState?,
         _selfDeaf: boolean,
-        _selfMute: boolean,
+        _selfMute: boolean
     },
     Player
 ))
@@ -144,7 +144,7 @@ function Player.Play(self: Player, track: Track.Track | string, options: PlayOpt
     end
 
     const updateData: Types.PlayerUpdateData = {
-        track = { encoded = encoded },
+        track = { encoded = encoded }
     }
 
     if options then
@@ -176,7 +176,7 @@ function Player.Stop(self: Player)
     -- In Lavalink v4, sending track with encoded = json null stops playback
     -- We use a special marker that LavalinkRest will handle
     self._node.Rest:UpdatePlayer(self.GuildId, {
-        track = { encoded = nil :: any },
+        track = { encoded = nil :: any }
     })
 
     self.Playing = false
@@ -192,7 +192,7 @@ function Player.Pause(self: Player, paused: boolean?)
     const shouldPause = if paused ~= nil then paused else not self.Paused
 
     self._node.Rest:UpdatePlayer(self.GuildId, {
-        paused = shouldPause,
+        paused = shouldPause
     })
 
     self.Paused = shouldPause
@@ -214,7 +214,7 @@ function Player.Seek(self: Player, position: number)
     assert(type(position) == "number", "Expected position to be a number")
 
     self._node.Rest:UpdatePlayer(self.GuildId, {
-        position = math.max(0, position),
+        position = math.max(0, position)
     })
 
     self.Position = position
@@ -231,7 +231,7 @@ function Player.SetVolume(self: Player, volume: number)
     const clampedVolume = math.clamp(volume, 0, 1000)
 
     self._node.Rest:UpdatePlayer(self.GuildId, {
-        volume = clampedVolume,
+        volume = clampedVolume
     })
 
     self.Volume = clampedVolume
@@ -246,7 +246,7 @@ function Player.SetFilters(self: Player, filters: Types.Filters)
     assert(type(filters) == "table", "Expected filters to be a table")
 
     self._node.Rest:UpdatePlayer(self.GuildId, {
-        filters = filters,
+        filters = filters
     })
 end
 
@@ -349,8 +349,8 @@ function Player._sendVoiceUpdate(self: Player)
         voice = {
             token = self._voiceState.token,
             endpoint = self._voiceState.endpoint,
-            sessionId = self._voiceState.sessionId,
-        },
+            sessionId = self._voiceState.sessionId
+        }
     })
 
     self.Connected = true

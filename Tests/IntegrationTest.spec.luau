@@ -166,7 +166,7 @@ return function()
                     name = `integration-test-{timestamp}`,
                     type = CHANNEL_TYPE_TEXT,
                     parent_id = CATEGORY_ID,
-                    topic = "Created by integration test",
+                    topic = "Created by integration test"
                 }, "Integration test channel creation")
 
                 expect(channel).to.be.ok()
@@ -187,7 +187,7 @@ return function()
                 end
 
                 const channel = rest:ModifyChannel(createdChannelId, {
-                    topic = "Modified by integration test",
+                    topic = "Modified by integration test"
                 }, "Integration test channel modification")
 
                 expect(channel).to.be.ok()
@@ -231,7 +231,7 @@ return function()
                 const channel = rest:CreateGuildChannel(GUILD_ID, {
                     name = `perm-test-{timestamp}`,
                     type = CHANNEL_TYPE_TEXT,
-                    parent_id = CATEGORY_ID,
+                    parent_id = CATEGORY_ID
                 }, "Integration test for permissions")
 
                 testChannelId = channel.id
@@ -252,7 +252,7 @@ return function()
                     deny = tostring(bit32.bor(
                         bit32.lshift(1, 11) -- SendMessages
                     )),
-                    type = OVERWRITE_TYPE_ROLE,
+                    type = OVERWRITE_TYPE_ROLE
                 }, "Integration test permission change")
 
                 -- Verify the channel now has the permission overwrite
@@ -282,7 +282,7 @@ return function()
                         bit32.lshift(1, 11), -- SendMessages
                         bit32.lshift(1, 10) -- ViewChannel
                     )),
-                    type = OVERWRITE_TYPE_MEMBER,
+                    type = OVERWRITE_TYPE_MEMBER
                 }, "Integration test member permission")
 
                 task.wait(1)
@@ -342,7 +342,7 @@ return function()
                 task.wait(1)
                 const timestamp = os.date("%Y-%m-%d %H:%M:%S")
                 const message = rest:CreateMessage(TEXT_CHANNEL_ID, {
-                    content = `[Integration Test] Message created at {timestamp}`,
+                    content = `[Integration Test] Message created at {timestamp}`
                 })
 
                 expect(message).to.be.ok()
@@ -362,11 +362,11 @@ return function()
                             color = 0x5865F2,
                             fields = {
                                 { name = "Field 1", value = "Value 1", inline = true },
-                                { name = "Field 2", value = "Value 2", inline = true },
+                                { name = "Field 2", value = "Value 2", inline = true }
                             },
-                            footer = { text = "Integration Test" },
-                        },
-                    },
+                            footer = { text = "Integration Test" }
+                        }
+                    }
                 })
 
                 expect(message).to.be.ok()
@@ -401,13 +401,13 @@ return function()
                 if not createdMessageId then
                     -- Create a message first
                     const message = rest:CreateMessage(TEXT_CHANNEL_ID, {
-                        content = "[Integration Test] To be edited",
+                        content = "[Integration Test] To be edited"
                     })
                     createdMessageId = message.id
                 end
 
                 const editedMessage = rest:EditMessage(TEXT_CHANNEL_ID, createdMessageId :: string, {
-                    content = "[Integration Test] Message has been edited",
+                    content = "[Integration Test] Message has been edited"
                 })
 
                 expect(editedMessage).to.be.ok()
@@ -418,7 +418,7 @@ return function()
             it("should delete a message", function()
                 -- Create a message to delete
                 const message = rest:CreateMessage(TEXT_CHANNEL_ID, {
-                    content = "[Integration Test] This message will be deleted",
+                    content = "[Integration Test] This message will be deleted"
                 })
 
                 expect(message).to.be.ok()
@@ -453,7 +453,7 @@ return function()
             beforeAll(function()
                 -- Create a test message for reactions
                 const message = rest:CreateMessage(TEXT_CHANNEL_ID, {
-                    content = "[Integration Test] Reaction test message",
+                    content = "[Integration Test] Reaction test message"
                 })
                 testMessageId = message.id
             end)
@@ -534,7 +534,7 @@ return function()
 
             beforeAll(function()
                 const message = rest:CreateMessage(TEXT_CHANNEL_ID, {
-                    content = "[Integration Test] Pin test message",
+                    content = "[Integration Test] Pin test message"
                 })
                 testMessageId = message.id
             end)
@@ -602,7 +602,7 @@ return function()
             beforeAll(function()
                 task.wait(1)
                 const message = rest:CreateMessage(TEXT_CHANNEL_ID, {
-                    content = "[Integration Test] Thread test message",
+                    content = "[Integration Test] Thread test message"
                 })
                 testMessageId = message.id
             end)
@@ -635,7 +635,7 @@ return function()
 
                 task.wait(1)
                 const message = rest:CreateMessage(testThreadId, {
-                    content = "[Integration Test] Message in thread",
+                    content = "[Integration Test] Message in thread"
                 })
 
                 expect(message).to.be.ok()
@@ -667,7 +667,7 @@ return function()
                     name = `test-role-{timestamp}`,
                     color = 0xFF5733,
                     hoist = false,
-                    mentionable = false,
+                    mentionable = false
                 }, "Integration test role creation")
 
                 expect(role).to.be.ok()
@@ -686,7 +686,7 @@ return function()
                 task.wait(1)
                 const role = rest:ModifyGuildRole(GUILD_ID, createdRoleId, {
                     name = "modified-test-role",
-                    color = 0x3498DB,
+                    color = 0x3498DB
                 }, "Integration test role modification")
 
                 expect(role).to.be.ok()

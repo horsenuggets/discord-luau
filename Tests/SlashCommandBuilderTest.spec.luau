@@ -63,7 +63,7 @@ return function()
 
         it("should support required option", function()
             const builder = SlashCommandBuilder.new():AddStringOption("name", "The name", {
-                required = true,
+                required = true
             })
             expect(builder._data.options[1].required).to.equal(true)
         end)
@@ -72,8 +72,8 @@ return function()
             const builder = SlashCommandBuilder.new():AddStringOption("color", "Pick a color", {
                 choices = {
                     { name = "Red", value = "red" },
-                    { name = "Blue", value = "blue" },
-                },
+                    { name = "Blue", value = "blue" }
+                }
             })
             expect(#builder._data.options[1].choices).to.equal(2)
         end)
@@ -88,7 +88,7 @@ return function()
         it("should support min and max values", function()
             const builder = SlashCommandBuilder.new():AddIntegerOption("count", "The count", {
                 min_value = 1,
-                max_value = 100,
+                max_value = 100
             })
             expect(builder._data.options[1].min_value).to.equal(1)
             expect(builder._data.options[1].max_value).to.equal(100)
@@ -197,13 +197,13 @@ return function()
                         type = ApplicationCommandOptionType.User,
                         name = "user",
                         description = "User to ban",
-                        required = true,
+                        required = true
                     },
                     {
                         type = ApplicationCommandOptionType.String,
                         name = "reason",
-                        description = "Reason for ban",
-                    },
+                        description = "Reason for ban"
+                    }
                 })
 
             const json = builder:ToJSON()

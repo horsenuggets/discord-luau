@@ -105,7 +105,7 @@ const Permission = table.freeze({
     -- Allows sending polls
     SendPolls = 0x2000000000000,
     -- Allows user-installed apps to send public responses
-    UseExternalApps = 0x4000000000000,
+    UseExternalApps = 0x4000000000000
 })
 
 return Permission

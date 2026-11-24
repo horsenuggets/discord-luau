@@ -68,7 +68,7 @@ const DiscordLuau = {
     Rest = Rest,
     Structures = Structures,
     Types = Types,
-    Utils = Utils,
+    Utils = Utils
 }
 
 return table.freeze(DiscordLuau)

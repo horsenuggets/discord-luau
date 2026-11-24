@@ -98,7 +98,7 @@ return function()
         it("should set author with options", function()
             const embed = Embed.new():SetAuthor("Author", {
                 url = "https://example.com",
-                icon_url = "https://example.com/icon.png",
+                icon_url = "https://example.com/icon.png"
             })
             expect(embed._data.author.name).to.equal("Author")
             expect(embed._data.author.url).to.equal("https://example.com")
@@ -129,7 +129,7 @@ return function()
         it("should replace all fields", function()
             const embed = Embed.new():AddField("Old", "Field"):SetFields({
                 { name = "New1", value = "Field1" },
-                { name = "New2", value = "Field2" },
+                { name = "New2", value = "Field2" }
             })
             expect(#embed._data.fields).to.equal(2)
             expect(embed._data.fields[1].name).to.equal("New1")

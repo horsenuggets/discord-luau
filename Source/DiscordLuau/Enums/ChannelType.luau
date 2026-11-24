@@ -33,7 +33,7 @@ const ChannelType = table.freeze({
     -- A channel that can only contain threads
     GuildForum = 15,
     -- A channel similar to forum channels but for media
-    GuildMedia = 16,
+    GuildMedia = 16
 })
 
 return ChannelType

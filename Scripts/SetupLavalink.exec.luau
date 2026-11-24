@@ -77,7 +77,7 @@ const function downloadFile(url: string, path: string): boolean
 
     const response = net.request({
         url = url,
-        method = "GET",
+        method = "GET"
     })
 
     if not response.ok then
