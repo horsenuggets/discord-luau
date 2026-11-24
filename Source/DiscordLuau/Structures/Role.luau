@@ -31,10 +31,10 @@ export type Role = typeof(setmetatable(
             guild_connections: boolean?,
             integration_id: Types.Snowflake?,
             premium_subscriber: boolean?,
-            subscription_listing_id: Types.Snowflake?,
+            subscription_listing_id: Types.Snowflake?
         }?,
         UnicodeEmoji: string?,
-        _data: Types.APIRole,
+        _data: Types.APIRole
     },
     Role
 ))

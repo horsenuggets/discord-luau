@@ -25,7 +25,7 @@ export type APIUser = {
     avatar: string?,
     avatar_decoration_data: {
         asset: string,
-        sku_id: string,
+        sku_id: string
     }?,
     banner: string?,
     bot: boolean?,
@@ -40,7 +40,7 @@ export type APIUser = {
     public_flags: number?,
     system: boolean?,
     username: string,
-    verified: boolean?,
+    verified: boolean?
 }
 
 -- API Guild Member object
@@ -56,7 +56,7 @@ export type APIMember = {
     permissions: string?,
     premium_since: string?,
     roles: { Snowflake },
-    user: APIUser?,
+    user: APIUser?
 }
 
 -- API Role object
@@ -76,9 +76,9 @@ export type APIRole = {
         premium_subscriber: boolean?,
         subscription_listing_id: Snowflake?,
         available_for_purchase: boolean?,
-        guild_connections: boolean?,
+        guild_connections: boolean?
     }?,
-    unicode_emoji: string?,
+    unicode_emoji: string?
 }
 
 -- API Channel object
@@ -117,7 +117,7 @@ export type APIChannel = {
     total_message_sent: number?,
     type: number,
     user_limit: number?,
-    video_quality_mode: number?,
+    video_quality_mode: number?
 }
 
 export type APIForumTag = {
@@ -125,12 +125,12 @@ export type APIForumTag = {
     emoji_name: string?,
     id: Snowflake,
     moderated: boolean,
-    name: string,
+    name: string
 }
 
 export type APIDefaultReaction = {
     emoji_id: Snowflake?,
-    emoji_name: string?,
+    emoji_name: string?
 }
 
 export type APIThreadMember = {
@@ -138,7 +138,7 @@ export type APIThreadMember = {
     id: Snowflake?,
     join_timestamp: string,
     member: APIMember?,
-    user_id: Snowflake?,
+    user_id: Snowflake?
 }
 
 export type APIThreadMetadata = {
@@ -147,14 +147,14 @@ export type APIThreadMetadata = {
     auto_archive_duration: number,
     create_timestamp: string?,
     invitable: boolean?,
-    locked: boolean,
+    locked: boolean
 }
 
 export type APIOverwrite = {
     allow: string,
     deny: string,
     id: Snowflake,
-    type: number,
+    type: number
 }
 
 -- API Message object
@@ -189,12 +189,12 @@ export type APIMessage = {
     timestamp: string,
     tts: boolean,
     type: number,
-    webhook_id: Snowflake?,
+    webhook_id: Snowflake?
 }
 
 export type APIMessageActivity = {
     party_id: string?,
-    type: number,
+    type: number
 }
 
 export type APIApplication = {
@@ -208,7 +208,7 @@ export type APIApplication = {
     id: Snowflake,
     install_params: {
         permissions: string,
-        scopes: { string },
+        scopes: { string }
     }?,
     name: string,
     owner: APIUser?,
@@ -220,7 +220,7 @@ export type APIApplication = {
     tags: { string }?,
     team: any?,
     terms_of_service_url: string?,
-    verify_key: string,
+    verify_key: string
 }
 
 export type APIAttachment = {
@@ -236,7 +236,7 @@ export type APIAttachment = {
     size: number,
     url: string,
     waveform: string?,
-    width: number?,
+    width: number?
 }
 
 export type APIComponent = {
@@ -255,7 +255,7 @@ export type APIComponent = {
     style: number?,
     type: number,
     url: string?,
-    value: string?,
+    value: string?
 }
 
 export type APISelectOption = {
@@ -263,7 +263,7 @@ export type APISelectOption = {
     description: string?,
     emoji: APIEmoji?,
     label: string,
-    value: string,
+    value: string
 }
 
 export type APIEmoji = {
@@ -274,7 +274,7 @@ export type APIEmoji = {
     name: string?,
     require_colons: boolean?,
     roles: { Snowflake }?,
-    user: APIUser?,
+    user: APIUser?
 }
 
 export type APIEmbed = {
@@ -290,52 +290,52 @@ export type APIEmbed = {
     title: string?,
     type: string?,
     url: string?,
-    video: APIEmbedVideo?,
+    video: APIEmbedVideo?
 }
 
 export type APIEmbedAuthor = {
     icon_url: string?,
     name: string,
     proxy_icon_url: string?,
-    url: string?,
+    url: string?
 }
 
 export type APIEmbedField = {
     inline: boolean?,
     name: string,
-    value: string,
+    value: string
 }
 
 export type APIEmbedFooter = {
     icon_url: string?,
     proxy_icon_url: string?,
-    text: string,
+    text: string
 }
 
 export type APIEmbedImage = {
     height: number?,
     proxy_url: string?,
     url: string,
-    width: number?,
+    width: number?
 }
 
 export type APIEmbedProvider = {
     name: string?,
-    url: string?,
+    url: string?
 }
 
 export type APIEmbedThumbnail = {
     height: number?,
     proxy_url: string?,
     url: string,
-    width: number?,
+    width: number?
 }
 
 export type APIEmbedVideo = {
     height: number?,
     proxy_url: string?,
     url: string?,
-    width: number?,
+    width: number?
 }
 
 export type APIMessageInteraction = {
@@ -343,21 +343,21 @@ export type APIMessageInteraction = {
     member: APIMember?,
     name: string,
     type: number,
-    user: APIUser,
+    user: APIUser
 }
 
 export type APIChannelMention = {
     guild_id: Snowflake,
     id: Snowflake,
     name: string,
-    type: number,
+    type: number
 }
 
 export type APIMessageReference = {
     channel_id: Snowflake?,
     fail_if_not_exists: boolean?,
     guild_id: Snowflake?,
-    message_id: Snowflake?,
+    message_id: Snowflake?
 }
 
 export type APIPoll = {
@@ -366,28 +366,28 @@ export type APIPoll = {
     expiry: string?,
     layout_type: number,
     question: APIPollMedia,
-    results: APIPollResults?,
+    results: APIPollResults?
 }
 
 export type APIPollAnswer = {
     answer_id: number,
-    poll_media: APIPollMedia,
+    poll_media: APIPollMedia
 }
 
 export type APIPollMedia = {
     emoji: APIEmoji?,
-    text: string?,
+    text: string?
 }
 
 export type APIPollResults = {
     answer_counts: { APIPollAnswerCount },
-    is_finalized: boolean,
+    is_finalized: boolean
 }
 
 export type APIPollAnswerCount = {
     count: number,
     id: number,
-    me_voted: boolean,
+    me_voted: boolean
 }
 
 export type APIReaction = {
@@ -395,17 +395,17 @@ export type APIReaction = {
     count: number,
     count_details: {
         burst: number,
-        normal: number,
+        normal: number
     },
     emoji: APIEmoji,
     me: boolean,
-    me_burst: boolean,
+    me_burst: boolean
 }
 
 export type APIStickerItem = {
     format_type: number,
     id: Snowflake,
-    name: string,
+    name: string
 }
 
 -- API Guild object
@@ -461,7 +461,7 @@ export type APIGuild = {
     voice_states: { APIVoiceState }?,
     welcome_screen: APIWelcomeScreen?,
     widget_channel_id: Snowflake?,
-    widget_enabled: boolean?,
+    widget_enabled: boolean?
 }
 
 export type APIPresence = {
@@ -469,11 +469,11 @@ export type APIPresence = {
     client_status: {
         desktop: string?,
         mobile: string?,
-        web: string?,
+        web: string?
     },
     guild_id: Snowflake,
     status: string,
-    user: APIUser,
+    user: APIUser
 }
 
 export type APIActivity = {
@@ -482,7 +482,7 @@ export type APIActivity = {
         large_image: string?,
         large_text: string?,
         small_image: string?,
-        small_text: string?,
+        small_text: string?
     }?,
     buttons: { string }?,
     created_at: number,
@@ -493,20 +493,20 @@ export type APIActivity = {
     name: string,
     party: {
         id: string?,
-        size: { number }?,
+        size: { number }?
     }?,
     secrets: {
         join: string?,
         match: string?,
-        spectate: string?,
+        spectate: string?
     }?,
     state: string?,
     timestamps: {
         ["end"]: number?,
-        start: number?,
+        start: number?
     }?,
     type: number,
-    url: string?,
+    url: string?
 }
 
 export type APIStageInstance = {
@@ -516,7 +516,7 @@ export type APIStageInstance = {
     guild_scheduled_event_id: Snowflake?,
     id: Snowflake,
     privacy_level: number,
-    topic: string,
+    topic: string
 }
 
 export type APISticker = {
@@ -531,7 +531,7 @@ export type APISticker = {
     sort_value: number?,
     tags: string,
     type: number,
-    user: APIUser?,
+    user: APIUser?
 }
 
 export type APIVoiceState = {
@@ -547,19 +547,19 @@ export type APIVoiceState = {
     self_video: boolean,
     session_id: string,
     suppress: boolean,
-    user_id: Snowflake,
+    user_id: Snowflake
 }
 
 export type APIWelcomeScreen = {
     description: string?,
-    welcome_channels: { APIWelcomeScreenChannel },
+    welcome_channels: { APIWelcomeScreenChannel }
 }
 
 export type APIWelcomeScreenChannel = {
     channel_id: Snowflake,
     description: string,
     emoji_id: Snowflake?,
-    emoji_name: string?,
+    emoji_name: string?
 }
 
 -- Gateway event types
@@ -567,24 +567,24 @@ export type GatewayPayload = {
     d: any?,
     op: number,
     s: number?,
-    t: string?,
+    t: string?
 }
 
 export type GatewayHelloData = {
-    heartbeat_interval: number,
+    heartbeat_interval: number
 }
 
 export type GatewayReadyData = {
     application: {
         flags: number,
-        id: Snowflake,
+        id: Snowflake
     },
     guilds: { { id: Snowflake, unavailable: boolean? } },
     resume_gateway_url: string,
     session_id: string,
     shard: { number }?,
     user: APIUser,
-    v: number,
+    v: number
 }
 
 export type GatewayIdentifyData = {
@@ -595,30 +595,30 @@ export type GatewayIdentifyData = {
     properties: {
         browser: string,
         device: string,
-        os: string,
+        os: string
     },
     shard: { number }?,
-    token: string,
+    token: string
 }
 
 export type GatewayPresenceUpdateData = {
     activities: { APIActivity }?,
     afk: boolean,
     since: number?,
-    status: string,
+    status: string
 }
 
 export type GatewayResumeData = {
     seq: number,
     session_id: string,
-    token: string,
+    token: string
 }
 
 -- Client options
 export type ClientOptions = {
     intents: number | { number },
     presence: GatewayPresenceUpdateData?,
-    shards: { number }?,
+    shards: { number }?
 }
 
 -- Message send options
@@ -627,7 +627,7 @@ export type MessageSendOptions = {
         parse: { string }?,
         replied_user: boolean?,
         roles: { Snowflake }?,
-        users: { Snowflake }?,
+        users: { Snowflake }?
     }?,
     attachments: { APIAttachment }?,
     components: { APIComponent }?,
@@ -637,7 +637,7 @@ export type MessageSendOptions = {
     message_reference: APIMessageReference?,
     nonce: (string | number)?,
     sticker_ids: { Snowflake }?,
-    tts: boolean?,
+    tts: boolean?
 }
 
 -- Interaction types
@@ -659,7 +659,7 @@ export type APIInteraction = {
     token: string,
     type: number,
     user: APIUser?,
-    version: number,
+    version: number
 }
 
 export type APIInteractionData = {
@@ -672,7 +672,7 @@ export type APIInteractionData = {
     resolved: APIResolvedData?,
     target_id: Snowflake?,
     type: number?,
-    values: { string }?,
+    values: { string }?
 }
 
 export type APIInteractionOption = {
@@ -680,7 +680,7 @@ export type APIInteractionOption = {
     name: string,
     options: { APIInteractionOption }?,
     type: number,
-    value: (string | number | boolean)?,
+    value: (string | number | boolean)?
 }
 
 export type APIResolvedData = {
@@ -689,7 +689,7 @@ export type APIResolvedData = {
     members: { [Snowflake]: APIMember }?,
     messages: { [Snowflake]: APIMessage }?,
     roles: { [Snowflake]: APIRole }?,
-    users: { [Snowflake]: APIUser }?,
+    users: { [Snowflake]: APIUser }?
 }
 
 export type APIEntitlement = {
@@ -702,7 +702,7 @@ export type APIEntitlement = {
     sku_id: Snowflake,
     starts_at: string?,
     type: number,
-    user_id: Snowflake?,
+    user_id: Snowflake?
 }
 
 -- Application command types
@@ -722,7 +722,7 @@ export type APIApplicationCommand = {
     nsfw: boolean?,
     options: { APIApplicationCommandOption }?,
     type: number?,
-    version: Snowflake,
+    version: Snowflake
 }
 
 export type APIApplicationCommandOption = {
@@ -739,13 +739,13 @@ export type APIApplicationCommandOption = {
     name_localizations: { [string]: string }?,
     options: { APIApplicationCommandOption }?,
     required: boolean?,
-    type: number,
+    type: number
 }
 
 export type APIApplicationCommandOptionChoice = {
     name: string,
     name_localizations: { [string]: string }?,
-    value: string | number,
+    value: string | number
 }
 
 return {}

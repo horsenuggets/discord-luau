@@ -15,7 +15,7 @@ const InteractionResponseType = {
     ApplicationCommandAutocompleteResult = 8,
     Modal = 9,
     PremiumRequired = 10,
-    LaunchActivity = 12,
+    LaunchActivity = 12
 }
 
 return table.freeze(InteractionResponseType)

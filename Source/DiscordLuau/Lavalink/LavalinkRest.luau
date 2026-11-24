@@ -19,7 +19,7 @@ export type LavalinkRest = typeof(setmetatable(
     {} :: {
         _baseUrl: string,
         _password: string,
-        _sessionId: string?,
+        _sessionId: string?
     },
     LavalinkRest
 ))
@@ -53,13 +53,13 @@ function LavalinkRest._request(
 
     const headers: { [string]: string } = {
         ["Authorization"] = self._password,
-        ["Content-Type"] = "application/json",
+        ["Content-Type"] = "application/json"
     }
 
     const requestOptions: net.FetchParams = {
         url = url,
         method = method,
-        headers = headers,
+        headers = headers
     }
 
     if body then
@@ -119,8 +119,8 @@ function LavalinkRest.LoadTracks(self: LavalinkRest, identifier: string): Types.
             data = {
                 message = result.error,
                 severity = "common",
-                cause = "REST request failed",
-            },
+                cause = "REST request failed"
+            }
         }
     end
 

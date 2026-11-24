@@ -25,7 +25,7 @@ export type Track = typeof(setmetatable(
         SourceName: string,
         Title: string,
         Uri: string?,
-        _data: Types.LavalinkTrack,
+        _data: Types.LavalinkTrack
     },
     Track
 ))

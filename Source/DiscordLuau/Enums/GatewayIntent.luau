@@ -49,7 +49,7 @@ const GatewayIntent = table.freeze({
     -- Guild message poll events
     GuildMessagePolls = bit32.lshift(1, 24),
     -- Direct message poll events
-    DirectMessagePolls = bit32.lshift(1, 25),
+    DirectMessagePolls = bit32.lshift(1, 25)
 })
 
 return GatewayIntent

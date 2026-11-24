@@ -34,7 +34,7 @@ SlashCommandBuilder.__index = SlashCommandBuilder
 
 export type SlashCommandOptionChoice = {
     name: string,
-    value: string | number,
+    value: string | number
 }
 
 export type SlashCommandOption = {
@@ -49,7 +49,7 @@ export type SlashCommandOption = {
     min_length: number?,
     max_length: number?,
     autocomplete: boolean?,
-    channel_types: { number }?,
+    channel_types: { number }?
 }
 
 export type SlashCommandBuilder = typeof(setmetatable(
@@ -61,8 +61,8 @@ export type SlashCommandBuilder = typeof(setmetatable(
             options: { SlashCommandOption },
             default_member_permissions: string?,
             dm_permission: boolean?,
-            nsfw: boolean?,
-        },
+            nsfw: boolean?
+        }
     },
     SlashCommandBuilder
 ))
@@ -72,7 +72,7 @@ function SlashCommandBuilder.new(): SlashCommandBuilder
 
     self._data = {
         type = ApplicationCommandType.ChatInput,
-        options = {},
+        options = {}
     }
 
     return self
@@ -152,7 +152,7 @@ function SlashCommandBuilder.AddStringOption(
         choices: { SlashCommandOptionChoice }?,
         min_length: number?,
         max_length: number?,
-        autocomplete: boolean?,
+        autocomplete: boolean?
     }?
 ): SlashCommandBuilder
     assert(type(name) == "string", "Expected name to be a string")
@@ -161,7 +161,7 @@ function SlashCommandBuilder.AddStringOption(
     const option: SlashCommandOption = {
         type = ApplicationCommandOptionType.String,
         name = name,
-        description = description,
+        description = description
     }
 
     if options then
@@ -185,7 +185,7 @@ function SlashCommandBuilder.AddIntegerOption(
         choices: { SlashCommandOptionChoice }?,
         min_value: number?,
         max_value: number?,
-        autocomplete: boolean?,
+        autocomplete: boolean?
     }?
 ): SlashCommandBuilder
     assert(type(name) == "string", "Expected name to be a string")
@@ -194,7 +194,7 @@ function SlashCommandBuilder.AddIntegerOption(
     const option: SlashCommandOption = {
         type = ApplicationCommandOptionType.Integer,
         name = name,
-        description = description,
+        description = description
     }
 
     if options then
@@ -218,7 +218,7 @@ function SlashCommandBuilder.AddNumberOption(
         choices: { SlashCommandOptionChoice }?,
         min_value: number?,
         max_value: number?,
-        autocomplete: boolean?,
+        autocomplete: boolean?
     }?
 ): SlashCommandBuilder
     assert(type(name) == "string", "Expected name to be a string")
@@ -227,7 +227,7 @@ function SlashCommandBuilder.AddNumberOption(
     const option: SlashCommandOption = {
         type = ApplicationCommandOptionType.Number,
         name = name,
-        description = description,
+        description = description
     }
 
     if options then
@@ -254,7 +254,7 @@ function SlashCommandBuilder.AddBooleanOption(
     const option: SlashCommandOption = {
         type = ApplicationCommandOptionType.Boolean,
         name = name,
-        description = description,
+        description = description
     }
 
     if options then
@@ -277,7 +277,7 @@ function SlashCommandBuilder.AddUserOption(
     const option: SlashCommandOption = {
         type = ApplicationCommandOptionType.User,
         name = name,
-        description = description,
+        description = description
     }
 
     if options then
@@ -294,7 +294,7 @@ function SlashCommandBuilder.AddChannelOption(
     description: string,
     options: {
         required: boolean?,
-        channel_types: { number }?,
+        channel_types: { number }?
     }?
 ): SlashCommandBuilder
     assert(type(name) == "string", "Expected name to be a string")
@@ -303,7 +303,7 @@ function SlashCommandBuilder.AddChannelOption(
     const option: SlashCommandOption = {
         type = ApplicationCommandOptionType.Channel,
         name = name,
-        description = description,
+        description = description
     }
 
     if options then
@@ -327,7 +327,7 @@ function SlashCommandBuilder.AddRoleOption(
     const option: SlashCommandOption = {
         type = ApplicationCommandOptionType.Role,
         name = name,
-        description = description,
+        description = description
     }
 
     if options then
@@ -350,7 +350,7 @@ function SlashCommandBuilder.AddMentionableOption(
     const option: SlashCommandOption = {
         type = ApplicationCommandOptionType.Mentionable,
         name = name,
-        description = description,
+        description = description
     }
 
     if options then
@@ -373,7 +373,7 @@ function SlashCommandBuilder.AddAttachmentOption(
     const option: SlashCommandOption = {
         type = ApplicationCommandOptionType.Attachment,
         name = name,
-        description = description,
+        description = description
     }
 
     if options then
@@ -397,7 +397,7 @@ function SlashCommandBuilder.AddSubCommand(
         type = ApplicationCommandOptionType.SubCommand,
         name = name,
         description = description,
-        options = options,
+        options = options
     }
 
     table.insert(self._data.options, option)
@@ -418,7 +418,7 @@ function SlashCommandBuilder.AddSubCommandGroup(
         type = ApplicationCommandOptionType.SubCommandGroup,
         name = name,
         description = description,
-        options = subcommands,
+        options = subcommands
     }
 
     table.insert(self._data.options, option)
@@ -432,7 +432,7 @@ function SlashCommandBuilder.ToJSON(self: SlashCommandBuilder): { [string]: any 
     const data: { [string]: any } = {
         name = self._data.name,
         description = self._data.description,
-        type = self._data.type,
+        type = self._data.type
     }
 
     if #self._data.options > 0 then

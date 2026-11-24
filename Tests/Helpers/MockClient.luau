@@ -32,7 +32,7 @@ function MockClient.new()
         Rest = MockClient.createMockRest(),
 
         -- Mock Gateway
-        Gateway = nil,
+        Gateway = nil
     }
 
     -- Set up message factory
@@ -126,7 +126,7 @@ function MockClient.newWithData()
                 return `Client({self.User:GetTag()})`
             end
             return "Client(not logged in)"
-        end,
+        end
     })
 
     return client
@@ -136,7 +136,7 @@ end
 function MockClient.createMockRest()
     const rest = {
         _responses = {},
-        _calls = {},
+        _calls = {}
     }
 
     -- Configure a mock response for an endpoint
@@ -319,7 +319,7 @@ function MockClient.createMockUser(data)
 
         ToString = function(self)
             return `<@{self.Id}>`
-        end,
+        end
     }
 end
 
@@ -355,7 +355,7 @@ function MockClient.createMockGuild(data)
             const format = options and options.format or "webp"
             const size = options and options.size or 128
             return `https://cdn.discordapp.com/icons/{self.Id}/{self.Icon}.{format}?size={size}`
-        end,
+        end
     }
 end
 
@@ -412,7 +412,7 @@ function MockClient.createMockChannel(data, client)
 
         ToString = function(self)
             return `<#{self.Id}>`
-        end,
+        end
     }
     return channel
 end
@@ -448,7 +448,7 @@ function MockClient.createMockMessage(data, client, channel)
             end
             body.message_reference = {
                 message_id = self.Id,
-                channel_id = self.ChannelId,
+                channel_id = self.ChannelId
             }
             return client.Rest:CreateMessage(self.ChannelId, body)
         end,
@@ -513,7 +513,7 @@ function MockClient.createMockMessage(data, client, channel)
 
         HasAttachments = function(self)
             return #self.Attachments > 0
-        end,
+        end
     }
 end
 
@@ -563,7 +563,7 @@ function MockClient.createMockMember(data, guild)
 
         ToString = function(self)
             return `<@{self.User.Id}>`
-        end,
+        end
     }
 end
 
@@ -601,7 +601,7 @@ function MockClient.createMockRole(data, guild)
             else
                 return 0
             end
-        end,
+        end
     }
 end
 

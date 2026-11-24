@@ -14,7 +14,7 @@ const Snowflake = require("@self/Snowflake")
 const Utils = {
     Connection = Connection,
     Signal = Signal,
-    Snowflake = Snowflake,
+    Snowflake = Snowflake
 }
 
 return table.freeze(Utils)

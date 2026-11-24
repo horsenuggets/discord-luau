@@ -41,7 +41,7 @@ function RunTests.load()
         { Name = "SnowflakeTest", Func = require("@tests/SnowflakeTest.spec") },
         { Name = "UserTest", Func = require("@tests/UserTest.spec") },
         { Name = "VoiceIntegrationTest", Func = require("@tests/VoiceIntegrationTest.spec") },
-        { Name = "VoiceStateTest", Func = require("@tests/VoiceStateTest.spec") },
+        { Name = "VoiceStateTest", Func = require("@tests/VoiceStateTest.spec") }
     }
 end
 
@@ -53,7 +53,7 @@ function RunTests.exec()
     -- This prevents rate limiting issues with the Discord API
     Testable.configure({
         InjectGlobals = false,
-        Parallel = false,
+        Parallel = false
     })
 
     const tests = RunTests.load()

@@ -37,7 +37,7 @@ export type InteractionReplyOptions = {
     ephemeral: boolean?,
     components: { { [string]: any } }?,
     allowed_mentions: { [string]: any }?,
-    tts: boolean?,
+    tts: boolean?
 }
 
 export type Interaction = typeof(setmetatable(
@@ -64,7 +64,7 @@ export type Interaction = typeof(setmetatable(
         Options: { [string]: any },
         CustomId: string?,
         ComponentType: number?,
-        Values: { string }?,
+        Values: { string }?
     },
     Interaction
 ))
@@ -203,7 +203,7 @@ function Interaction.Reply(self: Interaction, options: InteractionReplyOptions |
             embeds = options.embeds,
             components = options.components,
             allowed_mentions = options.allowed_mentions,
-            tts = options.tts,
+            tts = options.tts
         }
 
         if options.ephemeral then
@@ -213,7 +213,7 @@ function Interaction.Reply(self: Interaction, options: InteractionReplyOptions |
 
     self._client.Rest:CreateInteractionResponse(self.Id, self.Token, {
         type = InteractionResponseType.ChannelMessageWithSource,
-        data = data,
+        data = data
     })
 
     self._replied = true
@@ -231,7 +231,7 @@ function Interaction.DeferReply(self: Interaction, ephemeral: boolean?)
 
     self._client.Rest:CreateInteractionResponse(self.Id, self.Token, {
         type = InteractionResponseType.DeferredChannelMessageWithSource,
-        data = data,
+        data = data
     })
 
     self._deferred = true
@@ -250,7 +250,7 @@ function Interaction.EditReply(self: Interaction, options: InteractionReplyOptio
             content = options.content,
             embeds = options.embeds,
             components = options.components,
-            allowed_mentions = options.allowed_mentions,
+            allowed_mentions = options.allowed_mentions
         }
     end
 
@@ -276,7 +276,7 @@ function Interaction.FollowUp(self: Interaction, options: InteractionReplyOption
             embeds = options.embeds,
             components = options.components,
             allowed_mentions = options.allowed_mentions,
-            tts = options.tts,
+            tts = options.tts
         }
 
         if options.ephemeral then
@@ -293,7 +293,7 @@ function Interaction.DeferUpdate(self: Interaction)
     assert(self.Type == InteractionType.MessageComponent, "DeferUpdate can only be used on component interactions")
 
     self._client.Rest:CreateInteractionResponse(self.Id, self.Token, {
-        type = InteractionResponseType.DeferredUpdateMessage,
+        type = InteractionResponseType.DeferredUpdateMessage
     })
 
     self._deferred = true
@@ -313,13 +313,13 @@ function Interaction.Update(self: Interaction, options: InteractionReplyOptions 
             content = options.content,
             embeds = options.embeds,
             components = options.components,
-            allowed_mentions = options.allowed_mentions,
+            allowed_mentions = options.allowed_mentions
         }
     end
 
     self._client.Rest:CreateInteractionResponse(self.Id, self.Token, {
         type = InteractionResponseType.UpdateMessage,
-        data = data,
+        data = data
     })
 
     self._replied = true
@@ -330,14 +330,14 @@ function Interaction.ShowModal(
     modal: {
         custom_id: string,
         title: string,
-        components: { { [string]: any } },
+        components: { { [string]: any } }
     }
 )
     assert(not self._replied, "This interaction has already been replied to")
 
     self._client.Rest:CreateInteractionResponse(self.Id, self.Token, {
         type = InteractionResponseType.Modal,
-        data = modal,
+        data = modal
     })
 
     self._replied = true
@@ -348,7 +348,7 @@ function Interaction.Respond(self: Interaction, choices: { { name: string, value
 
     self._client.Rest:CreateInteractionResponse(self.Id, self.Token, {
         type = InteractionResponseType.ApplicationCommandAutocompleteResult,
-        data = { choices = choices },
+        data = { choices = choices }
     })
 
     self._replied = true

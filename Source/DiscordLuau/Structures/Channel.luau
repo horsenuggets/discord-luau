@@ -52,7 +52,7 @@ export type Channel = typeof(setmetatable(
         Type: number,
         UserLimit: number?,
         VideoQualityMode: number?,
-        _data: Types.APIChannel,
+        _data: Types.APIChannel
     },
     Channel
 ))

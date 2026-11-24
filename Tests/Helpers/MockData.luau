@@ -19,7 +19,7 @@ MockData.Snowflakes = {
     RoleId = "444555666777888999",
     ApplicationId = "555666777888999000",
     InteractionId = "666777888999000111",
-    WebhookId = "777888999000111222",
+    WebhookId = "777888999000111222"
 }
 
 -- Mock user data
@@ -39,7 +39,7 @@ MockData.User = {
     email = "test@example.com",
     flags = 0,
     premium_type = 2,
-    public_flags = 64,
+    public_flags = 64
 }
 
 MockData.BotUser = {
@@ -58,7 +58,7 @@ MockData.BotUser = {
     email = nil,
     flags = 0,
     premium_type = 0,
-    public_flags = 0,
+    public_flags = 0
 }
 
 -- Mock guild data
@@ -105,7 +105,7 @@ MockData.Guild = {
     nsfw_level = 0,
     stickers = {},
     premium_progress_bar_enabled = true,
-    safety_alerts_channel_id = nil,
+    safety_alerts_channel_id = nil
 }
 
 -- Mock channel data
@@ -144,7 +144,7 @@ MockData.TextChannel = {
     default_reaction_emoji = nil,
     default_thread_rate_limit_per_user = 0,
     default_sort_order = nil,
-    default_forum_layout = nil,
+    default_forum_layout = nil
 }
 
 MockData.VoiceChannel = {
@@ -182,7 +182,7 @@ MockData.VoiceChannel = {
     default_reaction_emoji = nil,
     default_thread_rate_limit_per_user = nil,
     default_sort_order = nil,
-    default_forum_layout = nil,
+    default_forum_layout = nil
 }
 
 MockData.DMChannel = {
@@ -220,7 +220,7 @@ MockData.DMChannel = {
     default_reaction_emoji = nil,
     default_thread_rate_limit_per_user = nil,
     default_sort_order = nil,
-    default_forum_layout = nil,
+    default_forum_layout = nil
 }
 
 -- Mock message data
@@ -257,7 +257,7 @@ MockData.Message = {
     position = nil,
     role_subscription_data = nil,
     resolved = nil,
-    poll = nil,
+    poll = nil
 }
 
 MockData.MessageWithEmbed = {
@@ -280,11 +280,11 @@ MockData.MessageWithEmbed = {
             color = 0x5865F2,
             fields = {
                 { name = "Field 1", value = "Value 1", inline = true },
-                { name = "Field 2", value = "Value 2", inline = true },
+                { name = "Field 2", value = "Value 2", inline = true }
             },
             footer = { text = "Footer text" },
-            timestamp = "2024-01-15T12:30:00.000Z",
-        },
+            timestamp = "2024-01-15T12:30:00.000Z"
+        }
     },
     reactions = nil,
     nonce = nil,
@@ -305,7 +305,7 @@ MockData.MessageWithEmbed = {
     position = nil,
     role_subscription_data = nil,
     resolved = nil,
-    poll = nil,
+    poll = nil
 }
 
 MockData.ReplyMessage = {
@@ -333,7 +333,7 @@ MockData.ReplyMessage = {
     message_reference = {
         message_id = MockData.Snowflakes.MessageId,
         channel_id = MockData.Snowflakes.ChannelId,
-        guild_id = MockData.Snowflakes.GuildId,
+        guild_id = MockData.Snowflakes.GuildId
     },
     flags = 0,
     referenced_message = MockData.Message,
@@ -345,7 +345,7 @@ MockData.ReplyMessage = {
     position = nil,
     role_subscription_data = nil,
     resolved = nil,
-    poll = nil,
+    poll = nil
 }
 
 -- Mock role data
@@ -361,7 +361,7 @@ MockData.Role = {
     managed = false,
     mentionable = true,
     tags = nil,
-    flags = 0,
+    flags = 0
 }
 
 MockData.EveryoneRole = {
@@ -376,7 +376,7 @@ MockData.EveryoneRole = {
     managed = false,
     mentionable = false,
     tags = nil,
-    flags = 0,
+    flags = 0
 }
 
 -- Mock member data
@@ -392,7 +392,7 @@ MockData.Member = {
     flags = 0,
     pending = false,
     permissions = "140737488355327",
-    communication_disabled_until = nil,
+    communication_disabled_until = nil
 }
 
 -- Mock interaction data
@@ -407,7 +407,7 @@ MockData.SlashCommandInteraction = {
         resolved = nil,
         options = nil,
         guild_id = MockData.Snowflakes.GuildId,
-        target_id = nil,
+        target_id = nil
     },
     guild_id = MockData.Snowflakes.GuildId,
     channel_id = MockData.Snowflakes.ChannelId,
@@ -418,7 +418,7 @@ MockData.SlashCommandInteraction = {
     message = nil,
     app_permissions = "140737488355327",
     locale = "en-US",
-    guild_locale = "en-US",
+    guild_locale = "en-US"
 }
 
 MockData.SlashCommandWithOptionsInteraction = {
@@ -434,16 +434,16 @@ MockData.SlashCommandWithOptionsInteraction = {
             {
                 name = "message",
                 type = 3, -- String
-                value = "Hello from options!",
+                value = "Hello from options!"
             },
             {
                 name = "ephemeral",
                 type = 5, -- Boolean
-                value = true,
-            },
+                value = true
+            }
         },
         guild_id = MockData.Snowflakes.GuildId,
-        target_id = nil,
+        target_id = nil
     },
     guild_id = MockData.Snowflakes.GuildId,
     channel_id = MockData.Snowflakes.ChannelId,
@@ -454,7 +454,7 @@ MockData.SlashCommandWithOptionsInteraction = {
     message = nil,
     app_permissions = "140737488355327",
     locale = "en-US",
-    guild_locale = "en-US",
+    guild_locale = "en-US"
 }
 
 MockData.ButtonInteraction = {
@@ -463,7 +463,7 @@ MockData.ButtonInteraction = {
     type = 3, -- MessageComponent
     data = {
         custom_id = "button_confirm",
-        component_type = 2, -- Button
+        component_type = 2 -- Button
     },
     guild_id = MockData.Snowflakes.GuildId,
     channel_id = MockData.Snowflakes.ChannelId,
@@ -474,13 +474,13 @@ MockData.ButtonInteraction = {
     message = MockData.Message,
     app_permissions = "140737488355327",
     locale = "en-US",
-    guild_locale = "en-US",
+    guild_locale = "en-US"
 }
 
 -- Mock application data
 MockData.Application = {
     id = MockData.Snowflakes.ApplicationId,
-    flags = 0,
+    flags = 0
 }
 
 -- Mock voice state data
@@ -497,7 +497,7 @@ MockData.VoiceState = {
     self_stream = false,
     self_video = false,
     suppress = false,
-    request_to_speak_timestamp = nil,
+    request_to_speak_timestamp = nil
 }
 
 MockData.VoiceStateDisconnected = {
@@ -513,7 +513,7 @@ MockData.VoiceStateDisconnected = {
     self_stream = false,
     self_video = false,
     suppress = false,
-    request_to_speak_timestamp = nil,
+    request_to_speak_timestamp = nil
 }
 
 MockData.VoiceStateMuted = {
@@ -529,7 +529,7 @@ MockData.VoiceStateMuted = {
     self_stream = false,
     self_video = false,
     suppress = false,
-    request_to_speak_timestamp = nil,
+    request_to_speak_timestamp = nil
 }
 
 -- Mock Lavalink data
@@ -546,25 +546,25 @@ MockData.LavalinkTrack = {
         uri = "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
         artworkUrl = "https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
         isrc = nil,
-        sourceName = "youtube",
+        sourceName = "youtube"
     },
     pluginInfo = {},
-    userData = nil,
+    userData = nil
 }
 
 MockData.LavalinkLoadResultTrack = {
     loadType = "track",
-    data = MockData.LavalinkTrack,
+    data = MockData.LavalinkTrack
 }
 
 MockData.LavalinkLoadResultSearch = {
     loadType = "search",
-    data = { MockData.LavalinkTrack },
+    data = { MockData.LavalinkTrack }
 }
 
 MockData.LavalinkLoadResultEmpty = {
     loadType = "empty",
-    data = {},
+    data = {}
 }
 
 MockData.LavalinkLoadResultError = {
@@ -572,8 +572,8 @@ MockData.LavalinkLoadResultError = {
     data = {
         message = "Track not found",
         severity = "common",
-        cause = "No results found",
-    },
+        cause = "No results found"
+    }
 }
 
 -- Gateway payloads
@@ -581,12 +581,12 @@ MockData.GatewayReady = {
     v = 10,
     user = MockData.BotUser,
     guilds = {
-        { id = MockData.Snowflakes.GuildId, unavailable = true },
+        { id = MockData.Snowflakes.GuildId, unavailable = true }
     },
     session_id = "mock_session_id_12345",
     resume_gateway_url = "wss://gateway.discord.gg/?v=10&encoding=json",
     shard = nil,
-    application = MockData.Application,
+    application = MockData.Application
 }
 
 MockData.GatewayGuildCreate = {
@@ -616,7 +616,7 @@ MockData.GatewayGuildCreate = {
     member_count = 100,
     joined_at = "2024-01-01T00:00:00.000Z",
     large = false,
-    unavailable = false,
+    unavailable = false
 }
 
 return MockData

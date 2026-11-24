@@ -32,7 +32,7 @@ export type Member = typeof(setmetatable(
         PremiumSince: string?,
         Roles: { Types.Snowflake },
         User: User.User?,
-        _data: Types.APIMember,
+        _data: Types.APIMember
     },
     Member
 ))

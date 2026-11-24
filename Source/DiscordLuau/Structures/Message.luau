@@ -74,7 +74,7 @@ export type Message = typeof(setmetatable(
         Tts: boolean,
         Type: number,
         WebhookId: Types.Snowflake?,
-        _data: Types.APIMessage,
+        _data: Types.APIMessage
     },
     Message
 ))
@@ -152,15 +152,15 @@ function Message.Reply(self: Message, options: string | Types.MessageSendOptions
             message_reference = {
                 message_id = self.Id,
                 channel_id = self.ChannelId,
-                guild_id = self.GuildId,
-            },
+                guild_id = self.GuildId
+            }
         }
     else
         body = options
         body.message_reference = {
             message_id = self.Id,
             channel_id = self.ChannelId,
-            guild_id = self.GuildId,
+            guild_id = self.GuildId
         }
     end
 

@@ -35,7 +35,7 @@ const GatewayCloseCode = table.freeze({
     -- Invalid intents
     InvalidIntents = 4013,
     -- Disallowed intents
-    DisallowedIntents = 4014,
+    DisallowedIntents = 4014
 })
 
 return GatewayCloseCode

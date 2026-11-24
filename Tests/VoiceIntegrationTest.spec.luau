@@ -81,8 +81,8 @@ return function()
                 client = Client.new({
                     intents = {
                         GatewayIntent.Guilds,
-                        GatewayIntent.GuildVoiceStates,
-                    },
+                        GatewayIntent.GuildVoiceStates
+                    }
                 })
 
                 -- Track when ready
@@ -278,8 +278,8 @@ return function()
                 client = Client.new({
                     intents = {
                         GatewayIntent.Guilds,
-                        GatewayIntent.GuildVoiceStates,
-                    },
+                        GatewayIntent.GuildVoiceStates
+                    }
                 })
 
                 client:Once("ready", function()
@@ -307,7 +307,7 @@ return function()
                         name = "test-node",
                         host = LAVALINK_HOST,
                         port = tonumber(LAVALINK_PORT) or 2333,
-                        password = LAVALINK_PASSWORD,
+                        password = LAVALINK_PASSWORD
                     })
 
                     -- Wait for node to be ready (max 10 seconds)

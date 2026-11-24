@@ -88,7 +88,7 @@ return function()
                 roles = {},
                 deaf = false,
                 mute = false,
-                flags = 0,
+                flags = 0
             }
             const member = Member.new(client, guild, minimalMember)
 

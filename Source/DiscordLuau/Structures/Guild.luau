@@ -68,7 +68,7 @@ export type Guild = typeof(setmetatable(
         VoiceStates: { [Types.Snowflake]: Types.APIVoiceState },
         WidgetChannelId: Types.Snowflake?,
         WidgetEnabled: boolean?,
-        _data: Types.APIGuild,
+        _data: Types.APIGuild
     },
     Guild
 ))

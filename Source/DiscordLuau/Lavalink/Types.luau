@@ -17,24 +17,24 @@ export type TrackInfo = {
     uri: string?,
     artworkUrl: string?,
     isrc: string?,
-    sourceName: string,
+    sourceName: string
 }
 
 export type LavalinkTrack = {
     encoded: string,
     info: TrackInfo,
     pluginInfo: { [string]: any },
-    userData: { [string]: any }?,
+    userData: { [string]: any }?
 }
 
 export type PlaylistInfo = {
     name: string,
-    selectedTrack: number,
+    selectedTrack: number
 }
 
 export type LoadResultTrack = {
     loadType: "track",
-    data: LavalinkTrack,
+    data: LavalinkTrack
 }
 
 export type LoadResultPlaylist = {
@@ -42,18 +42,18 @@ export type LoadResultPlaylist = {
     data: {
         info: PlaylistInfo,
         pluginInfo: { [string]: any },
-        tracks: { LavalinkTrack },
-    },
+        tracks: { LavalinkTrack }
+    }
 }
 
 export type LoadResultSearch = {
     loadType: "search",
-    data: { LavalinkTrack },
+    data: { LavalinkTrack }
 }
 
 export type LoadResultEmpty = {
     loadType: "empty",
-    data: {},
+    data: {}
 }
 
 export type LoadResultError = {
@@ -61,8 +61,8 @@ export type LoadResultError = {
     data: {
         message: string?,
         severity: string,
-        cause: string,
-    },
+        cause: string
+    }
 }
 
 export type LoadResult = LoadResultTrack | LoadResultPlaylist | LoadResultSearch | LoadResultEmpty | LoadResultError
@@ -71,13 +71,13 @@ export type PlayerState = {
     time: number,
     position: number,
     connected: boolean,
-    ping: number,
+    ping: number
 }
 
 export type VoiceState = {
     token: string,
     endpoint: string,
-    sessionId: string,
+    sessionId: string
 }
 
 export type Filters = {
@@ -96,10 +96,10 @@ export type Filters = {
         tanOffset: number?,
         tanScale: number?,
         offset: number?,
-        scale: number?,
+        scale: number?
     }?,
     channelMix: { leftToLeft: number?, leftToRight: number?, rightToLeft: number?, rightToRight: number? }?,
-    lowPass: { smoothing: number? }?,
+    lowPass: { smoothing: number? }?
 }
 
 export type LavalinkPlayer = {
@@ -109,7 +109,7 @@ export type LavalinkPlayer = {
     paused: boolean,
     state: PlayerState,
     voice: VoiceState,
-    filters: Filters,
+    filters: Filters
 }
 
 export type PlayerUpdateData = {
@@ -119,20 +119,20 @@ export type PlayerUpdateData = {
     volume: number?,
     paused: boolean?,
     filters: Filters?,
-    voice: VoiceState?,
+    voice: VoiceState?
 }
 
 -- WebSocket events
 export type ReadyEvent = {
     op: "ready",
     resumed: boolean,
-    sessionId: string,
+    sessionId: string
 }
 
 export type PlayerUpdateEvent = {
     op: "playerUpdate",
     guildId: string,
-    state: PlayerState,
+    state: PlayerState
 }
 
 export type StatsEvent = {
@@ -144,25 +144,25 @@ export type StatsEvent = {
         free: number,
         used: number,
         allocated: number,
-        reservable: number,
+        reservable: number
     },
     cpu: {
         cores: number,
         systemLoad: number,
-        lavalinkLoad: number,
+        lavalinkLoad: number
     },
     frameStats: {
         sent: number,
         nulled: number,
-        deficit: number,
-    }?,
+        deficit: number
+    }?
 }
 
 export type TrackStartEvent = {
     op: "event",
     type: "TrackStartEvent",
     guildId: string,
-    track: LavalinkTrack,
+    track: LavalinkTrack
 }
 
 export type TrackEndEvent = {
@@ -170,7 +170,7 @@ export type TrackEndEvent = {
     type: "TrackEndEvent",
     guildId: string,
     track: LavalinkTrack,
-    reason: "finished" | "loadFailed" | "stopped" | "replaced" | "cleanup",
+    reason: "finished" | "loadFailed" | "stopped" | "replaced" | "cleanup"
 }
 
 export type TrackExceptionEvent = {
@@ -181,8 +181,8 @@ export type TrackExceptionEvent = {
     exception: {
         message: string?,
         severity: string,
-        cause: string,
-    },
+        cause: string
+    }
 }
 
 export type TrackStuckEvent = {
@@ -190,7 +190,7 @@ export type TrackStuckEvent = {
     type: "TrackStuckEvent",
     guildId: string,
     track: LavalinkTrack,
-    thresholdMs: number,
+    thresholdMs: number
 }
 
 export type WebSocketClosedEvent = {
@@ -199,7 +199,7 @@ export type WebSocketClosedEvent = {
     guildId: string,
     code: number,
     reason: string,
-    byRemote: boolean,
+    byRemote: boolean
 }
 
 export type LavalinkEvent =
@@ -216,7 +216,7 @@ export type NodeOptions = {
     password: string,
     secure: boolean?,
     resumeKey: string?,
-    resumeTimeout: number?,
+    resumeTimeout: number?
 }
 
 export type LavalinkInfo = {
@@ -226,19 +226,19 @@ export type LavalinkInfo = {
         minor: number,
         patch: number,
         preRelease: string?,
-        build: string?,
+        build: string?
     },
     buildTime: number,
     git: {
         branch: string,
         commit: string,
-        commitTime: number,
+        commitTime: number
     },
     jvm: string,
     lavaplayer: string,
     sourceManagers: { string },
     filters: { string },
-    plugins: { { name: string, version: string } },
+    plugins: { { name: string, version: string } }
 }
 
 return nil

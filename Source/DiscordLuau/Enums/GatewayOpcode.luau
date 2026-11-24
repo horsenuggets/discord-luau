@@ -31,7 +31,7 @@ const GatewayOpcode = table.freeze({
     -- Receive: Sent in response to receiving a heartbeat to acknowledge receipt
     HeartbeatAck = 11,
     -- Send: Request information about soundboard sounds in a set of guilds
-    RequestSoundboardSounds = 31,
+    RequestSoundboardSounds = 31
 })
 
 return GatewayOpcode

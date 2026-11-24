@@ -186,9 +186,9 @@ return function()
                     {
                         name = "subcommand",
                         type = 1,
-                        options = {},
-                    },
-                },
+                        options = {}
+                    }
+                }
             }
             const interaction = Interaction.new(client, interactionData)
 
@@ -391,7 +391,7 @@ return function()
             interaction:ShowModal({
                 custom_id = "test_modal",
                 title = "Test Modal",
-                components = {},
+                components = {}
             })
 
             const calls = client.Rest:getCalls()
@@ -408,7 +408,7 @@ return function()
                 interaction:ShowModal({
                     custom_id = "modal",
                     title = "Modal",
-                    components = {},
+                    components = {}
                 })
             end).to.throw()
         end)
@@ -422,7 +422,7 @@ return function()
 
             interaction:Respond({
                 { name = "Option 1", value = "opt1" },
-                { name = "Option 2", value = "opt2" },
+                { name = "Option 2", value = "opt2" }
             })
 
             const calls = client.Rest:getCalls()

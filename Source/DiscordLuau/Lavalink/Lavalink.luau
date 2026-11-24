@@ -54,7 +54,7 @@ export type Lavalink = typeof(setmetatable(
         OnTrackStuck: Signal.Signal<Player.Player, Track.Track, number>,
 
         _voiceStates: { [string]: { sessionId: string?, channelId: string? } },
-        _voiceServers: { [string]: { token: string, endpoint: string } },
+        _voiceServers: { [string]: { token: string, endpoint: string } }
     },
     Lavalink
 ))
@@ -105,7 +105,7 @@ function Lavalink._setupClientListeners(self: Lavalink)
 
         self._voiceStates[guildId] = {
             sessionId = newState.SessionId,
-            channelId = newState.ChannelId,
+            channelId = newState.ChannelId
         }
 
         self:_tryConnectPlayer(guildId)
@@ -120,7 +120,7 @@ function Lavalink._setupClientListeners(self: Lavalink)
 
         self._voiceServers[guildId] = {
             token = data.token,
-            endpoint = data.endpoint,
+            endpoint = data.endpoint
         }
 
         self:_tryConnectPlayer(guildId)
@@ -147,7 +147,7 @@ function Lavalink._tryConnectPlayer(self: Lavalink, guildId: string)
     player:_setVoiceState({
         token = voiceServer.token,
         endpoint = voiceServer.endpoint,
-        sessionId = voiceState.sessionId,
+        sessionId = voiceState.sessionId
     })
 end
 
@@ -339,8 +339,8 @@ function Lavalink.Search(self: Lavalink, query: string, source: string?): Types.
             data = {
                 message = "No available nodes",
                 severity = "common",
-                cause = "No Lavalink nodes are connected",
-            },
+                cause = "No Lavalink nodes are connected"
+            }
         }
     end
 
@@ -363,8 +363,8 @@ function Lavalink.LoadTracks(self: Lavalink, identifier: string): Types.LoadResu
             data = {
                 message = "No available nodes",
                 severity = "common",
-                cause = "No Lavalink nodes are connected",
-            },
+                cause = "No Lavalink nodes are connected"
+            }
         }
     end
 
@@ -389,8 +389,8 @@ function Lavalink.LoadFile(self: Lavalink, filePath: string): Types.LoadResult
             data = {
                 message = "File path must be absolute",
                 severity = "common",
-                cause = "Lavalink requires absolute file paths",
-            },
+                cause = "Lavalink requires absolute file paths"
+            }
         }
     end
 

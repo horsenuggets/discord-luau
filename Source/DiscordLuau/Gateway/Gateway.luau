@@ -40,7 +40,7 @@ export type Gateway = typeof(setmetatable(
         _token: string,
         _webSocket: net.WebSocket?,
         OnDispatch: Signal.Signal<string, any>,
-        OnReady: Signal.Signal<Types.GatewayReadyData>,
+        OnReady: Signal.Signal<Types.GatewayReadyData>
     },
     Gateway
 ))
@@ -72,7 +72,7 @@ function Gateway._sendPayload(self: Gateway, opcode: number, data: any)
 
     const payload = serde.encode("json", {
         d = data,
-        op = opcode,
+        op = opcode
     })
 
     self._webSocket:send(payload)
@@ -84,9 +84,9 @@ function Gateway._identify(self: Gateway)
         properties = {
             browser = "discord-luau",
             device = "discord-luau",
-            os = "luau",
+            os = "luau"
         },
-        token = self._token,
+        token = self._token
     }
 
     self:_sendPayload(GatewayOpcode.Identify, identifyData)
@@ -101,7 +101,7 @@ function Gateway._resume(self: Gateway)
     const resumeData: Types.GatewayResumeData = {
         seq = self._sequenceNumber,
         session_id = self._sessionId,
-        token = self._token,
+        token = self._token
     }
 
     self:_sendPayload(GatewayOpcode.Resume, resumeData)
@@ -223,7 +223,7 @@ function Gateway._shouldReconnect(self: Gateway, closeCode: number?): boolean
         [GatewayCloseCode.ShardingRequired] = true,
         [GatewayCloseCode.InvalidApiVersion] = true,
         [GatewayCloseCode.InvalidIntents] = true,
-        [GatewayCloseCode.DisallowedIntents] = true,
+        [GatewayCloseCode.DisallowedIntents] = true
     }
 
     return not noReconnect[closeCode]
@@ -350,13 +350,13 @@ function Gateway.RequestGuildMembers(
         limit: number?,
         presences: boolean?,
         query: string?,
-        user_ids: { Types.Snowflake }?,
+        user_ids: { Types.Snowflake }?
     }?
 )
     assert(type(guildId) == "string", "Expected guildId to be a string")
 
     const data: { [string]: any } = {
-        guild_id = guildId,
+        guild_id = guildId
     }
 
     if options then
@@ -395,7 +395,7 @@ function Gateway.UpdateVoiceState(
         guild_id = guildId,
         channel_id = channelId,
         self_deaf = options and options.self_deaf or false,
-        self_mute = options and options.self_mute or false,
+        self_mute = options and options.self_mute or false
     })
 end
 

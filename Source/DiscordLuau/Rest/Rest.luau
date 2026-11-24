@@ -24,7 +24,7 @@ export type Rest = typeof(setmetatable(
     {} :: {
         _client: Types.Client,
         _rateLimits: { [string]: { limit: number, remaining: number, reset: number } },
-        _token: string,
+        _token: string
     },
     Rest
 ))
@@ -48,7 +48,7 @@ function Rest._request(self: Rest, method: string, endpoint: string, body: { [st
     const headers: { [string]: string } = {
         ["Authorization"] = `Bot {self._token}`,
         ["Content-Type"] = "application/json",
-        ["User-Agent"] = "DiscordLuau (https://github.com/horsenuggets/discord-luau, 0.0.0)",
+        ["User-Agent"] = "DiscordLuau (https://github.com/horsenuggets/discord-luau, 0.0.0)"
     }
 
     if reason then
@@ -59,7 +59,7 @@ function Rest._request(self: Rest, method: string, endpoint: string, body: { [st
         body = body and serde.encode("json", body) or nil,
         headers = headers,
         method = method,
-        url = url,
+        url = url
     })
 
     -- Parse rate limit headers
@@ -68,7 +68,7 @@ function Rest._request(self: Rest, method: string, endpoint: string, body: { [st
         self._rateLimits[rateLimitBucket] = {
             limit = tonumber(response.headers["x-ratelimit-limit"]) or 0,
             remaining = tonumber(response.headers["x-ratelimit-remaining"]) or 0,
-            reset = tonumber(response.headers["x-ratelimit-reset"]) or 0,
+            reset = tonumber(response.headers["x-ratelimit-reset"]) or 0
         }
     end
 
@@ -360,7 +360,7 @@ function Rest.StartThreadWithoutMessage(
         auto_archive_duration: number?,
         invitable: boolean?,
         rate_limit_per_user: number?,
-        type: number?,
+        type: number?
     }?
 ): Types.APIChannel
     assert(type(channelId) == "string", "Expected channelId to be a string")
@@ -704,10 +704,10 @@ function Rest.CreateInteractionResponse(
         body = serde.encode("json", data),
         headers = {
             ["Content-Type"] = "application/json",
-            ["User-Agent"] = "DiscordLuau (https://github.com/horsenuggets/discord-luau, 0.0.0)",
+            ["User-Agent"] = "DiscordLuau (https://github.com/horsenuggets/discord-luau, 0.0.0)"
         },
         method = "POST",
-        url = url,
+        url = url
     })
 
     if not response.ok then

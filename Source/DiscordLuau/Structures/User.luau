@@ -40,7 +40,7 @@ export type User = typeof(setmetatable(
         PublicFlags: number,
         System: boolean,
         Username: string,
-        _data: Types.APIUser,
+        _data: Types.APIUser
     },
     User
 ))
